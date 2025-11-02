@@ -1,0 +1,98 @@
+<UserControl x:Class="Marinex.Views.LoginView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d">
+    
+    <Grid Background="White">
+        <!-- Login Form -->
+        <Border MaxWidth="450" Padding="50" VerticalAlignment="Center">
+            <StackPanel>
+                <!-- Title -->
+                <TextBlock Text="Sign in" 
+                           FontSize="32" 
+                           FontWeight="Bold" 
+                           Foreground="#333333"
+                           Margin="0,0,0,10"/>
+                
+                <TextBlock Text="Please enter your email and password to sign in" 
+                           FontSize="13" 
+                           Foreground="#888888"
+                           TextWrapping="Wrap"
+                           Margin="0,0,0,30"/>
+
+                <!-- Email Input -->
+                <TextBlock Text="Email address" 
+                           FontSize="12" 
+                           Foreground="#555555"
+                           Margin="0,0,0,5"/>
+                <TextBox x:Name="txtEmail"
+                         Height="40"
+                         Padding="12,10"
+                         FontSize="14"
+                         BorderBrush="#DDDDDD"
+                         BorderThickness="1"
+                         Margin="0,0,0,20"/>
+
+                <!-- Password Input -->
+                <TextBlock Text="Password" 
+                           FontSize="12" 
+                           Foreground="#555555"
+                           Margin="0,0,0,5"/>
+                <PasswordBox x:Name="txtPassword"
+                             Height="40"
+                             Padding="12,10"
+                             FontSize="14"
+                             BorderBrush="#DDDDDD"
+                             BorderThickness="1"
+                             Margin="0,0,0,10"/>
+
+                <!-- Remember Me & Forgot Password -->
+                <Grid Margin="0,0,0,20">
+                    <CheckBox Content="Remember me" 
+                              FontSize="12"
+                              Foreground="#555555"
+                              VerticalAlignment="Center"/>
+                    <TextBlock Text="Forgot?" 
+                               FontSize="12"
+                               Foreground="#3a5a7a"
+                               HorizontalAlignment="Right"
+                               VerticalAlignment="Center"
+                               Cursor="Hand"/>
+                </Grid>
+
+                <!-- Terms Checkbox -->
+                <CheckBox x:Name="chkTerms"
+                          FontSize="12"
+                          Foreground="#555555"
+                          Margin="0,0,0,15">
+                    <TextBlock TextWrapping="Wrap">
+                        <Run Text="I agree to the "/>
+                        <Run Text="Terms and Conditions" Foreground="#3a5a7a" TextDecorations="Underline" Cursor="Hand"/>
+                        <Run Text=" and "/>
+                        <Run Text="Privacy Policy" Foreground="#3a5a7a" TextDecorations="Underline" Cursor="Hand"/>
+                    </TextBlock>
+                </CheckBox>
+
+                <CheckBox Content="Keep me signed in until I sign out"
+                          FontSize="12"
+                          Foreground="#555555"
+                          Margin="0,0,0,20"/>
+
+                <!-- Sign In Button -->
+                <Button Content="Sign in" 
+                        Style="{StaticResource SignInButtonStyle}"
+                        Height="45"
+                        Margin="0,0,0,20"
+                        Click="SignInButton_Click"/>
+
+                <!-- Sign Up Link -->
+                <TextBlock HorizontalAlignment="Center" FontSize="12" Foreground="#555555">
+                    <Run Text="Don't have an account?"/>
+                    <Run Text="Sign up" Foreground="#3a5a7a" TextDecorations="Underline" Cursor="Hand" MouseDown="SignUpLink_Click"/>
+                </TextBlock>
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>

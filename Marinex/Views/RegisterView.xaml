@@ -1,0 +1,118 @@
+<UserControl x:Class="Marinex.Views.RegisterView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d">
+    
+    <Grid Background="White">
+        <!-- Register Form -->
+        <Border MaxWidth="450" Padding="50" VerticalAlignment="Center">
+            <StackPanel>
+                <!-- Title -->
+                <TextBlock Text="Sign up" 
+                           FontSize="32" 
+                           FontWeight="Bold" 
+                           Foreground="#333333"
+                           Margin="0,0,0,10"/>
+                
+                <TextBlock Text="Create your account to get started" 
+                           FontSize="13" 
+                           Foreground="#888888"
+                           TextWrapping="Wrap"
+                           Margin="0,0,0,25"/>
+
+                <!-- Username Input -->
+                <TextBlock Text="Username" 
+                           FontSize="12" 
+                           Foreground="#555555"
+                           Margin="0,0,0,5"/>
+                <TextBox x:Name="txtUsername"
+                         Height="40"
+                         Padding="12,10"
+                         FontSize="14"
+                         BorderBrush="#DDDDDD"
+                         BorderThickness="1"
+                         Margin="0,0,0,15"/>
+
+                <!-- Email Input -->
+                <TextBlock Text="Email address" 
+                           FontSize="12" 
+                           Foreground="#555555"
+                           Margin="0,0,0,5"/>
+                <TextBox x:Name="txtEmail"
+                         Height="40"
+                         Padding="12,10"
+                         FontSize="14"
+                         BorderBrush="#DDDDDD"
+                         BorderThickness="1"
+                         Margin="0,0,0,15"/>
+
+                <!-- Company Input -->
+                <TextBlock Text="Company" 
+                           FontSize="12" 
+                           Foreground="#555555"
+                           Margin="0,0,0,5"/>
+                <TextBox x:Name="txtCompany"
+                         Height="40"
+                         Padding="12,10"
+                         FontSize="14"
+                         BorderBrush="#DDDDDD"
+                         BorderThickness="1"
+                         Margin="0,0,0,15"/>
+
+                <!-- Password Input -->
+                <TextBlock Text="Password" 
+                           FontSize="12" 
+                           Foreground="#555555"
+                           Margin="0,0,0,5"/>
+                <PasswordBox x:Name="txtPassword"
+                             Height="40"
+                             Padding="12,10"
+                             FontSize="14"
+                             BorderBrush="#DDDDDD"
+                             BorderThickness="1"
+                             Margin="0,0,0,15"/>
+
+                <!-- Confirm Password Input -->
+                <TextBlock Text="Confirm Password" 
+                           FontSize="12" 
+                           Foreground="#555555"
+                           Margin="0,0,0,5"/>
+                <PasswordBox x:Name="txtConfirmPassword"
+                             Height="40"
+                             Padding="12,10"
+                             FontSize="14"
+                             BorderBrush="#DDDDDD"
+                             BorderThickness="1"
+                             Margin="0,0,0,15"/>
+
+                <!-- Terms Checkbox -->
+                <CheckBox x:Name="chkTerms"
+                          FontSize="12"
+                          Foreground="#555555"
+                          Margin="0,0,0,20">
+                    <TextBlock TextWrapping="Wrap">
+                        <Run Text="I agree to the "/>
+                        <Run Text="Terms and Conditions" Foreground="#3a5a7a" TextDecorations="Underline" Cursor="Hand"/>
+                        <Run Text=" and "/>
+                        <Run Text="Privacy Policy" Foreground="#3a5a7a" TextDecorations="Underline" Cursor="Hand"/>
+                    </TextBlock>
+                </CheckBox>
+
+                <!-- Sign Up Button -->
+                <Button Content="Sign up" 
+                        Style="{StaticResource SignInButtonStyle}"
+                        Height="45"
+                        Margin="0,0,0,20"
+                        Click="SignUpButton_Click"/>
+
+                <!-- Sign In Link -->
+                <TextBlock HorizontalAlignment="Center" FontSize="12" Foreground="#555555">
+                    <Run Text="Already have an account?"/>
+                    <Run Text="Sign in" Foreground="#3a5a7a" TextDecorations="Underline" Cursor="Hand" MouseDown="SignInLink_Click"/>
+                </TextBlock>
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>
