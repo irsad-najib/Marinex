@@ -25,12 +25,6 @@ namespace Marinex.Views
                 return;
             }
 
-            if (string.IsNullOrWhiteSpace(txtEmail.Text))
-            {
-                MessageBox.Show("Please enter your email address.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
-            }
-
             if (string.IsNullOrWhiteSpace(txtCompany.Text))
             {
                 MessageBox.Show("Please enter your company name.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
@@ -66,10 +60,10 @@ namespace Marinex.Views
                 this.IsEnabled = false;
                 this.Cursor = Cursors.Wait;
 
-                bool isRegistered = await _supabaseService.RegisterUser(
-                    txtEmail.Text.Trim(), 
-                    txtPassword.Password, 
+                // Schema database: hanya perlu UserName, Password, Company (tidak ada email)
+                var (isRegistered, errorMessage) = await _supabaseService.RegisterUser(
                     txtUsername.Text.Trim(), 
+                    txtPassword.Password, 
                     txtCompany.Text.Trim()
                 );
 
@@ -78,19 +72,19 @@ namespace Marinex.Views
 
                 if (isRegistered)
                 {
-                    MessageBox.Show("Registration successful! You can now sign in.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show("Registrasi berhasil! Silakan login dengan akun Anda.", "Berhasil", MessageBoxButton.OK, MessageBoxImage.Information);
                     RegisterSuccess?.Invoke(this, EventArgs.Empty);
                 }
                 else
                 {
-                    MessageBox.Show("Registration failed. Email might already be in use.", "Registration Failed", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show(errorMessage, "Registrasi Gagal", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
             catch (Exception ex)
             {
                 this.IsEnabled = true;
                 this.Cursor = Cursors.Arrow;
-                MessageBox.Show($"Error connecting to database: {ex.Message}\n\nPlease check your connection string in SupabaseService.cs", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Error: {ex.Message}\n\nSilakan cek koneksi internet dan connection string di SupabaseService.cs", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

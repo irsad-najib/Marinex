@@ -21,7 +21,7 @@ namespace Marinex.Views
         {
             if (string.IsNullOrWhiteSpace(txtEmail.Text))
             {
-                MessageBox.Show("Please enter your email address.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Please enter your username.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
@@ -42,7 +42,7 @@ namespace Marinex.Views
                 this.IsEnabled = false;
                 this.Cursor = Cursors.Wait;
 
-                bool isAuthenticated = await _supabaseService.AuthenticateUser(txtEmail.Text, txtPassword.Password);
+                bool isAuthenticated = await _supabaseService.AuthenticateUser(txtEmail.Text.Trim(), txtPassword.Password);
 
                 this.IsEnabled = true;
                 this.Cursor = Cursors.Arrow;
@@ -53,7 +53,7 @@ namespace Marinex.Views
                 }
                 else
                 {
-                    MessageBox.Show("Invalid email or password. Please try again.", "Authentication Failed", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("Invalid username or password. Please try again.", "Authentication Failed", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
             catch (Exception ex)
