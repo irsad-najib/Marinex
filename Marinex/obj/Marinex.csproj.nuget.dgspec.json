@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "\\\\192.168.64.1\\project\\marinex\\Marinex\\Marinex.csproj": {}
+    "\\\\192.168.64.1\\project\\Marinex\\Marinex\\Marinex.csproj": {}
   },
   "projects": {
-    "\\\\192.168.64.1\\project\\marinex\\Marinex\\Marinex.csproj": {
+    "\\\\192.168.64.1\\project\\Marinex\\Marinex\\Marinex.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "\\\\192.168.64.1\\project\\marinex\\Marinex\\Marinex.csproj",
+        "projectUniqueName": "\\\\192.168.64.1\\project\\Marinex\\Marinex\\Marinex.csproj",
         "projectName": "Marinex",
-        "projectPath": "\\\\192.168.64.1\\project\\marinex\\Marinex\\Marinex.csproj",
+        "projectPath": "\\\\192.168.64.1\\project\\Marinex\\Marinex\\Marinex.csproj",
         "packagesPath": "C:\\Users\\melvino\\.nuget\\packages\\",
-        "outputPath": "\\\\192.168.64.1\\project\\marinex\\Marinex\\obj\\",
+        "outputPath": "\\\\192.168.64.1\\project\\Marinex\\Marinex\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\melvino\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -48,13 +48,9 @@
               "target": "Package",
               "version": "[4.0.3, )"
             },
-            "GMap.NET.Core": {
-              "target": "Package",
-              "version": "[2.1.7, )"
-            },
             "GMap.NET.WPF": {
               "target": "Package",
-              "version": "[2.1.7, )"
+              "version": "[1.0.0.1, )"
             },
             "Npgsql": {
               "target": "Package",

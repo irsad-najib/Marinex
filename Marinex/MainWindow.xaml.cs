@@ -30,9 +30,19 @@ public partial class MainWindow : Window
         NavigateTo(new LandingView());
     }
 
-    private void Landing_Click(object sender, RoutedEventArgs e)
+    private void Dashboard_Click(object sender, RoutedEventArgs e)
     {
-        NavigateTo(new LandingView());
+        if (!isLoggedIn)
+        {
+            MessageBox.Show("Please sign in to access Dashboard.", "Authentication Required", MessageBoxButton.OK, MessageBoxImage.Information);
+            Auth_Click(sender, e);
+            return;
+        }
+        
+        // Open Dashboard in new window
+        var dashboardWindow = new DashboardView();
+        dashboardWindow.Show();
+        this.Hide();
     }
 
     private void Ships_Click(object sender, RoutedEventArgs e)
@@ -78,6 +88,7 @@ public partial class MainWindow : Window
             // Logout
             isLoggedIn = false;
             btnAuth.Content = "Sign In";
+            btnDashboard.Visibility = Visibility.Collapsed;
             NavigateTo(new LandingView());
             MessageBox.Show("You have been signed out.", "Signed Out", MessageBoxButton.OK, MessageBoxImage.Information);
         }
@@ -89,8 +100,12 @@ public partial class MainWindow : Window
             {
                 isLoggedIn = true;
                 btnAuth.Content = "Sign Out";
-                NavigateTo(new LandingView());
-                MessageBox.Show("Welcome to Marinex!", "Login Successful", MessageBoxButton.OK, MessageBoxImage.Information);
+                btnDashboard.Visibility = Visibility.Visible;
+                
+                // Open Dashboard window after successful login
+                var dashboardWindow = new DashboardView();
+                dashboardWindow.Show();
+                this.Hide();
             };
             loginView.NavigateToRegister += (s, args) =>
             {

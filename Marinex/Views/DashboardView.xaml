@@ -11,6 +11,11 @@
         Background="#F5F5F5">
     
     <Window.Resources>
+        <DropShadowEffect x:Key="DropShadowEffect"
+                           BlurRadius="10"
+                           ShadowDepth="2"
+                           Opacity="0.1"/>
+
         <Style x:Key="ModernButton" TargetType="Button">
             <Setter Property="Background" Value="#2196F3"/>
             <Setter Property="Foreground" Value="White"/>

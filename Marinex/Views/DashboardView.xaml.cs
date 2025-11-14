@@ -41,7 +41,6 @@ namespace Marinex.Views
             MainMap.MaxZoom = 18;
             
             // Enable controls
-            MainMap.MouseWheelZoomEnabled = true;
             MainMap.ShowCenter = false;
             MainMap.DragButton = System.Windows.Input.MouseButton.Left;
         }
@@ -244,8 +243,16 @@ namespace Marinex.Views
             {
                 _aisService?.StopStreamAsync().Wait();
                 
-                var loginView = new LoginView();
-                loginView.Show();
+                // Show main window and close dashboard
+                foreach (Window window in Application.Current.Windows)
+                {
+                    if (window is MainWindow mainWindow)
+                    {
+                        mainWindow.Show();
+                        break;
+                    }
+                }
+                
                 this.Close();
             }
         }
