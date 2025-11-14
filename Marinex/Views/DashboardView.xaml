@@ -44,6 +44,116 @@
                            LineHeight="24"
                            Margin="0,0,0,30"/>
 
+                <!-- OOP Demonstration Section -->
+                <Border Background="#2a2a2a" 
+                        CornerRadius="10" 
+                        Padding="20"
+                        Margin="0,30,0,20">
+                    <StackPanel>
+                        <TextBlock Text="🧬 OOP Concepts Demonstration" 
+                                   FontSize="20" 
+                                   FontWeight="Bold" 
+                                   Foreground="White" 
+                                   Margin="0,0,0,15"/>
+                        
+                        <TextBlock Text="Demonstrasi Inheritance, Encapsulation, dan Polymorphism:" 
+                                   FontSize="14" 
+                                   Foreground="#CCCCCC" 
+                                   Margin="0,0,0,10"/>
+                        
+                        <Button x:Name="btnDemonstrateOOP" 
+                                Content="Jalankan Demonstrasi OOP" 
+                                Click="BtnDemonstrateOOP_Click"
+                                Background="#4a9eff"
+                                Foreground="White"
+                                FontSize="14"
+                                FontWeight="Bold"
+                                Padding="15,10"
+                                BorderThickness="0"
+                                CornerRadius="5"
+                                Cursor="Hand"
+                                Margin="0,0,0,15"/>
+                        
+                        <!-- Output Area -->
+                        <ScrollViewer MaxHeight="400" 
+                                      VerticalScrollBarVisibility="Auto"
+                                      Background="#1a1a1a"
+                                      BorderBrush="#4a4a4a"
+                                      BorderThickness="1"
+                                      Padding="15"
+                                      CornerRadius="5">
+                            <TextBlock x:Name="txtOOPOutput" 
+                                       Foreground="#DDDDDD"
+                                       FontFamily="Consolas"
+                                       FontSize="12"
+                                       TextWrapping="Wrap"
+                                       Text="Klik tombol di atas untuk melihat demonstrasi OOP concepts..."/>
+                        </ScrollViewer>
+                    </StackPanel>
+                </Border>
+
+                <!-- Access Modifier Demonstration Section -->
+                <Border Background="#2a2a2a" 
+                        CornerRadius="10" 
+                        Padding="20"
+                        Margin="0,20,0,20">
+                    <StackPanel>
+                        <TextBlock Text="🔐 Access Modifier Demonstration" 
+                                   FontSize="20" 
+                                   FontWeight="Bold" 
+                                   Foreground="White" 
+                                   Margin="0,0,0,15"/>
+                        
+                        <TextBlock Text="Demonstrasi Access Modifier: Private, Protected, Public, Internal" 
+                                   FontSize="14" 
+                                   Foreground="#CCCCCC" 
+                                   Margin="0,0,0,10"/>
+                        
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
+                            <Button x:Name="btnDemonstrateProtected" 
+                                    Content="Demonstrasi PROTECTED" 
+                                    Click="BtnDemonstrateProtected_Click"
+                                    Background="#ff6b6b"
+                                    Foreground="White"
+                                    FontSize="12"
+                                    FontWeight="Bold"
+                                    Padding="15,10"
+                                    BorderThickness="0"
+                                    CornerRadius="5"
+                                    Cursor="Hand"
+                                    Margin="0,0,10,0"/>
+                            
+                            <Button x:Name="btnDemonstrateInternal" 
+                                    Content="Demonstrasi INTERNAL" 
+                                    Click="BtnDemonstrateInternal_Click"
+                                    Background="#51cf66"
+                                    Foreground="White"
+                                    FontSize="12"
+                                    FontWeight="Bold"
+                                    Padding="15,10"
+                                    BorderThickness="0"
+                                    CornerRadius="5"
+                                    Cursor="Hand"/>
+                        </StackPanel>
+                        
+                        <!-- Output Area for Access Modifier -->
+                        <ScrollViewer MaxHeight="300" 
+                                      VerticalScrollBarVisibility="Auto"
+                                      Background="#1a1a1a"
+                                      BorderBrush="#4a4a4a"
+                                      BorderThickness="1"
+                                      Padding="15"
+                                      CornerRadius="5">
+                            <TextBlock x:Name="txtAccessModifierOutput" 
+                                       Foreground="#DDDDDD"
+                                       FontFamily="Consolas"
+                                       FontSize="12"
+                                       TextWrapping="Wrap"
+                                       Text="Klik tombol di atas untuk melihat demonstrasi Access Modifier..."/>
+                        </ScrollViewer>
+                    </StackPanel>
+                </Border>
+
                 <!-- Feature Cards -->
                 <StackPanel Orientation="Horizontal" 
                             Margin="0,20,0,0">
