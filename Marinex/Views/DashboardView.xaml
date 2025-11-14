@@ -1,0 +1,255 @@
+<Window x:Class="Marinex.Views.DashboardView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:gmap="clr-namespace:GMap.NET.WindowsPresentation;assembly=GMap.NET.WindowsPresentation"
+        mc:Ignorable="d"
+        Title="Marinex - Live Ship Tracking Dashboard" 
+        Height="800" Width="1400"
+        WindowState="Maximized"
+        Background="#F5F5F5">
+    
+    <Window.Resources>
+        <Style x:Key="ModernButton" TargetType="Button">
+            <Setter Property="Background" Value="#2196F3"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Padding" Value="15,8"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                                CornerRadius="4"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" 
+                                            VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#1976D2"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="StatusCard" TargetType="Border">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Padding" Value="20"/>
+            <Setter Property="Margin" Value="0,0,10,0"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect BlurRadius="10" ShadowDepth="2" Opacity="0.1"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="250"/>
+        </Grid.RowDefinitions>
+
+        <!-- Top Navigation Bar -->
+        <Border Grid.Row="0" Background="#1E88E5" Padding="20,15">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="🚢" FontSize="28" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                    <TextBlock Text="MARINEX DASHBOARD" 
+                             FontSize="22" 
+                             FontWeight="Bold" 
+                             Foreground="White"
+                             VerticalAlignment="Center"/>
+                    <TextBlock x:Name="ConnectionStatus" 
+                             Text="● Connected" 
+                             FontSize="14" 
+                             Foreground="#4CAF50"
+                             VerticalAlignment="Center"
+                             Margin="20,0,0,0"/>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                    <Button x:Name="BtnToggleStream" 
+                            Content="Stop Stream" 
+                            Style="{StaticResource ModernButton}"
+                            Background="#F44336"
+                            Margin="0,0,10,0"
+                            Click="BtnToggleStream_Click"/>
+                    <Button x:Name="BtnLogout" 
+                            Content="Logout" 
+                            Style="{StaticResource ModernButton}"
+                            Background="#757575"
+                            Click="BtnLogout_Click"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Statistics Cards -->
+        <Grid Grid.Row="1" Margin="20,20,20,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="0" Style="{StaticResource StatusCard}">
+                <StackPanel>
+                    <TextBlock Text="Total Ships Tracked" 
+                             FontSize="12" 
+                             Foreground="#757575"
+                             FontWeight="SemiBold"/>
+                    <TextBlock x:Name="TxtTotalShips" 
+                             Text="0" 
+                             FontSize="32" 
+                             FontWeight="Bold"
+                             Foreground="#1E88E5"
+                             Margin="0,5,0,0"/>
+                </StackPanel>
+            </Border>
+
+            <Border Grid.Column="1" Style="{StaticResource StatusCard}">
+                <StackPanel>
+                    <TextBlock Text="Messages Received" 
+                             FontSize="12" 
+                             Foreground="#757575"
+                             FontWeight="SemiBold"/>
+                    <TextBlock x:Name="TxtMessagesCount" 
+                             Text="0" 
+                             FontSize="32" 
+                             FontWeight="Bold"
+                             Foreground="#4CAF50"
+                             Margin="0,5,0,0"/>
+                </StackPanel>
+            </Border>
+
+            <Border Grid.Column="2" Style="{StaticResource StatusCard}">
+                <StackPanel>
+                    <TextBlock Text="Active Connections" 
+                             FontSize="12" 
+                             Foreground="#757575"
+                             FontWeight="SemiBold"/>
+                    <TextBlock x:Name="TxtActiveConnections" 
+                             Text="1" 
+                             FontSize="32" 
+                             FontWeight="Bold"
+                             Foreground="#FF9800"
+                             Margin="0,5,0,0"/>
+                </StackPanel>
+            </Border>
+
+            <Border Grid.Column="3" Style="{StaticResource StatusCard}" Margin="0">
+                <StackPanel>
+                    <TextBlock Text="Last Update" 
+                             FontSize="12" 
+                             Foreground="#757575"
+                             FontWeight="SemiBold"/>
+                    <TextBlock x:Name="TxtLastUpdate" 
+                             Text="--:--:--" 
+                             FontSize="32" 
+                             FontWeight="Bold"
+                             Foreground="#9C27B0"
+                             Margin="0,5,0,0"/>
+                </StackPanel>
+            </Border>
+        </Grid>
+
+        <!-- Map View -->
+        <Border Grid.Row="2" 
+                Background="White" 
+                Margin="20,10,20,10"
+                CornerRadius="8">
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="10" ShadowDepth="2" Opacity="0.1"/>
+            </Border.Effect>
+            <Grid>
+                <gmap:GMapControl x:Name="MainMap" 
+                                Margin="10"/>
+                
+                <!-- Map Controls Overlay -->
+                <StackPanel VerticalAlignment="Top" 
+                          HorizontalAlignment="Right" 
+                          Margin="20">
+                    <Border Background="White" 
+                          CornerRadius="4" 
+                          Padding="10"
+                          Effect="{StaticResource DropShadowEffect}">
+                        <StackPanel>
+                            <TextBlock Text="Map Controls" 
+                                     FontWeight="Bold" 
+                                     FontSize="12"
+                                     Margin="0,0,0,10"/>
+                            <Button Content="Zoom In" 
+                                  Click="BtnZoomIn_Click"
+                                  Style="{StaticResource ModernButton}"
+                                  Margin="0,0,0,5"/>
+                            <Button Content="Zoom Out" 
+                                  Click="BtnZoomOut_Click"
+                                  Style="{StaticResource ModernButton}"
+                                  Margin="0,0,0,5"/>
+                            <Button Content="Reset View" 
+                                  Click="BtnResetView_Click"
+                                  Style="{StaticResource ModernButton}"
+                                  Background="#FF9800"/>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Ship List -->
+        <Border Grid.Row="3" 
+                Background="White" 
+                Margin="20,10,20,20"
+                CornerRadius="8"
+                Padding="15">
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="10" ShadowDepth="2" Opacity="0.1"/>
+            </Border.Effect>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="Recent Ship Positions" 
+                         FontSize="16" 
+                         FontWeight="Bold"
+                         Margin="0,0,0,10"/>
+
+                <DataGrid x:Name="ShipDataGrid" 
+                        Grid.Row="1"
+                        AutoGenerateColumns="False"
+                        IsReadOnly="True"
+                        GridLinesVisibility="None"
+                        HeadersVisibility="Column"
+                        RowBackground="White"
+                        AlternatingRowBackground="#F5F5F5"
+                        BorderThickness="0">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="MMSI" Binding="{Binding Mmsi}" Width="120"/>
+                        <DataGridTextColumn Header="Ship Name" Binding="{Binding ShipName}" Width="200"/>
+                        <DataGridTextColumn Header="Latitude" Binding="{Binding Latitude, StringFormat=F5}" Width="120"/>
+                        <DataGridTextColumn Header="Longitude" Binding="{Binding Longitude, StringFormat=F5}" Width="120"/>
+                        <DataGridTextColumn Header="Speed (knots)" Binding="{Binding Speed, StringFormat=F1}" Width="120"/>
+                        <DataGridTextColumn Header="Course" Binding="{Binding Course, StringFormat=F1}" Width="100"/>
+                        <DataGridTextColumn Header="Last Update" Binding="{Binding LastUpdate, StringFormat=HH:mm:ss}" Width="*"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

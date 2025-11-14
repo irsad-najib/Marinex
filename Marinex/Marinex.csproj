@@ -18,6 +18,10 @@
     <PackageReference Include="Npgsql" Version="8.0.5" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.1" />
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
+    
+    <!-- GMap.NET for map visualization -->
+    <PackageReference Include="GMap.NET.Core" Version="2.1.7" />
+    <PackageReference Include="GMap.NET.WPF" Version="2.1.7" />
   </ItemGroup>
 
 </Project>

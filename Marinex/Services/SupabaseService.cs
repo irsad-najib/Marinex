@@ -12,11 +12,11 @@ namespace Marinex.Services
         {
             var builder = new NpgsqlConnectionStringBuilder
             {
-                Host = "aws-1-ap-southeast-2.pooler.supabase.com",
+                Host = "aws-1-ap-south-1.pooler.supabase.com",
                 Port = 5432,  // Port sesuai yang diberikan Supabase
                 Database = "postgres",
-                Username = "postgres.lybaccsnnivbycyyvrka",  // Username sesuai Supabase (ada 'l' di depan)
-                Password = "marinex123.",  // Ganti dengan password Supabase Anda yang sebenarnya
+                Username = "postgres.ihgwotixfliblkyoqujl",  // Username sesuai Supabase (ada 'l' di depan)
+                Password = "Marinex123.",  // Ganti dengan password Supabase Anda yang sebenarnya
                 SslMode = SslMode.Require
             };
             return builder.ConnectionString;

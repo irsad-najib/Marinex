@@ -1,32 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Marinex\\Marinex\\Marinex.csproj": {}
+    "\\\\192.168.64.1\\project\\marinex\\Marinex\\Marinex.csproj": {}
   },
   "projects": {
-    "D:\\Marinex\\Marinex\\Marinex.csproj": {
+    "\\\\192.168.64.1\\project\\marinex\\Marinex\\Marinex.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Marinex\\Marinex\\Marinex.csproj",
+        "projectUniqueName": "\\\\192.168.64.1\\project\\marinex\\Marinex\\Marinex.csproj",
         "projectName": "Marinex",
-        "projectPath": "D:\\Marinex\\Marinex\\Marinex.csproj",
-        "packagesPath": "C:\\Users\\Anggita S\\.nuget\\packages\\",
-        "outputPath": "D:\\Marinex\\Marinex\\obj\\",
+        "projectPath": "\\\\192.168.64.1\\project\\marinex\\Marinex\\Marinex.csproj",
+        "packagesPath": "C:\\Users\\melvino\\.nuget\\packages\\",
+        "outputPath": "\\\\192.168.64.1\\project\\marinex\\Marinex\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Anggita S\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\melvino\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net9.0-windows"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -50,6 +43,28 @@
       "frameworks": {
         "net9.0-windows7.0": {
           "targetAlias": "net9.0-windows",
+          "dependencies": {
+            "BCrypt.Net-Next": {
+              "target": "Package",
+              "version": "[4.0.3, )"
+            },
+            "GMap.NET.Core": {
+              "target": "Package",
+              "version": "[2.1.7, )"
+            },
+            "GMap.NET.WPF": {
+              "target": "Package",
+              "version": "[2.1.7, )"
+            },
+            "Npgsql": {
+              "target": "Package",
+              "version": "[8.0.5, )"
+            },
+            "System.Configuration.ConfigurationManager": {
+              "target": "Package",
+              "version": "[8.0.1, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -69,7 +84,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.304/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.306/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
