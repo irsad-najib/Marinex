@@ -40,7 +40,7 @@
                         Orientation="Horizontal" 
                         VerticalAlignment="Center"
                         Margin="0,0,40,0">
-                <Button Content="Dashboard" Style="{StaticResource NavButtonStyle}" Click="Dashboard_Click"/>
+                <Button Content="Landing" Style="{StaticResource NavButtonStyle}" Click="Landing_Click"/>
                 <Button Content="Ships" Style="{StaticResource NavButtonStyle}" Click="Ships_Click"/>
                 <Button Content="Voyages" Style="{StaticResource NavButtonStyle}" Click="Voyages_Click"/>
                 <Button Content="Maintenance" Style="{StaticResource NavButtonStyle}" Click="Maintenance_Click"/>

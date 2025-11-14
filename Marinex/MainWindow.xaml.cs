@@ -16,8 +16,8 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
         
-        // Start with Dashboard view
-        NavigateTo(new DashboardView());
+        // Start with Landing view
+        NavigateTo(new LandingView());
     }
 
     private void NavigateTo(UserControl view)
@@ -27,12 +27,12 @@ public partial class MainWindow : Window
 
     private void Logo_Click(object sender, MouseButtonEventArgs e)
     {
-        NavigateTo(new DashboardView());
+        NavigateTo(new LandingView());
     }
 
-    private void Dashboard_Click(object sender, RoutedEventArgs e)
+    private void Landing_Click(object sender, RoutedEventArgs e)
     {
-        NavigateTo(new DashboardView());
+        NavigateTo(new LandingView());
     }
 
     private void Ships_Click(object sender, RoutedEventArgs e)
@@ -78,7 +78,7 @@ public partial class MainWindow : Window
             // Logout
             isLoggedIn = false;
             btnAuth.Content = "Sign In";
-            NavigateTo(new DashboardView());
+            NavigateTo(new LandingView());
             MessageBox.Show("You have been signed out.", "Signed Out", MessageBoxButton.OK, MessageBoxImage.Information);
         }
         else
@@ -89,7 +89,7 @@ public partial class MainWindow : Window
             {
                 isLoggedIn = true;
                 btnAuth.Content = "Sign Out";
-                NavigateTo(new DashboardView());
+                NavigateTo(new LandingView());
                 MessageBox.Show("Welcome to Marinex!", "Login Successful", MessageBoxButton.OK, MessageBoxImage.Information);
             };
             loginView.NavigateToRegister += (s, args) =>
