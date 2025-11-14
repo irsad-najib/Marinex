@@ -7,12 +7,12 @@ using Marinex.Models;
 
 namespace Marinex.Views
 {
-    public partial class DashboardView : UserControl
+    public partial class LandingView : UserControl
     {
         private ReportService _reportService;
         private AccessModifierDemoService _accessModifierDemo;
 
-        public DashboardView()
+        public LandingView()
         {
             InitializeComponent();
             _reportService = new ReportService();
