@@ -77,16 +77,16 @@ namespace Marinex.Services
             var subscribeMsg = new
             {
                 APIKey = _apiKey,
-                // ShipMMSI = new int[] { },  // Empty array to receive all ships in bounding box
+                ShipMMSI = new int[] { },  // Empty array to receive all ships in bounding box
                 BoundingBoxes = new double[][][]
                 {
                     new double[][]
                     {
-                        new double[] { 1.0, 103.0 },  // Southwest corner (Singapore)
-                        new double[] { 2.0, 104.0 }     // Northeast corner (Singapore)
+                        new double[] { -90, 180.0 },  // Southwest corner (Singapore)
+                        new double[] { 90, -180.0 }     // Northeast corner (Singapore)
                     }
                 },
-                // FilterMessageTypes = new string[] { "PositionReport" }
+                FilterMessageTypes = new string[] { "PositionReport" }
             };
 
             string json = JsonSerializer.Serialize(subscribeMsg);
@@ -106,11 +106,14 @@ namespace Marinex.Services
         private async Task ReceiveLoopAsync()
         {
             var buffer = new byte[8192];
+            WriteLog("Receive loop started, waiting for messages...");
             
             try
             {
+                int messageCount = 0;
                 while (_ws.State == WebSocketState.Open && !_cancellationTokenSource.Token.IsCancellationRequested)
                 {
+                    WriteLog($"Waiting for message #{messageCount + 1}... (WebSocket State: {_ws.State})");
                     using var messageStream = new System.IO.MemoryStream();
                     WebSocketReceiveResult result;
 
@@ -120,8 +123,11 @@ namespace Marinex.Services
                             new ArraySegment<byte>(buffer), 
                             _cancellationTokenSource.Token);
 
+                        WriteLog($"ReceiveAsync returned: Count={result.Count}, MessageType={result.MessageType}, EndOfMessage={result.EndOfMessage}");
+
                         if (result.MessageType == WebSocketMessageType.Close)
                         {
+                            WriteLog("WebSocket close message received");
                             await _ws.CloseAsync(
                                 WebSocketCloseStatus.NormalClosure, 
                                 "Closing", 
@@ -132,19 +138,28 @@ namespace Marinex.Services
                             return;
                         }
 
-                        messageStream.Write(buffer, 0, result.Count);
+                        if (result.Count > 0)
+                        {
+                            messageStream.Write(buffer, 0, result.Count);
+                        }
                     }
                     while (!result.EndOfMessage);
 
-                    if (result.MessageType == WebSocketMessageType.Text)
+                    // Process both Text AND Binary messages (AIS stream sends binary)
+                    if ((result.MessageType == WebSocketMessageType.Text || result.MessageType == WebSocketMessageType.Binary) 
+                        && messageStream.Length > 0)
                     {
+                        messageCount++;
                         messageStream.Seek(0, System.IO.SeekOrigin.Begin);
                         string message = Encoding.UTF8.GetString(messageStream.ToArray());
                         
-                        // Debug: Log that we received a message
-                        Console.WriteLine($"[AIS] Received message: {message.Substring(0, Math.Min(100, message.Length))}...");
+                        WriteLog($"Message #{messageCount} received ({message.Length} chars): {message.Substring(0, Math.Min(100, message.Length))}...");
                         
                         ProcessMessage(message);
+                    }
+                    else if (messageStream.Length == 0)
+                    {
+                        WriteLog($"WARNING: Received empty message (MessageType: {result.MessageType})");
                     }
                 }
             }
