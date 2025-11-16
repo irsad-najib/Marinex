@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Net.WebSockets;
 using System.Text;
 using System.Text.Json;
@@ -15,6 +16,7 @@ namespace Marinex.Services
         private readonly string _apiKey;
         private CancellationTokenSource _cancellationTokenSource;
         private bool _isConnected = false;
+        private readonly string _logFilePath;
 
         public event EventHandler<ShipPosition> OnShipPositionReceived;
         public event EventHandler<bool> OnConnectionStatusChanged;
@@ -24,12 +26,24 @@ namespace Marinex.Services
         {
             _apiKey = apiKey;
             _ws = new ClientWebSocket();
+            
+            // Create log file in user's Documents folder
+            string documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            _logFilePath = Path.Combine(documentsPath, "Marinex_AIS_Log.txt");
+            
+            // Clear old log and write header
+            File.WriteAllText(_logFilePath, $"=== MARINEX AIS STREAM LOG ===\n");
+            File.AppendAllText(_logFilePath, $"Started: {DateTime.Now}\n");
+            File.AppendAllText(_logFilePath, $"Log file: {_logFilePath}\n\n");
+            
+            WriteLog($"AISStreamService initialized with API key: {apiKey.Substring(0, 10)}...");
         }
 
         public async Task StartStreamAsync()
         {
             try
             {
+                WriteLog("Starting WebSocket connection...");
                 _cancellationTokenSource = new CancellationTokenSource();
                 
                 // Connect to WebSocket
@@ -37,6 +51,7 @@ namespace Marinex.Services
                     new Uri("wss://stream.aisstream.io/v0/stream"), 
                     _cancellationTokenSource.Token);
 
+                WriteLog($"WebSocket connected! State: {_ws.State}");
                 _isConnected = true;
                 OnConnectionStatusChanged?.Invoke(this, true);
 
@@ -44,10 +59,12 @@ namespace Marinex.Services
                 await SubscribeToAISDataAsync();
 
                 // Start receiving loop
+                WriteLog("Starting receive loop...");
                 _ = ReceiveLoopAsync();
             }
             catch (Exception ex)
             {
+                WriteLog($"ERROR in StartStreamAsync: {ex.Message}\n{ex.StackTrace}");
                 _isConnected = false;
                 OnConnectionStatusChanged?.Invoke(this, false);
                 OnError?.Invoke(this, $"Connection failed: {ex.Message}");
@@ -60,18 +77,21 @@ namespace Marinex.Services
             var subscribeMsg = new
             {
                 APIKey = _apiKey,
+                // ShipMMSI = new int[] { },  // Empty array to receive all ships in bounding box
                 BoundingBoxes = new double[][][]
                 {
                     new double[][]
                     {
-                        new double[] { -90, -180 },  // Southwest corner
-                        new double[] { 90, 180 }     // Northeast corner
+                        new double[] { 1.0, 103.0 },  // Southwest corner (Singapore)
+                        new double[] { 2.0, 104.0 }     // Northeast corner (Singapore)
                     }
                 },
-                FilterMessageTypes = new string[] { "PositionReport" }
+                // FilterMessageTypes = new string[] { "PositionReport" }
             };
 
             string json = JsonSerializer.Serialize(subscribeMsg);
+            WriteLog($"Sending subscription: {json}");
+            
             byte[] buffer = Encoding.UTF8.GetBytes(json);
             
             await _ws.SendAsync(
@@ -79,6 +99,8 @@ namespace Marinex.Services
                 WebSocketMessageType.Text, 
                 true, 
                 _cancellationTokenSource.Token);
+                
+            WriteLog($"Subscription sent successfully!");
         }
 
         private async Task ReceiveLoopAsync()
@@ -89,24 +111,40 @@ namespace Marinex.Services
             {
                 while (_ws.State == WebSocketState.Open && !_cancellationTokenSource.Token.IsCancellationRequested)
                 {
-                    var result = await _ws.ReceiveAsync(
-                        new ArraySegment<byte>(buffer), 
-                        _cancellationTokenSource.Token);
+                    using var messageStream = new System.IO.MemoryStream();
+                    WebSocketReceiveResult result;
+
+                    do
+                    {
+                        result = await _ws.ReceiveAsync(
+                            new ArraySegment<byte>(buffer), 
+                            _cancellationTokenSource.Token);
+
+                        if (result.MessageType == WebSocketMessageType.Close)
+                        {
+                            await _ws.CloseAsync(
+                                WebSocketCloseStatus.NormalClosure, 
+                                "Closing", 
+                                _cancellationTokenSource.Token);
+
+                            _isConnected = false;
+                            OnConnectionStatusChanged?.Invoke(this, false);
+                            return;
+                        }
+
+                        messageStream.Write(buffer, 0, result.Count);
+                    }
+                    while (!result.EndOfMessage);
 
                     if (result.MessageType == WebSocketMessageType.Text)
                     {
-                        string message = Encoding.UTF8.GetString(buffer, 0, result.Count);
-                        ProcessMessage(message);
-                    }
-                    else if (result.MessageType == WebSocketMessageType.Close)
-                    {
-                        await _ws.CloseAsync(
-                            WebSocketCloseStatus.NormalClosure, 
-                            "Closing", 
-                            _cancellationTokenSource.Token);
+                        messageStream.Seek(0, System.IO.SeekOrigin.Begin);
+                        string message = Encoding.UTF8.GetString(messageStream.ToArray());
                         
-                        _isConnected = false;
-                        OnConnectionStatusChanged?.Invoke(this, false);
+                        // Debug: Log that we received a message
+                        Console.WriteLine($"[AIS] Received message: {message.Substring(0, Math.Min(100, message.Length))}...");
+                        
+                        ProcessMessage(message);
                     }
                 }
             }
@@ -122,12 +160,16 @@ namespace Marinex.Services
         {
             try
             {
+                Console.WriteLine($"[AIS] Processing message...");
+                
                 var options = new JsonSerializerOptions
                 {
                     PropertyNameCaseInsensitive = true
                 };
 
                 var aisMessage = JsonSerializer.Deserialize<AISMessage>(message, options);
+                
+                Console.WriteLine($"[AIS] Deserialized: Message={aisMessage?.Message != null}, PositionReport={aisMessage?.Message?.PositionReport != null}");
                 
                 if (aisMessage?.Message?.PositionReport != null)
                 {
@@ -148,16 +190,42 @@ namespace Marinex.Services
                         LastUpdate = DateTime.Now
                     };
 
+                    Console.WriteLine($"[AIS] Ship: {shipPosition.ShipName} at ({shipPosition.Latitude}, {shipPosition.Longitude})");
+
                     // Validate coordinates
                     if (IsValidCoordinate(shipPosition.Latitude, shipPosition.Longitude))
                     {
+                        Console.WriteLine($"[AIS] ✓ Valid coordinates, invoking event...");
                         OnShipPositionReceived?.Invoke(this, shipPosition);
                     }
+                    else
+                    {
+                        Console.WriteLine($"[AIS] ✗ Invalid coordinates: ({shipPosition.Latitude}, {shipPosition.Longitude})");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine($"[AIS] ✗ No PositionReport in message");
                 }
             }
             catch (Exception ex)
             {
+                WriteLog($"ERROR in ProcessMessage: {ex.Message}\n{ex.StackTrace}");
                 OnError?.Invoke(this, $"Parse error: {ex.Message}");
+            }
+        }
+
+        private void WriteLog(string message)
+        {
+            try
+            {
+                string logEntry = $"[{DateTime.Now:HH:mm:ss.fff}] {message}\n";
+                File.AppendAllText(_logFilePath, logEntry);
+                Console.WriteLine($"[AIS] {message}");
+            }
+            catch
+            {
+                // Ignore logging errors
             }
         }
 

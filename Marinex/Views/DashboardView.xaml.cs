@@ -54,9 +54,10 @@ namespace Marinex.Views
 
         private async void InitializeAISService()
         {
-            _aisService = new AISStreamService("1b90478aba10bbb41a3ea8d46274850b65644baf");
+            _aisService = new AISStreamService("4c2ceb9bcd370f6cfbcad23f65d106c33a30f6b9");
             _aisService.OnShipPositionReceived += OnShipPositionReceived;
             _aisService.OnConnectionStatusChanged += OnConnectionStatusChanged;
+            _aisService.OnError += OnStreamError;
             
             await StartStreamAsync();
         }
@@ -98,6 +99,15 @@ namespace Marinex.Views
             {
                 UpdateConnectionStatus(isConnected, 
                     isConnected ? "● Connected" : "● Disconnected");
+            });
+        }
+
+        private void OnStreamError(object sender, string errorMessage)
+        {
+            Dispatcher.Invoke(() =>
+            {
+                UpdateConnectionStatus(false, "● Error");
+                TxtLastUpdate.Text = errorMessage;
             });
         }
 
