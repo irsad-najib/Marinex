@@ -125,7 +125,7 @@ Pollution Reports → Report Pollution
 - Authentication system (Login/Register)
 - Database integration (Supabase PostgreSQL)
 - Ship, Voyage, User models
-- AIS Stream service (WebSocket real-time tracking)
+- AIS Stream service (WebSocket real-time tracking)`
 - Weather service (OpenWeatherMap integration)
 - All Report models (Maintenance, Safety, Weather, Pollution)
 - Logging system untuk debugging
