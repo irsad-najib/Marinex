@@ -17,8 +17,7 @@ Sebuah aplikasi desktop berbasis WPF yang dirancang untuk manajemen operasional 
 
 ## 📘 Documentation
 
-Download aplikasi exe di: [file exe](Marinex/publish)
-
+Download aplikasi exe di: [file exe](https://drive.google.com/drive/folders/1BJfP5_KQODFzXPU4loHUto3U7uiuC7lD?usp=sharing)
 
 - ✅ Konsep dan use case setiap fitur
 - ✅ Technical architecture dan data flow
