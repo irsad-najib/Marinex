@@ -4,95 +4,6 @@
 
 Sebuah aplikasi desktop berbasis WPF yang dirancang untuk manajemen operasional maritim terpadu. Aplikasi ini mengintegrasikan ship tracking real-time, maintenance management, safety reporting, environmental monitoring, dan weather forecasting dalam satu platform.
 
-## 🚢 Core Features
-
-### 🗺️ Ship Tracking (AIS Integration)
-
-- **Real-time Position Tracking** via AISStream.io WebSocket
-- Track kapal berdasarkan MMSI (Maritime Mobile Service Identity)
-- Historical position tracking dan route visualization
-- Multi-ship monitoring untuk fleet management
-- Destination, ETA, dan navigational status
-
-### � Maintenance Management
-
-- Scheduled maintenance tracking dengan priority levels
-- Detailed maintenance reports (equipment, issues, parts needed)
-- Cost tracking (estimated vs actual)
-- Status workflow: Scheduled → In Progress → Done
-- Maintenance history dan analytics
-
-### 🛡️ Safety Reporting
-
-- Comprehensive incident reporting system
-- Multiple incident types: Injury, Near Miss, Equipment Failure, etc.
-- Severity assessment dan investigation tracking
-- Preventive measures documentation
-- Compliance dengan maritime safety regulations
-
-### 🗑️ Environmental Monitoring - Pollution Reports
-
-- Report sampah dan polusi di laut (plastic, oil spills, chemical discharge)
-- Koordinat GPS dan photo evidence
-- Quantity estimation dan environmental impact assessment
-- Status tracking: Reported → Investigation → Cleanup → Resolved
-- Data sharing untuk authorities dan conservation organizations
-
-### 🌦️ Real-time Weather Integration
-
-- Current weather data via OpenWeatherMap API
-- 5-day forecast untuk voyage planning
-- Maritime-specific data: wind, sea conditions (Beaufort scale), visibility
-- Safety assessment: Is it safe to sail?
-- Warning levels untuk storm alerts
-
-### 🔐 Authentication & User Management
-
-- Secure login dengan BCrypt password hashing
-- Role-based access (Admin, Captain, Engineer, Crew)
-- Company-based ship assignment
-- User activity logging
-
-### 📊 Dashboard & Reporting
-
-- Comprehensive dashboard dengan real-time data
-- Report generation untuk semua jenis reports
-- Data visualization (maps, charts, statistics)
-- Export capabilities untuk documentation
-
-## 🛠️ Tech Stack
-
-- **Framework**: .NET 9.0 (WPF - Windows Presentation Foundation)
-- **Database**: Supabase (PostgreSQL)
-- **Authentication**: BCrypt.Net password hashing
-- **Language**: C# 12
-- **External APIs**:
-  - **AISStream.io** - Real-time AIS ship tracking
-  - **OpenWeatherMap** - Weather data and forecasts
-
-## 📦 Package Dependencies
-
-```xml
-<PackageReference Include="Npgsql" Version="8.0.5" />
-<PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
-<PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.1" />
-<PackageReference Include="System.Net.WebSockets.Client" />
-<PackageReference Include="System.Text.Json" />
-```
-
-## 🏗️ Architecture
-
-### Models
-
-- **Ship, Voyage, User, UserShip** - Core maritime entities
-- **BaseReport** (Abstract) - Parent class untuk semua reports
-  - MaintenanceReport - Equipment maintenance dan repairs
-  - SafetyReport - Safety incidents dan investigations
-  - WeatherReport - User-submitted weather observations
-  - **PollutionReport** - Environmental pollution detection
-- **ShipPosition** - AIS position data
-- **Weather, Maintenance** - Supporting models
-
 ### Services
 
 - **SupabaseService** - Database operations
@@ -101,74 +12,8 @@ Sebuah aplikasi desktop berbasis WPF yang dirancang untuk manajemen operasional 
 - **ReportService** - CRUD operations untuk all report types
 - **ShipDatabaseService, VoyageDatabaseService** - Specialized database services
 
-### Views (WPF/XAML)
-
-- Dashboard, Login, Register
-- My Ships Management
-- Ship Tracking (dengan map)
-- Maintenance Management
-- Safety Reports
-- Pollution Reports
-- Weather Dashboard
-
 ## 🚀 Quick Start
 
-### Prerequisites
-
-- .NET SDK 9.0 or newer
-- Windows OS (untuk WPF)
-- Supabase account (free tier available)
-- AISStream.io API key (register di https://aisstream.io)
-- OpenWeatherMap API key (free tier: 1000 calls/day)
-
-### Installation
-
-1. Clone repository:
-
-```bash
-git clone https://github.com/irsad-najib/Marinex.git
-cd Marinex/Marinex
-```
-
-2. Setup Database:
-
-   - Buka [SUPABASE_SETUP.md](Marinex/SUPABASE_SETUP.md)
-   - Jalankan SQL schema di Supabase SQL Editor
-   - Run `SCHEMA_UPDATE.sql` untuk tables baru (pollution_reports, ship_positions_history, weather_data, dll)
-   - Copy connection string
-
-3. Get API Keys:
-
-   **AISStream.io:**
-
-   - Register di https://aisstream.io
-   - Generate API key (free tier available)
-
-   **OpenWeatherMap:**
-
-   - Register di https://openweathermap.org/api
-   - Get API key (free tier: 1000 calls/day)
-
-4. Configure Connection Strings:
-
-   - Edit `Services/SupabaseService.cs` - Ganti `[YOUR-PASSWORD]` dengan password Supabase Anda
-   - Create `Config.cs`:
-
-   ```csharp
-   public static class Config
-   {
-       public const string AIS_API_KEY = "your-aisstream-api-key";
-       public const string WEATHER_API_KEY = "your-openweather-api-key";
-   }
-   ```
-
-5. Build & Run:
-
-```bash
-dotnet restore
-dotnet build
-dotnet run
-```
 
 ## 📘 Documentation
 
@@ -185,18 +30,6 @@ Dokumentasi ini menjelaskan:
 - ✅ API integration guides
 - ✅ Future enhancement plans
 
-## 📁 Project Structure
-
-```
-Marinex/
-├── Models/              # Data models (User, Ship, Voyage, Maintenance, Weather)
-├── Views/               # User Controls (Dashboard, Login, Register)
-├── Services/            # Business logic (SupabaseService)
-├── Assets/              # Images and resources
-├── MainWindow.xaml      # Main application shell
-├── App.xaml            # Application resources & styles
-└── SUPABASE_SETUP.md   # Database setup guide
-```
 
 ## 🔐 Security Features
 
@@ -213,8 +46,8 @@ Marinex/
 1. App akan membuka Dashboard view
 2. Klik **"Sign In"** di navigation bar
 3. Untuk test, gunakan kredensial:
-   - Email: `admin@marinex.com`
-   - Password: `admin123`
+   - Username : `testing`
+   - Password: `testing123`
 
 ### Main Workflows
 
@@ -280,18 +113,6 @@ Pollution Reports → Report Pollution
 - Estimate quantity
 - Upload photos
 - Submit → Authorities notified
-```
-
-### Navigation
-
-- **Dashboard** - Main overview dengan statistics
-- **My Ships** - Manage fleet
-- **Ship Tracking** - Real-time AIS tracking (map view)
-- **Maintenance** - Schedule & reports
-- **Safety Reports** - Incident reporting & investigation
-- **Pollution Reports** - Environmental monitoring
-- **Weather** - Current & forecast weather data
-- **Sign In/Out** - Authentication
 
 ## 🎨 Screenshots
 
