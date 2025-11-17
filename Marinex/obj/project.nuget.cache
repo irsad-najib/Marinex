@@ -1,28 +1,22 @@
 {
   "version": 2,
-  "dgSpecHash": "pB/uMo6VR4zeHvFy6QuVPyhMa2BHm0nLYd+BBDVpSWmrHF0BM6qvQVGhCyoRhtEljM8soLuzwYuacnKSkW4MkA==",
+  "dgSpecHash": "PggwFZVySLo=",
   "success": true,
-  "projectFilePath": "/file/belajar_program/Marinex/Marinex/Marinex.csproj",
+  "projectFilePath": "\\\\192.168.64.1\\project\\Marinex\\marinex\\Marinex.csproj",
   "expectedPackageFiles": [
-    "/home/irsad-najib/.nuget/packages/bcrypt.net-next/4.0.3/bcrypt.net-next.4.0.3.nupkg.sha512",
-    "/home/irsad-najib/.nuget/packages/gmap.net.wpf/1.0.0.1/gmap.net.wpf.1.0.0.1.nupkg.sha512",
-    "/home/irsad-najib/.nuget/packages/microsoft.extensions.dependencyinjection.abstractions/8.0.0/microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg.sha512",
-    "/home/irsad-najib/.nuget/packages/microsoft.extensions.logging.abstractions/8.0.0/microsoft.extensions.logging.abstractions.8.0.0.nupkg.sha512",
-    "/home/irsad-najib/.nuget/packages/npgsql/8.0.5/npgsql.8.0.5.nupkg.sha512",
-    "/home/irsad-najib/.nuget/packages/system.configuration.configurationmanager/8.0.1/system.configuration.configurationmanager.8.0.1.nupkg.sha512",
-    "/home/irsad-najib/.nuget/packages/system.diagnostics.eventlog/8.0.1/system.diagnostics.eventlog.8.0.1.nupkg.sha512",
-    "/home/irsad-najib/.nuget/packages/system.security.cryptography.protecteddata/8.0.0/system.security.cryptography.protecteddata.8.0.0.nupkg.sha512"
+    "C:\\Users\\melvino\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
+    "C:\\Users\\melvino\\.nuget\\packages\\gmap.net.wpf\\1.0.0.1\\gmap.net.wpf.1.0.0.1.nupkg.sha512",
+    "C:\\Users\\melvino\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\8.0.0\\microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg.sha512",
+    "C:\\Users\\melvino\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\8.0.0\\microsoft.extensions.logging.abstractions.8.0.0.nupkg.sha512",
+    "C:\\Users\\melvino\\.nuget\\packages\\microsoft.net.illink.tasks\\9.0.10\\microsoft.net.illink.tasks.9.0.10.nupkg.sha512",
+    "C:\\Users\\melvino\\.nuget\\packages\\npgsql\\8.0.5\\npgsql.8.0.5.nupkg.sha512",
+    "C:\\Users\\melvino\\.nuget\\packages\\system.configuration.configurationmanager\\8.0.1\\system.configuration.configurationmanager.8.0.1.nupkg.sha512",
+    "C:\\Users\\melvino\\.nuget\\packages\\system.diagnostics.eventlog\\8.0.1\\system.diagnostics.eventlog.8.0.1.nupkg.sha512",
+    "C:\\Users\\melvino\\.nuget\\packages\\system.security.cryptography.protecteddata\\8.0.0\\system.security.cryptography.protecteddata.8.0.0.nupkg.sha512",
+    "C:\\Users\\melvino\\.nuget\\packages\\microsoft.netcore.app.runtime.win-x64\\9.0.10\\microsoft.netcore.app.runtime.win-x64.9.0.10.nupkg.sha512",
+    "C:\\Users\\melvino\\.nuget\\packages\\microsoft.windowsdesktop.app.runtime.win-x64\\9.0.10\\microsoft.windowsdesktop.app.runtime.win-x64.9.0.10.nupkg.sha512",
+    "C:\\Users\\melvino\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.win-x64\\9.0.10\\microsoft.aspnetcore.app.runtime.win-x64.9.0.10.nupkg.sha512",
+    "C:\\Users\\melvino\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\9.0.10\\microsoft.netcore.app.host.win-x64.9.0.10.nupkg.sha512"
   ],
-  "logs": [
-    {
-      "code": "NU1701",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Package 'GMap.Net.WPF 1.0.0.1' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net8.0-windows7.0'. This package may not be fully compatible with your project.",
-      "libraryId": "GMap.Net.WPF",
-      "targetGraphs": [
-        "net8.0-windows7.0"
-      ]
-    }
-  ]
+  "logs": []
 }

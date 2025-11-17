@@ -1,42 +1,51 @@
 {
   "format": 1,
   "restore": {
-    "/file/belajar_program/Marinex/Marinex/Marinex.csproj": {}
+    "\\\\192.168.64.1\\project\\Marinex\\marinex\\Marinex.csproj": {}
   },
   "projects": {
-    "/file/belajar_program/Marinex/Marinex/Marinex.csproj": {
+    "\\\\192.168.64.1\\project\\Marinex\\marinex\\Marinex.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/file/belajar_program/Marinex/Marinex/Marinex.csproj",
+        "projectUniqueName": "\\\\192.168.64.1\\project\\Marinex\\marinex\\Marinex.csproj",
         "projectName": "Marinex",
-        "projectPath": "/file/belajar_program/Marinex/Marinex/Marinex.csproj",
-        "packagesPath": "/home/irsad-najib/.nuget/packages/",
-        "outputPath": "/file/belajar_program/Marinex/Marinex/obj/",
+        "projectPath": "\\\\192.168.64.1\\project\\Marinex\\marinex\\Marinex.csproj",
+        "packagesPath": "C:\\Users\\melvino\\.nuget\\packages\\",
+        "outputPath": "\\\\192.168.64.1\\project\\Marinex\\marinex\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/irsad-najib/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\melvino\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
-          "net8.0-windows"
+          "net9.0-windows"
         ],
         "sources": {
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "net8.0-windows7.0": {
-            "targetAlias": "net8.0-windows",
+          "net9.0-windows7.0": {
+            "targetAlias": "net9.0-windows",
             "projectReferences": {}
           }
         },
         "warningProperties": {
+          "noWarn": [
+            "NU1701"
+          ],
           "warnAsError": [
             "NU1605"
           ]
-        }
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
-        "net8.0-windows7.0": {
-          "targetAlias": "net8.0-windows",
+        "net9.0-windows7.0": {
+          "targetAlias": "net9.0-windows",
           "dependencies": {
             "BCrypt.Net-Next": {
               "target": "Package",
@@ -45,6 +54,12 @@
             "GMap.NET.WPF": {
               "target": "Package",
               "version": "[1.0.0.1, )"
+            },
+            "Microsoft.NET.ILLink.Tasks": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[9.0.10, )",
+              "autoReferenced": true
             },
             "Npgsql": {
               "target": "Package",
@@ -66,12 +81,38 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Runtime.win-x64",
+              "version": "[9.0.10, 9.0.10]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Host.win-x64",
+              "version": "[9.0.10, 9.0.10]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Runtime.win-x64",
+              "version": "[9.0.10, 9.0.10]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Runtime.win-x64",
+              "version": "[9.0.10, 9.0.10]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
+            },
+            "Microsoft.WindowsDesktop.App.WPF": {
+              "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/8.0.121/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.306/PortableRuntimeIdentifierGraph.json"
+        }
+      },
+      "runtimes": {
+        "win-x64": {
+          "#import": []
         }
       }
     }
