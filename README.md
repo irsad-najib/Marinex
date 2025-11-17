@@ -17,9 +17,6 @@ Sebuah aplikasi desktop berbasis WPF yang dirancang untuk manajemen operasional 
 
 ## 📘 Documentation
 
-Untuk dokumentasi lengkap tentang semua fitur, use cases, dan technical details, lihat:
-
-**[📖 FEATURES.md](FEATURES.md)** - Comprehensive feature documentation
 
 Dokumentasi ini menjelaskan:
 
