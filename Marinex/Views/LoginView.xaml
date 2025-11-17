@@ -16,18 +16,18 @@
                            Foreground="#333333"
                            Margin="0,0,0,10"/>
                 
-                <TextBlock Text="Please enter your email and password to sign in" 
+                <TextBlock Text="Please enter your username and password to sign in" 
                            FontSize="13" 
                            Foreground="#888888"
                            TextWrapping="Wrap"
                            Margin="0,0,0,30"/>
 
-                <!-- Email Input -->
-                <TextBlock Text="Email address" 
+                <!-- Username Input -->
+                <TextBlock Text="Username" 
                            FontSize="12" 
                            Foreground="#555555"
                            Margin="0,0,0,5"/>
-                <TextBox x:Name="txtEmail"
+                <TextBox x:Name="txtUsername"
                          Height="40"
                          Padding="12,10"
                          FontSize="14"

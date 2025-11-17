@@ -1,0 +1,202 @@
+<Window x:Class="Marinex.Views.ShipDetailWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Ship Details" 
+        Height="600" Width="500"
+        WindowStartupLocation="CenterOwner"
+        Background="#1a1a1a"
+        ResizeMode="NoResize">
+    
+    <Window.Resources>
+        <Style x:Key="LabelStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#9e9e9e"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Margin" Value="0,0,0,5"/>
+        </Style>
+        
+        <Style x:Key="ValueStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#e0e0e0"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Margin" Value="0,0,0,20"/>
+        </Style>
+        
+        <Style x:Key="SectionHeader" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#42A5F5"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Margin" Value="0,10,0,15"/>
+        </Style>
+    </Window.Resources>
+
+    <Border CornerRadius="10" Margin="10" Background="#2a2a2a">
+        <Border.Effect>
+            <DropShadowEffect BlurRadius="15" ShadowDepth="3" Opacity="0.4"/>
+        </Border.Effect>
+        
+        <Grid Margin="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Header -->
+            <StackPanel Grid.Row="0" Margin="0,0,0,20">
+                <TextBlock Text="🚢" FontSize="48" HorizontalAlignment="Center" Margin="0,0,0,10"/>
+                <TextBlock x:Name="TxtShipNameHeader" 
+                          Text="Ship Name" 
+                          FontSize="24" 
+                          FontWeight="Bold"
+                          Foreground="#e0e0e0"
+                          HorizontalAlignment="Center"
+                          TextWrapping="Wrap"
+                          TextAlignment="Center"/>
+                <TextBlock x:Name="TxtShipType"
+                          FontSize="14"
+                          Foreground="#9e9e9e"
+                          HorizontalAlignment="Center"
+                          Margin="0,5,0,0"/>
+            </StackPanel>
+
+            <!-- Content ScrollViewer -->
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                <StackPanel>
+                    <!-- Identification Section -->
+                    <TextBlock Text="📋 Identification" Style="{StaticResource SectionHeader}"/>
+                    
+                    <TextBlock Text="MMSI Number" Style="{StaticResource LabelStyle}"/>
+                    <TextBlock x:Name="TxtMmsi" Style="{StaticResource ValueStyle}"/>
+                    
+                    <TextBlock Text="Ship Type" Style="{StaticResource LabelStyle}"/>
+                    <TextBlock x:Name="TxtShipTypeDetail" Style="{StaticResource ValueStyle}"/>
+                    
+                    <!-- Position Section -->
+                    <TextBlock Text="📍 Position &amp; Navigation" Style="{StaticResource SectionHeader}"/>
+                    
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <StackPanel Grid.Column="0" Margin="0,0,10,0">
+                            <TextBlock Text="Latitude" Style="{StaticResource LabelStyle}"/>
+                            <TextBlock x:Name="TxtLatitude" Style="{StaticResource ValueStyle}"/>
+                        </StackPanel>
+                        
+                        <StackPanel Grid.Column="1">
+                            <TextBlock Text="Longitude" Style="{StaticResource LabelStyle}"/>
+                            <TextBlock x:Name="TxtLongitude" Style="{StaticResource ValueStyle}"/>
+                        </StackPanel>
+                    </Grid>
+                    
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <StackPanel Grid.Column="0" Margin="0,0,10,0">
+                            <TextBlock Text="Speed (knots)" Style="{StaticResource LabelStyle}"/>
+                            <TextBlock x:Name="TxtSpeed" Style="{StaticResource ValueStyle}"/>
+                        </StackPanel>
+                        
+                        <StackPanel Grid.Column="1">
+                            <TextBlock Text="Course (°)" Style="{StaticResource LabelStyle}"/>
+                            <TextBlock x:Name="TxtCourse" Style="{StaticResource ValueStyle}"/>
+                        </StackPanel>
+                    </Grid>
+                    
+                    <TextBlock Text="Heading (°)" Style="{StaticResource LabelStyle}"/>
+                    <TextBlock x:Name="TxtHeading" Style="{StaticResource ValueStyle}"/>
+                    
+                    <!-- Destination Section -->
+                    <TextBlock Text="🎯 Destination" Style="{StaticResource SectionHeader}"/>
+                    
+                    <TextBlock Text="Destination Port" Style="{StaticResource LabelStyle}"/>
+                    <TextBlock x:Name="TxtDestination" 
+                              Style="{StaticResource ValueStyle}"
+                              TextWrapping="Wrap"/>
+                    
+                    <!-- Status Section -->
+                    <TextBlock Text="⏱️ Status" Style="{StaticResource SectionHeader}"/>
+                    
+                    <TextBlock Text="Last Updated" Style="{StaticResource LabelStyle}"/>
+                    <TextBlock x:Name="TxtLastUpdate" Style="{StaticResource ValueStyle}"/>
+                </StackPanel>
+            </ScrollViewer>
+
+            <!-- Footer Buttons -->
+            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
+                <Button x:Name="BtnCopyCoordinates"
+                        Content="📋 Copy Coordinates"
+                        Width="150"
+                        Height="40"
+                        Margin="0,0,10,0"
+                        Background="#FF9800"
+                        Foreground="White"
+                        BorderThickness="0"
+                        FontSize="14"
+                        Cursor="Hand"
+                        Click="BtnCopyCoordinates_Click">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="{TemplateBinding Background}"
+                                                CornerRadius="6"
+                                                Padding="10,8">
+                                            <ContentPresenter HorizontalAlignment="Center" 
+                                                            VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#F57C00"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                
+                <Button x:Name="BtnClose"
+                        Content="Close"
+                        Width="100"
+                        Height="40"
+                        Background="#757575"
+                        Foreground="White"
+                        BorderThickness="0"
+                        FontSize="14"
+                        Cursor="Hand"
+                        Click="BtnClose_Click">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="{TemplateBinding Background}"
+                                                CornerRadius="6"
+                                                Padding="10,8">
+                                            <ContentPresenter HorizontalAlignment="Center" 
+                                                            VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#616161"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+            </StackPanel>
+        </Grid>
+    </Border>
+</Window>

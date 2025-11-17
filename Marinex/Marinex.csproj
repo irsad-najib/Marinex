@@ -6,6 +6,8 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+    <!-- Suppress NU1701 warning for GMap.NET (legacy package, but works fine) -->
+    <NoWarn>$(NoWarn);NU1701</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,9 +21,8 @@
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.1" />
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
     
-    <!-- GMap.NET for map visualization -->
+    <!-- GMap.NET for map visualization (newer version for better .NET compatibility) -->
     <PackageReference Include="GMap.NET.WPF" Version="1.0.0.1" />
-    <PackageReference Include="GMap.NET.WPF" Version="2.1.7" />
   </ItemGroup>
 
 </Project>

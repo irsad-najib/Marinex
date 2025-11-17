@@ -1,29 +1,27 @@
 {
   "version": 2,
-  "dgSpecHash": "Bnv+n7yW+Mg=",
+  "dgSpecHash": "pB/uMo6VR4zeHvFy6QuVPyhMa2BHm0nLYd+BBDVpSWmrHF0BM6qvQVGhCyoRhtEljM8soLuzwYuacnKSkW4MkA==",
   "success": true,
-  "projectFilePath": "\\\\192.168.64.1\\project\\Marinex\\Marinex\\Marinex.csproj",
+  "projectFilePath": "/file/belajar_program/Marinex/Marinex/Marinex.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\melvino\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
-    "C:\\Users\\melvino\\.nuget\\packages\\gmap.net.wpf\\1.0.0.1\\gmap.net.wpf.1.0.0.1.nupkg.sha512",
-    "C:\\Users\\melvino\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\8.0.0\\microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg.sha512",
-    "C:\\Users\\melvino\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\8.0.0\\microsoft.extensions.logging.abstractions.8.0.0.nupkg.sha512",
-    "C:\\Users\\melvino\\.nuget\\packages\\npgsql\\8.0.5\\npgsql.8.0.5.nupkg.sha512",
-    "C:\\Users\\melvino\\.nuget\\packages\\system.configuration.configurationmanager\\8.0.1\\system.configuration.configurationmanager.8.0.1.nupkg.sha512",
-    "C:\\Users\\melvino\\.nuget\\packages\\system.diagnostics.eventlog\\8.0.1\\system.diagnostics.eventlog.8.0.1.nupkg.sha512",
-    "C:\\Users\\melvino\\.nuget\\packages\\system.security.cryptography.protecteddata\\8.0.0\\system.security.cryptography.protecteddata.8.0.0.nupkg.sha512"
+    "/home/irsad-najib/.nuget/packages/bcrypt.net-next/4.0.3/bcrypt.net-next.4.0.3.nupkg.sha512",
+    "/home/irsad-najib/.nuget/packages/gmap.net.wpf/1.0.0.1/gmap.net.wpf.1.0.0.1.nupkg.sha512",
+    "/home/irsad-najib/.nuget/packages/microsoft.extensions.dependencyinjection.abstractions/8.0.0/microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg.sha512",
+    "/home/irsad-najib/.nuget/packages/microsoft.extensions.logging.abstractions/8.0.0/microsoft.extensions.logging.abstractions.8.0.0.nupkg.sha512",
+    "/home/irsad-najib/.nuget/packages/npgsql/8.0.5/npgsql.8.0.5.nupkg.sha512",
+    "/home/irsad-najib/.nuget/packages/system.configuration.configurationmanager/8.0.1/system.configuration.configurationmanager.8.0.1.nupkg.sha512",
+    "/home/irsad-najib/.nuget/packages/system.diagnostics.eventlog/8.0.1/system.diagnostics.eventlog.8.0.1.nupkg.sha512",
+    "/home/irsad-najib/.nuget/packages/system.security.cryptography.protecteddata/8.0.0/system.security.cryptography.protecteddata.8.0.0.nupkg.sha512"
   ],
   "logs": [
     {
       "code": "NU1701",
       "level": "Warning",
-      "message": "Package 'GMap.Net.WPF 1.0.0.1' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net9.0-windows7.0'. This package may not be fully compatible with your project.",
-      "projectPath": "\\\\192.168.64.1\\project\\Marinex\\Marinex\\Marinex.csproj",
       "warningLevel": 1,
-      "filePath": "\\\\192.168.64.1\\project\\Marinex\\Marinex\\Marinex.csproj",
+      "message": "Package 'GMap.Net.WPF 1.0.0.1' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net8.0-windows7.0'. This package may not be fully compatible with your project.",
       "libraryId": "GMap.Net.WPF",
       "targetGraphs": [
-        "net9.0-windows7.0"
+        "net8.0-windows7.0"
       ]
     }
   ]

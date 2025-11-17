@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using GMap.NET;
@@ -16,9 +17,14 @@ namespace Marinex.Views
     {
         private AISStreamService _aisService;
         private ObservableCollection<ShipPosition> _shipPositions;
+        private ObservableCollection<ShipPosition> _filteredShipPositions;
         private Dictionary<string, GMapMarker> _shipMarkers;
         private bool _isStreaming = false;
         private int _messageCount = 0;
+        private string _selectedShipMmsi = null;
+    // Map collapse state
+    private System.Windows.GridLength _prevMapRowHeight;
+    private bool _isMapCollapsed = false;
 
         public DashboardView()
         {
@@ -26,6 +32,8 @@ namespace Marinex.Views
             InitializeMap();
             InitializeData();
             InitializeAISService();
+            // remember initial map row height for restore
+            _prevMapRowHeight = MapRow.Height;
         }
 
         private void InitializeMap()
@@ -48,8 +56,9 @@ namespace Marinex.Views
         private void InitializeData()
         {
             _shipPositions = new ObservableCollection<ShipPosition>();
+            _filteredShipPositions = new ObservableCollection<ShipPosition>();
             _shipMarkers = new Dictionary<string, GMapMarker>();
-            ShipDataGrid.ItemsSource = _shipPositions;
+            ShipListBox.ItemsSource = _filteredShipPositions;
         }
 
         private async void InitializeAISService()
@@ -120,13 +129,19 @@ namespace Marinex.Views
                 // Update existing marker
                 var marker = _shipMarkers[position.Mmsi];
                 marker.Position = point;
+                
+                // Update marker color if this ship is selected
+                if (position.Mmsi == _selectedShipMmsi)
+                {
+                    marker.Shape = CreateShipMarkerShape(position, true);
+                }
             }
             else
             {
                 // Create new marker
                 var marker = new GMapMarker(point)
                 {
-                    Shape = CreateShipMarkerShape(position),
+                    Shape = CreateShipMarkerShape(position, false),
                     ZIndex = 100
                 };
                 
@@ -138,7 +153,7 @@ namespace Marinex.Views
             }
         }
 
-        private UIElement CreateShipMarkerShape(ShipPosition position)
+        private UIElement CreateShipMarkerShape(ShipPosition position, bool isHighlighted = false)
         {
             var canvas = new System.Windows.Controls.Canvas
             {
@@ -156,7 +171,7 @@ namespace Marinex.Views
                     new Point(12, 16),  // Bottom center
                     new Point(0, 20)    // Bottom left
                 }),
-                Fill = Brushes.Red,
+                Fill = isHighlighted ? Brushes.Yellow : Brushes.Red,
                 Stroke = Brushes.White,
                 StrokeThickness = 2
             };
@@ -190,10 +205,76 @@ namespace Marinex.Views
                 // Add new to the top
                 _shipPositions.Insert(0, position);
                 
-                // Keep only last 50 entries
-                while (_shipPositions.Count > 50)
+                // Keep only last 100 entries
+                while (_shipPositions.Count > 100)
                 {
                     _shipPositions.RemoveAt(_shipPositions.Count - 1);
+                }
+            }
+            
+            // Update filtered list
+            ApplyFilter();
+        }
+        
+        private void ApplyFilter()
+        {
+            var filterText = TxtFilter?.Text?.ToLower() ?? "";
+            
+            _filteredShipPositions.Clear();
+            
+            var filtered = string.IsNullOrWhiteSpace(filterText) 
+                ? _shipPositions 
+                : _shipPositions.Where(s => s.ShipName.ToLower().Contains(filterText));
+            
+            foreach (var ship in filtered)
+            {
+                _filteredShipPositions.Add(ship);
+            }
+        }
+        
+        private void TxtFilter_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        {
+            // Update placeholder visibility
+            TxtFilterPlaceholder.Visibility = string.IsNullOrEmpty(TxtFilter.Text) 
+                ? Visibility.Visible 
+                : Visibility.Collapsed;
+            
+            ApplyFilter();
+        }
+        
+        private void BtnClearFilter_Click(object sender, RoutedEventArgs e)
+        {
+            TxtFilter.Text = "";
+        }
+        
+        private void ShipListBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            if (ShipListBox.SelectedItem is ShipPosition selectedShip)
+            {
+                // Reset previous highlighted ship
+                if (_selectedShipMmsi != null && _shipMarkers.ContainsKey(_selectedShipMmsi))
+                {
+                    var prevPosition = _shipPositions.FirstOrDefault(s => s.Mmsi == _selectedShipMmsi);
+                    if (prevPosition != null)
+                    {
+                        _shipMarkers[_selectedShipMmsi].Shape = CreateShipMarkerShape(prevPosition, false);
+                    }
+                }
+                
+                // Highlight new selected ship
+                _selectedShipMmsi = selectedShip.Mmsi;
+                if (_shipMarkers.ContainsKey(_selectedShipMmsi))
+                {
+                    var marker = _shipMarkers[_selectedShipMmsi];
+                    marker.Shape = CreateShipMarkerShape(selectedShip, true);
+                    marker.ZIndex = 200; // Bring to front
+                    
+                    // Center map on selected ship
+                    MainMap.Position = new PointLatLng(selectedShip.Latitude, selectedShip.Longitude);
+                    if (MainMap.Zoom < 8)
+                    {
+                        MainMap.Zoom = 8;
+                    }
                 }
             }
         }
@@ -242,6 +323,49 @@ namespace Marinex.Views
             MainMap.Zoom = 3;
         }
 
+        private void btnCollapseMap_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (!_isMapCollapsed)
+                {
+                    // Collapse map row and hide map border
+                    _prevMapRowHeight = MapRow.Height;
+                    MapRow.Height = new System.Windows.GridLength(0);
+                    MapBorder.Visibility = System.Windows.Visibility.Collapsed;
+                    btnRestoreMap.Visibility = System.Windows.Visibility.Visible;
+                    _isMapCollapsed = true;
+                    
+                    // Update button appearance
+                    btnCollapseMap.Visibility = System.Windows.Visibility.Collapsed;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error collapsing map: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void btnRestoreMap_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (_isMapCollapsed)
+                {
+                    // Restore map
+                    MapRow.Height = _prevMapRowHeight;
+                    MapBorder.Visibility = System.Windows.Visibility.Visible;
+                    btnRestoreMap.Visibility = System.Windows.Visibility.Collapsed;
+                    btnCollapseMap.Visibility = System.Windows.Visibility.Visible;
+                    _isMapCollapsed = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error restoring map: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
         private void BtnLogout_Click(object sender, RoutedEventArgs e)
         {
             var result = MessageBox.Show("Are you sure you want to logout?", 
@@ -264,6 +388,136 @@ namespace Marinex.Views
                 }
                 
                 this.Close();
+            }
+        }
+
+        private void btnCreateReport_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                // Get current user ID and ship ID (you might need to pass these from login)
+                int userId = 1; // TODO: Get from logged in user session
+                int? shipId = null; // TODO: Get from user's ship selection
+
+                var createReportView = new CreateReportView(userId, shipId);
+                createReportView.Show();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    $"Error opening Create Report: {ex.Message}",
+                    "Error",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+            }
+        }
+
+        private void btnViewReports_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                // Get current user ID
+                int userId = 1; // TODO: Get from logged in user session
+
+                var reportsView = new ReportsView(userId);
+                reportsView.Show();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    $"Error opening Reports View: {ex.Message}",
+                    "Error",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+            }
+        }
+
+        private void btnCheckWeather_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var weatherView = new WeatherView();
+                weatherView.Show();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    $"Error opening Weather View: {ex.Message}",
+                    "Error",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+            }
+        }
+
+        private void btnShipTracking_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show(
+                "AIS Ship Tracking View\n\n" +
+                "This feature will show:\n" +
+                "- Real-time ship positions on map\n" +
+                "- Ship details (MMSI, name, course, speed)\n" +
+                "- Track your own ships\n" +
+                "- View nearby vessels\n\n" +
+                "Coming soon!",
+                "Ship Tracking",
+                MessageBoxButton.OK,
+                MessageBoxImage.Information);
+        }
+
+        private void BtnShipDetails_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var button = sender as Button;
+                if (button?.Tag is ShipPosition shipPosition)
+                {
+                    ShowShipDetails(shipPosition);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    $"Error opening ship details: {ex.Message}",
+                    "Error",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+            }
+        }
+
+        private void ShipListBox_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            try
+            {
+                if (ShipListBox.SelectedItem is ShipPosition selectedShip)
+                {
+                    ShowShipDetails(selectedShip);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    $"Error opening ship details: {ex.Message}",
+                    "Error",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+            }
+        }
+
+        private void ShowShipDetails(ShipPosition shipPosition)
+        {
+            try
+            {
+                var detailWindow = new ShipDetailWindow(shipPosition);
+                detailWindow.Owner = this;
+                detailWindow.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    $"Error displaying ship details: {ex.Message}",
+                    "Error",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
             }
         }
 

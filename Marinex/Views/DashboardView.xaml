@@ -8,7 +8,7 @@
         Title="Marinex - Live Ship Tracking Dashboard" 
         Height="800" Width="1400"
         WindowState="Maximized"
-        Background="#F5F5F5">
+        Background="#1a1a1a">
     
     <Window.Resources>
         <DropShadowEffect x:Key="DropShadowEffect"
@@ -43,15 +43,48 @@
         </Style>
 
         <Style x:Key="StatusCard" TargetType="Border">
-            <Setter Property="Background" Value="White"/>
+            <Setter Property="Background" Value="#2a2a2a"/>
             <Setter Property="CornerRadius" Value="8"/>
             <Setter Property="Padding" Value="20"/>
             <Setter Property="Margin" Value="0,0,10,0"/>
             <Setter Property="Effect">
                 <Setter.Value>
-                    <DropShadowEffect BlurRadius="10" ShadowDepth="2" Opacity="0.1"/>
+                    <DropShadowEffect BlurRadius="10" ShadowDepth="2" Opacity="0.3"/>
                 </Setter.Value>
             </Setter>
+        </Style>
+        
+        <Style x:Key="DarkTextBlock" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#e0e0e0"/>
+        </Style>
+        
+        <Style x:Key="ShipListItem" TargetType="ListBoxItem">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#e0e0e0"/>
+            <Setter Property="Padding" Value="15,10"/>
+            <Setter Property="BorderThickness" Value="0,0,0,1"/>
+            <Setter Property="BorderBrush" Value="#3a3a3a"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBoxItem">
+                        <Border Background="{TemplateBinding Background}" 
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#3a3a3a"/>
+                </Trigger>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="#4a4a4a"/>
+                </Trigger>
+            </Style.Triggers>
         </Style>
     </Window.Resources>
 
@@ -59,12 +92,17 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition x:Name="MapRow" Height="*"/>
             <RowDefinition Height="250"/>
         </Grid.RowDefinitions>
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="280"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
 
         <!-- Top Navigation Bar -->
-        <Border Grid.Row="0" Background="#1E88E5" Padding="20,15">
+        <Border Grid.Row="0" Grid.ColumnSpan="2" Background="#0d47a1" Padding="20,15">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
@@ -103,7 +141,7 @@
         </Border>
 
         <!-- Statistics Cards -->
-        <Grid Grid.Row="1" Margin="20,20,20,10">
+        <Grid Grid.Row="1" Grid.Column="1" Margin="20,20,20,10">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
@@ -115,13 +153,13 @@
                 <StackPanel>
                     <TextBlock Text="Total Ships Tracked" 
                              FontSize="12" 
-                             Foreground="#757575"
+                             Foreground="#9e9e9e"
                              FontWeight="SemiBold"/>
                     <TextBlock x:Name="TxtTotalShips" 
                              Text="0" 
                              FontSize="32" 
                              FontWeight="Bold"
-                             Foreground="#1E88E5"
+                             Foreground="#42A5F5"
                              Margin="0,5,0,0"/>
                 </StackPanel>
             </Border>
@@ -130,13 +168,13 @@
                 <StackPanel>
                     <TextBlock Text="Messages Received" 
                              FontSize="12" 
-                             Foreground="#757575"
+                             Foreground="#9e9e9e"
                              FontWeight="SemiBold"/>
                     <TextBlock x:Name="TxtMessagesCount" 
                              Text="0" 
                              FontSize="32" 
                              FontWeight="Bold"
-                             Foreground="#4CAF50"
+                             Foreground="#66BB6A"
                              Margin="0,5,0,0"/>
                 </StackPanel>
             </Border>
@@ -145,13 +183,13 @@
                 <StackPanel>
                     <TextBlock Text="Active Connections" 
                              FontSize="12" 
-                             Foreground="#757575"
+                             Foreground="#9e9e9e"
                              FontWeight="SemiBold"/>
                     <TextBlock x:Name="TxtActiveConnections" 
                              Text="1" 
                              FontSize="32" 
                              FontWeight="Bold"
-                             Foreground="#FF9800"
+                             Foreground="#FFA726"
                              Margin="0,5,0,0"/>
                 </StackPanel>
             </Border>
@@ -160,35 +198,37 @@
                 <StackPanel>
                     <TextBlock Text="Last Update" 
                              FontSize="12" 
-                             Foreground="#757575"
+                             Foreground="#9e9e9e"
                              FontWeight="SemiBold"/>
                     <TextBlock x:Name="TxtLastUpdate" 
                              Text="--:--:--" 
                              FontSize="32" 
                              FontWeight="Bold"
-                             Foreground="#9C27B0"
+                             Foreground="#AB47BC"
                              Margin="0,5,0,0"/>
                 </StackPanel>
             </Border>
         </Grid>
 
         <!-- Map View -->
-        <Border Grid.Row="2" 
-                Background="White" 
-                Margin="20,10,20,10"
-                CornerRadius="8">
+    <Border Grid.Row="2" 
+        Grid.Column="1"
+        x:Name="MapBorder"
+        Background="#2a2a2a" 
+        Margin="20,10,20,10"
+        CornerRadius="8">
             <Border.Effect>
-                <DropShadowEffect BlurRadius="10" ShadowDepth="2" Opacity="0.1"/>
+                <DropShadowEffect BlurRadius="10" ShadowDepth="2" Opacity="0.3"/>
             </Border.Effect>
             <Grid>
                 <gmap:GMapControl x:Name="MainMap" 
                                 Margin="10"/>
                 
-                <!-- Map Controls Overlay -->
-                <StackPanel VerticalAlignment="Top" 
-                          HorizontalAlignment="Right" 
-                          Margin="20">
-                    <Border Background="White" 
+            <!-- Map Controls Overlay -->
+            <StackPanel VerticalAlignment="Top" 
+                  HorizontalAlignment="Right" 
+                  Margin="20">
+                    <Border Background="#2a2a2a" 
                           CornerRadius="4" 
                           Padding="10"
                           Effect="{StaticResource DropShadowEffect}">
@@ -196,7 +236,45 @@
                             <TextBlock Text="Map Controls" 
                                      FontWeight="Bold" 
                                      FontSize="12"
+                                     Foreground="#e0e0e0"
                                      Margin="0,0,0,10"/>
+                            
+                            <!-- Collapse Map Button (small version) -->
+                            <Button x:Name="btnCollapseMap"
+                                  Content="▼ Hide Map"
+                                  Width="100"
+                                  Height="28"
+                                  Margin="0,0,0,5"
+                                  ToolTip="Hide map view"
+                                  Click="btnCollapseMap_Click"
+                                  Background="#455A64"
+                                  Foreground="#e0e0e0"
+                                  BorderThickness="0"
+                                  FontSize="11"
+                                  Cursor="Hand">
+                                <Button.Style>
+                                    <Style TargetType="Button">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="Button">
+                                                    <Border Background="{TemplateBinding Background}"
+                                                          CornerRadius="3"
+                                                          Padding="5,3">
+                                                        <ContentPresenter HorizontalAlignment="Center" 
+                                                                        VerticalAlignment="Center"/>
+                                                    </Border>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Background" Value="#546E7A"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
+                            
                             <Button Content="Zoom In" 
                                   Click="BtnZoomIn_Click"
                                   Style="{StaticResource ModernButton}"
@@ -217,44 +295,380 @@
 
         <!-- Ship List -->
         <Border Grid.Row="3" 
-                Background="White" 
+                Grid.Column="1"
+                Background="#2a2a2a" 
                 Margin="20,10,20,20"
                 CornerRadius="8"
                 Padding="15">
             <Border.Effect>
-                <DropShadowEffect BlurRadius="10" ShadowDepth="2" Opacity="0.1"/>
+                <DropShadowEffect BlurRadius="10" ShadowDepth="2" Opacity="0.3"/>
             </Border.Effect>
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
-                <TextBlock Text="Recent Ship Positions" 
+                <TextBlock Text="Live Ship Stream" 
                          FontSize="16" 
                          FontWeight="Bold"
+                         Foreground="#e0e0e0"
                          Margin="0,0,0,10"/>
 
-                <DataGrid x:Name="ShipDataGrid" 
-                        Grid.Row="1"
-                        AutoGenerateColumns="False"
-                        IsReadOnly="True"
-                        GridLinesVisibility="None"
-                        HeadersVisibility="Column"
-                        RowBackground="White"
-                        AlternatingRowBackground="#F5F5F5"
-                        BorderThickness="0">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="MMSI" Binding="{Binding Mmsi}" Width="120"/>
-                        <DataGridTextColumn Header="Ship Name" Binding="{Binding ShipName}" Width="200"/>
-                        <DataGridTextColumn Header="Latitude" Binding="{Binding Latitude, StringFormat=F5}" Width="120"/>
-                        <DataGridTextColumn Header="Longitude" Binding="{Binding Longitude, StringFormat=F5}" Width="120"/>
-                        <DataGridTextColumn Header="Speed (knots)" Binding="{Binding Speed, StringFormat=F1}" Width="120"/>
-                        <DataGridTextColumn Header="Course" Binding="{Binding Course, StringFormat=F1}" Width="100"/>
-                        <DataGridTextColumn Header="Last Update" Binding="{Binding LastUpdate, StringFormat=HH:mm:ss}" Width="*"/>
-                    </DataGrid.Columns>
-                </DataGrid>
+                <!-- Filter Box -->
+                <Border Grid.Row="1" 
+                        Background="#3a3a3a" 
+                        CornerRadius="4" 
+                        Padding="10"
+                        Margin="0,0,0,10">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <TextBlock Text="🔍" 
+                                 FontSize="16" 
+                                 VerticalAlignment="Center"
+                                 Margin="0,0,10,0"/>
+                        
+                        <TextBox x:Name="TxtFilter" 
+                               Grid.Column="1"
+                               Background="Transparent"
+                               Foreground="#e0e0e0"
+                               BorderThickness="0"
+                               VerticalAlignment="Center"
+                               FontSize="14"
+                               TextChanged="TxtFilter_TextChanged"/>
+                        
+                        <TextBlock Grid.Column="1"
+                                 x:Name="TxtFilterPlaceholder"
+                                 Text="Filter ships by name..." 
+                                 Foreground="#757575"
+                                 VerticalAlignment="Center"
+                                 IsHitTestVisible="False"
+                                 FontSize="14"
+                                 Margin="2,0,0,0"/>
+                        
+                        <Button Grid.Column="2" 
+                              Content="Clear" 
+                              Background="#f44336"
+                              Foreground="White"
+                              BorderThickness="0"
+                              Padding="10,5"
+                              Cursor="Hand"
+                              Click="BtnClearFilter_Click">
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border Background="{TemplateBinding Background}" 
+                                                      CornerRadius="3"
+                                                      Padding="{TemplateBinding Padding}">
+                                                    <ContentPresenter HorizontalAlignment="Center" 
+                                                                    VerticalAlignment="Center"/>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="#d32f2f"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                    </Grid>
+                </Border>
+
+                <!-- Ship List -->
+                <ListBox x:Name="ShipListBox" 
+                       Grid.Row="2"
+                       Background="Transparent"
+                       BorderThickness="0"
+                       ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                       SelectionChanged="ShipListBox_SelectionChanged"
+                       MouseDoubleClick="ShipListBox_MouseDoubleClick">
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem" BasedOn="{StaticResource ShipListItem}"/>
+                    </ListBox.ItemContainerStyle>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                
+                                <TextBlock Text="🚢" 
+                                         FontSize="20" 
+                                         VerticalAlignment="Center"
+                                         Margin="0,0,15,0"/>
+                                
+                                <StackPanel Grid.Column="1">
+                                    <TextBlock Text="{Binding ShipName}" 
+                                             FontSize="16" 
+                                             FontWeight="SemiBold"
+                                             Foreground="#e0e0e0"/>
+                                    <TextBlock FontSize="12" 
+                                             Foreground="#9e9e9e"
+                                             Margin="0,3,0,0">
+                                        <Run Text="MMSI: "/>
+                                        <Run Text="{Binding Mmsi}"/>
+                                        <Run Text=" | Speed: "/>
+                                        <Run Text="{Binding Speed, StringFormat={}{0:F1}}"/>
+                                        <Run Text=" kn"/>
+                                    </TextBlock>
+                                </StackPanel>
+                                
+                                <TextBlock Grid.Column="2" 
+                                         Text="{Binding LastUpdate, StringFormat=HH:mm:ss}"
+                                         FontSize="12"
+                                         Foreground="#757575"
+                                         VerticalAlignment="Center"
+                                         Margin="0,0,10,0"/>
+                                
+                                <Button Grid.Column="3"
+                                        Content="ℹ️"
+                                        Width="30" Height="30"
+                                        Background="#2196F3"
+                                        Foreground="White"
+                                        BorderThickness="0"
+                                        FontSize="14"
+                                        Cursor="Hand"
+                                        ToolTip="View ship details"
+                                        Click="BtnShipDetails_Click"
+                                        Tag="{Binding}">
+                                    <Button.Style>
+                                        <Style TargetType="Button">
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="Button">
+                                                        <Border Background="{TemplateBinding Background}"
+                                                                CornerRadius="15"
+                                                                Padding="5">
+                                                            <ContentPresenter HorizontalAlignment="Center" 
+                                                                            VerticalAlignment="Center"/>
+                                                        </Border>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                            <Style.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Background" Value="#1976D2"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+                                </Button>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
             </Grid>
         </Border>
+
+        <!-- Quick Actions Panel (Left Sidebar) -->
+        <Border Grid.Row="1" Grid.RowSpan="3" Grid.Column="0" 
+                Background="#2a2a2a" 
+                CornerRadius="8" 
+                Margin="20,20,10,20"
+                Padding="20">
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="10" ShadowDepth="2" Opacity="0.3"/>
+            </Border.Effect>
+            <StackPanel>
+                <TextBlock Text="Quick Actions" 
+                           FontSize="18" 
+                           FontWeight="Bold"
+                           Foreground="#e0e0e0"
+                           Margin="0,0,0,20"/>
+                
+                <!-- Create Report Button -->
+                <Button Name="btnCreateReport"
+                        Content="📝 Create Report"
+                        Height="55"
+                        FontSize="14"
+                        Margin="0,0,0,10"
+                        Background="#2196F3"
+                        Foreground="White"
+                        BorderThickness="0"
+                        Cursor="Hand"
+                        Click="btnCreateReport_Click">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="{TemplateBinding Background}"
+                                                CornerRadius="8"
+                                                Padding="15,10">
+                                            <ContentPresenter HorizontalAlignment="Center" 
+                                                            VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#1976D2"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+
+                <!-- View Reports Button -->
+                <Button Name="btnViewReports"
+                        Content="📋 View All Reports"
+                        Height="55"
+                        FontSize="14"
+                        Margin="0,0,0,10"
+                        Background="#4CAF50"
+                        Foreground="White"
+                        BorderThickness="0"
+                        Cursor="Hand"
+                        Click="btnViewReports_Click">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="{TemplateBinding Background}"
+                                                CornerRadius="8"
+                                                Padding="15,10">
+                                            <ContentPresenter HorizontalAlignment="Center" 
+                                                            VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#388E3C"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+
+                <!-- Check Weather Button -->
+                <Button Name="btnCheckWeather"
+                        Content="🌦️ Check Weather"
+                        Height="55"
+                        FontSize="14"
+                        Margin="0,0,0,10"
+                        Background="#FF9800"
+                        Foreground="White"
+                        BorderThickness="0"
+                        Cursor="Hand"
+                        Click="btnCheckWeather_Click">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="{TemplateBinding Background}"
+                                                CornerRadius="8"
+                                                Padding="15,10">
+                                            <ContentPresenter HorizontalAlignment="Center" 
+                                                            VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#F57C00"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+
+                <!-- Ship Tracking Info Button -->
+                <Button Name="btnShipTracking"
+                        Content="🗺️ Track Ships (AIS)"
+                        Height="55"
+                        FontSize="14"
+                        Margin="0,0,0,10"
+                        Background="#9C27B0"
+                        Foreground="White"
+                        BorderThickness="0"
+                        Cursor="Hand"
+                        Click="btnShipTracking_Click">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="{TemplateBinding Background}"
+                                                CornerRadius="8"
+                                                Padding="15,10">
+                                            <ContentPresenter HorizontalAlignment="Center" 
+                                                            VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#7B1FA2"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+            </StackPanel>
+        </Border>
+    <!-- Restore Map Floating Button (visible when map collapsed) -->
+    <Button x:Name="btnRestoreMap"
+        Grid.Row="2"
+        Grid.Column="1"
+        Content="▲ Show Map"
+        Width="120" Height="36"
+        HorizontalAlignment="Right"
+        VerticalAlignment="Bottom"
+        Margin="0,0,24,24"
+        Visibility="Collapsed"
+        ToolTip="Show map view"
+        Click="btnRestoreMap_Click"
+        Background="#2196F3"
+        Foreground="White"
+        BorderThickness="0"
+        FontSize="12"
+        FontWeight="SemiBold"
+        Cursor="Hand">
+        <Button.Style>
+            <Style TargetType="Button">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border Background="{TemplateBinding Background}"
+                                  CornerRadius="18"
+                                  Padding="15,8">
+                                <Border.Effect>
+                                    <DropShadowEffect BlurRadius="12" ShadowDepth="3" Opacity="0.4" Color="#000000"/>
+                                </Border.Effect>
+                                <ContentPresenter HorizontalAlignment="Center" 
+                                                VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="#1976D2"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </Button.Style>
+    </Button>
     </Grid>
 </Window>

@@ -21,6 +21,9 @@ namespace Marinex.Services
         public event EventHandler<ShipPosition> OnShipPositionReceived;
         public event EventHandler<bool> OnConnectionStatusChanged;
         public event EventHandler<string> OnError;
+        
+        // Public property to check connection status
+        public bool IsConnected => _isConnected;
 
         public AISStreamService(string apiKey)
         {

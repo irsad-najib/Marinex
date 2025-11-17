@@ -19,7 +19,7 @@ namespace Marinex.Views
 
         private async void SignInButton_Click(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txtEmail.Text))
+            if (string.IsNullOrWhiteSpace(txtUsername.Text))
             {
                 MessageBox.Show("Please enter your username.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
@@ -42,7 +42,7 @@ namespace Marinex.Views
                 this.IsEnabled = false;
                 this.Cursor = Cursors.Wait;
 
-                bool isAuthenticated = await _supabaseService.AuthenticateUser(txtEmail.Text.Trim(), txtPassword.Password);
+                bool isAuthenticated = await _supabaseService.AuthenticateUser(txtUsername.Text.Trim(), txtPassword.Password);
 
                 this.IsEnabled = true;
                 this.Cursor = Cursors.Arrow;

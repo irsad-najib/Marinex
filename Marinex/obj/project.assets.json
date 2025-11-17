@@ -1,7 +1,7 @@
 {
   "version": 3,
   "targets": {
-    "net9.0-windows7.0": {
+    "net8.0-windows7.0": {
       "BCrypt.Net-Next/4.0.3": {
         "type": "package",
         "compile": {
@@ -424,7 +424,7 @@
     }
   },
   "projectFileDependencyGroups": {
-    "net9.0-windows7.0": [
+    "net8.0-windows7.0": [
       "BCrypt.Net-Next >= 4.0.3",
       "GMap.NET.WPF >= 1.0.0.1",
       "Npgsql >= 8.0.5",
@@ -432,29 +432,29 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\melvino\\.nuget\\packages\\": {}
+    "/home/irsad-najib/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "\\\\192.168.64.1\\project\\Marinex\\Marinex\\Marinex.csproj",
+      "projectUniqueName": "/file/belajar_program/Marinex/Marinex/Marinex.csproj",
       "projectName": "Marinex",
-      "projectPath": "\\\\192.168.64.1\\project\\Marinex\\Marinex\\Marinex.csproj",
-      "packagesPath": "C:\\Users\\melvino\\.nuget\\packages\\",
-      "outputPath": "\\\\192.168.64.1\\project\\Marinex\\Marinex\\obj\\",
+      "projectPath": "/file/belajar_program/Marinex/Marinex/Marinex.csproj",
+      "packagesPath": "/home/irsad-najib/.nuget/packages/",
+      "outputPath": "/file/belajar_program/Marinex/Marinex/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\melvino\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "/home/irsad-najib/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
-        "net9.0-windows"
+        "net8.0-windows"
       ],
       "sources": {
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
-        "net9.0-windows7.0": {
-          "targetAlias": "net9.0-windows",
+        "net8.0-windows7.0": {
+          "targetAlias": "net8.0-windows",
           "projectReferences": {}
         }
       },
@@ -462,17 +462,11 @@
         "warnAsError": [
           "NU1605"
         ]
-      },
-      "restoreAuditProperties": {
-        "enableAudit": "true",
-        "auditLevel": "low",
-        "auditMode": "direct"
-      },
-      "SdkAnalysisLevel": "9.0.300"
+      }
     },
     "frameworks": {
-      "net9.0-windows7.0": {
-        "targetAlias": "net9.0-windows",
+      "net8.0-windows7.0": {
+        "targetAlias": "net8.0-windows",
         "dependencies": {
           "BCrypt.Net-Next": {
             "target": "Package",
@@ -505,12 +499,9 @@
         "frameworkReferences": {
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
-          },
-          "Microsoft.WindowsDesktop.App.WPF": {
-            "privateAssets": "none"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.306/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/8.0.121/PortableRuntimeIdentifierGraph.json"
       }
     }
   },
@@ -519,10 +510,10 @@
       "code": "NU1701",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Package 'GMap.Net.WPF 1.0.0.1' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net9.0-windows7.0'. This package may not be fully compatible with your project.",
+      "message": "Package 'GMap.Net.WPF 1.0.0.1' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net8.0-windows7.0'. This package may not be fully compatible with your project.",
       "libraryId": "GMap.Net.WPF",
       "targetGraphs": [
-        "net9.0-windows7.0"
+        "net8.0-windows7.0"
       ]
     }
   ]
