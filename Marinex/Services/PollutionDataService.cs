@@ -11,23 +11,19 @@ namespace Marinex.Services
 {
     public class PollutionDataService
     {
-        // Singleton pattern biar data bisa diakses global & update realtime
         private static PollutionDataService _instance;
         public static PollutionDataService Instance => _instance ??= new PollutionDataService();
 
         private const string DATA_FILE_PATH = "Assets/marine_debris_data.json";
         private List<PollutionReport> _cachedReports;
         
-        // Use SupabaseService connection string strategy
         private string _connectionString;
 
-        // Event buat notifikasi kalau ada report baru masuk
         public event EventHandler<PollutionReport> OnReportAdded;
 
         public PollutionDataService()
         {
             _cachedReports = new List<PollutionReport>();
-            // Re-use the connection string logic from SupabaseService (or inject it properly)
             _connectionString = GetConnectionString();
         }
         
@@ -50,7 +46,6 @@ namespace Marinex.Services
 
         public async Task<List<PollutionReport>> LoadPollutionDataAsync()
         {
-            // Kalau sudah ada cache (termasuk data baru yang diinput user), return cache
             if (_cachedReports != null && _cachedReports.Count > 0)
             {
                 return _cachedReports;
@@ -58,11 +53,9 @@ namespace Marinex.Services
 
             try
             {
-                // 1. Load initial dummy data from JSON
                 string baseDir = AppDomain.CurrentDomain.BaseDirectory;
                 string fullPath = Path.Combine(baseDir, DATA_FILE_PATH);
                 
-                // Fallback logic
                 if (!File.Exists(fullPath))
                 {
                     string projectRoot = Path.GetFullPath(Path.Combine(baseDir, @"..\..\..\"));
@@ -79,7 +72,6 @@ namespace Marinex.Services
                     _cachedReports.AddRange(initialReports);
                 }
                 
-                // 2. Load real data from Supabase/PostgreSQL and merge
                 await LoadFromDatabaseAsync();
 
                 return _cachedReports;
@@ -97,8 +89,6 @@ namespace Marinex.Services
             {
                 using var conn = new NpgsqlConnection(_connectionString);
                 await conn.OpenAsync();
-
-                // Ensure tables exist (Auto-Migration for MVP)
                 await InitializeTablesAsync(conn);
 
                 // Query wastereport table
@@ -112,8 +102,7 @@ namespace Marinex.Services
                 using var reader = await cmd.ExecuteReaderAsync();
 
                 while (await reader.ReadAsync())
-                {
-                    // ... existing read logic ...
+              {
                     string location = reader.IsDBNull(0) ? "Unknown" : reader.GetString(0);
                     string category = reader.IsDBNull(1) ? "Unknown" : reader.GetString(1);
                     string severity = reader.IsDBNull(2) ? "Medium" : reader.GetString(2);
@@ -226,11 +215,11 @@ namespace Marinex.Services
                     }
                 }
             }
-            catch { /* Ignore parsing errors */ }
+            catch (Exception)
+            {
+                lat = 0; lon = 0;
+            }
         }
-
-        // Method buat nambah report baru dari User (Crowdsourcing)
-        // Updated: Saves to Database NOW!
         public async Task<bool> AddReportAsync(PollutionReport report)
         {
             try 
@@ -239,19 +228,16 @@ namespace Marinex.Services
                 {
                     _cachedReports = new List<PollutionReport>();
                 }
-
-                // 1. Update Local Cache & UI immediately (Optimistic UI)
                 _cachedReports.Add(report);
                 OnReportAdded?.Invoke(this, report);
 
-                // 2. Save to PostgreSQL / Supabase
                 await SaveReportToDatabaseAsync(report);
                 return true;
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Failed to save report to database: {ex.Message}", "Database Error", MessageBoxButton.OK, MessageBoxImage.Warning);
-                // Still returns true because UI updated successfully (offline mode behavior)
+
                 return false;
             }
         }
@@ -260,11 +246,8 @@ namespace Marinex.Services
         {
             using var conn = new NpgsqlConnection(_connectionString);
             await conn.OpenAsync();
-
-            // Auto-migrate tables before saving
             await InitializeTablesAsync(conn);
 
-            // Mapping PollutionReport to wastereport table structure
             string query = @"
                 INSERT INTO wastereport (reporter, location, category, severity, description, userid)
                 VALUES (@reporter, @location, @category, @severity, @description, @userid)
@@ -272,10 +255,8 @@ namespace Marinex.Services
 
             using var cmd = new NpgsqlCommand(query, conn);
             
-            // Use User object name if available, else default
             string reporterName = report.User?.UserName ?? "Anonymous"; 
             
-            // Combine Lat/Lon into location string if exact columns missing, or use the Location name
             string locationStr = $"{report.Location} ({report.Latitude:F5}, {report.Longitude:F5})";
 
             cmd.Parameters.AddWithValue("reporter", reporterName);
@@ -327,12 +308,9 @@ namespace Marinex.Services
             ";
 
             using var cmd = new NpgsqlCommand(query, conn);
-            // Assuming default ship_id if not selected (e.g. 1) or 0
-            // Also assuming 'status' comes from IssueDescription parsing or default 'Pending'
-            // We'll extract task name from EquipmentName for now
             
-            int shipId = report.ShipID != 0 ? report.ShipID : 1; // Default/Fallback ship ID
-            string status = "Pending"; // Default status
+            int shipId = report.ShipID != 0 ? report.ShipID : 1; 
+            string status = "Pending"; 
 
             cmd.Parameters.AddWithValue("ship_id", shipId);
             cmd.Parameters.AddWithValue("task_name", report.EquipmentName);

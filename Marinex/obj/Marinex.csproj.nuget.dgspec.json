@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "\\\\192.168.64.1\\project\\Marinex-1 copy\\Marinex\\Marinex.csproj": {}
+    "Z:\\belajar_program\\Marinex\\Marinex\\Marinex.csproj": {}
   },
   "projects": {
-    "\\\\192.168.64.1\\project\\Marinex-1 copy\\Marinex\\Marinex.csproj": {
+    "Z:\\belajar_program\\Marinex\\Marinex\\Marinex.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "\\\\192.168.64.1\\project\\Marinex-1 copy\\Marinex\\Marinex.csproj",
+        "projectUniqueName": "Z:\\belajar_program\\Marinex\\Marinex\\Marinex.csproj",
         "projectName": "Marinex",
-        "projectPath": "\\\\192.168.64.1\\project\\Marinex-1 copy\\Marinex\\Marinex.csproj",
-        "packagesPath": "C:\\Users\\melvino\\.nuget\\packages\\",
-        "outputPath": "\\\\192.168.64.1\\project\\Marinex-1 copy\\Marinex\\obj\\",
+        "projectPath": "Z:\\belajar_program\\Marinex\\Marinex\\Marinex.csproj",
+        "packagesPath": "C:\\Users\\lenov\\.nuget\\packages\\",
+        "outputPath": "Z:\\belajar_program\\Marinex\\Marinex\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\melvino\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\lenov\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net9.0-windows"
@@ -83,7 +83,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.306/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.308/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

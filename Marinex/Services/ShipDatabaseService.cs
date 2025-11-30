@@ -3,10 +3,6 @@ using Marinex.Models;
 
 namespace Marinex.Services
 {
-    /// <summary>
-    /// Implementasi IDatabaseService untuk operasi Ship
-    /// Demonstrasi Polymorphism - implementasi berbeda dari interface yang sama
-    /// </summary>
     public class ShipDatabaseService : IDatabaseService
     {
         private static string GetConnectionString()
@@ -26,7 +22,6 @@ namespace Marinex.Services
         private static string ConnectionString => GetConnectionString();
         private NpgsqlConnection? _connection;
 
-        // Polymorphism: Implementasi interface method
         public async Task<bool> ConnectAsync()
         {
             try
@@ -64,7 +59,6 @@ namespace Marinex.Services
             return _connection != null && _connection.State == System.Data.ConnectionState.Open;
         }
 
-        // Polymorphism: Implementasi generic method dengan spesialisasi untuk Ship
         public async Task<T?> GetByIdAsync<T>(int id) where T : class
         {
             if (typeof(T) != typeof(Ship))
@@ -75,7 +69,6 @@ namespace Marinex.Services
                 if (!await IsConnectedAsync())
                     await ConnectAsync();
 
-                // Schema: Tabel Ship dengan kolom ShipID, ShipName, ShipType, Owner, Capacity, Status
                 string query = @"SELECT ""ShipID"", ""ShipName"", ""ShipType"", ""Owner"", ""Capacity"", ""Status"" 
                                 FROM ""Ship"" WHERE ""ShipID"" = @id";
                 
@@ -114,7 +107,6 @@ namespace Marinex.Services
                 if (!await IsConnectedAsync())
                     await ConnectAsync();
 
-                // Schema: Tabel Ship dengan kolom ShipID, ShipName, ShipType, Owner, Capacity, Status
                 string query = @"INSERT INTO ""Ship"" (""ShipName"", ""ShipType"", ""Owner"", ""Capacity"", ""Status"") 
                                 VALUES (@shipname, @shiptype, @owner, @capacity, @status)
                                 RETURNING ""ShipID""";
@@ -148,7 +140,6 @@ namespace Marinex.Services
                 if (!await IsConnectedAsync())
                     await ConnectAsync();
 
-                // Schema: Tabel Ship
                 string query = @"DELETE FROM ""Ship"" WHERE ""ShipID"" = @id";
 
                 using var cmd = new NpgsqlCommand(query, _connection);

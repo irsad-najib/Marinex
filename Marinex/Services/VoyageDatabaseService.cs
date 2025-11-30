@@ -3,10 +3,6 @@ using Marinex.Models;
 
 namespace Marinex.Services
 {
-    /// <summary>
-    /// Implementasi IDatabaseService untuk operasi Voyage
-    /// Demonstrasi Polymorphism - implementasi berbeda dari interface yang sama dengan behavior berbeda
-    /// </summary>
     public class VoyageDatabaseService : IDatabaseService
     {
         private static string GetConnectionString()
@@ -26,7 +22,6 @@ namespace Marinex.Services
         private static string ConnectionString => GetConnectionString();
         private NpgsqlConnection? _connection;
 
-        // Polymorphism: Implementasi interface method dengan behavior yang sama
         public async Task<bool> ConnectAsync()
         {
             try
@@ -64,7 +59,6 @@ namespace Marinex.Services
             return _connection != null && _connection.State == System.Data.ConnectionState.Open;
         }
 
-        // Polymorphism: Implementasi generic method dengan spesialisasi untuk Voyage (beda dengan ShipDatabaseService)
         public async Task<T?> GetByIdAsync<T>(int id) where T : class
         {
             if (typeof(T) != typeof(Voyage))
@@ -75,8 +69,6 @@ namespace Marinex.Services
                 if (!await IsConnectedAsync())
                     await ConnectAsync();
 
-                // Schema: Tabel Voyage dengan kolom VoyageID, "From", Destination, EstimatedDuration, ShipID, UserID
-                // Note: "From" adalah reserved word di PostgreSQL, jadi perlu quote
                 string query = @"SELECT ""VoyageID"", ""From"", ""Destination"", ""EstimatedDuration"", ""ShipID"", ""UserID"" 
                                 FROM ""Voyage"" WHERE ""VoyageID"" = @id";
 
@@ -165,16 +157,12 @@ namespace Marinex.Services
             }
         }
 
-        // Method khusus untuk VoyageDatabaseService (tidak ada di ShipDatabaseService)
-        // Ini juga bagian dari Polymorphism - setiap implementasi bisa punya method tambahan
         public async Task<List<Voyage>> GetVoyagesByShipAsync(int shipId)
         {
             try
             {
                 if (!await IsConnectedAsync())
                     await ConnectAsync();
-
-                // Schema: Tabel Voyage dengan kolom "From" (reserved word)
                 string query = @"SELECT ""VoyageID"", ""From"", ""Destination"", ""EstimatedDuration"", ""ShipID"", ""UserID"" 
                                 FROM ""Voyage"" WHERE ""ShipID"" = @shipid";
 

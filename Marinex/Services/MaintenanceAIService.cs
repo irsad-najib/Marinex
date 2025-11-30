@@ -5,34 +5,49 @@ using Marinex.Models;
 
 namespace Marinex.Services
 {
-    /// <summary>
-    /// AI-based Maintenance Prediction Service using Rule-Based Decision Tree
-    /// No ML training required - uses expert knowledge and threshold-based logic
-    /// </summary>
     public class MaintenanceAIService
     {
-        // ========== CONFIGURATION THRESHOLDS ==========
-        
-        // Critical thresholds
-        private const int CRITICAL_DAYS_THRESHOLD = 180;  // 6 months
-        private const int WARNING_DAYS_THRESHOLD = 120;   // 4 months
-        private const int NORMAL_DAYS_THRESHOLD = 60;     // 2 months
-        
-        private const int CRITICAL_ENGINE_HOURS = 5000;
-        private const int WARNING_ENGINE_HOURS = 3500;
-        
-        private const int OLD_SHIP_AGE_YEARS = 15;
-        private const int MATURE_SHIP_AGE_YEARS = 10;
-        
-        // Fuel consumption deviation (percentage)
-        private const double HIGH_FUEL_DEVIATION = 0.20;  // 20% higher than normal
-        private const double MODERATE_FUEL_DEVIATION = 0.10; // 10% higher
-        
-        /// <summary>
-        /// Main prediction method - analyzes ship data and returns maintenance recommendation
-        /// </summary>
-        public MaintenancePrediction PredictMaintenance(Ship ship, List<Maintenance> maintenanceHistory, 
-                                                       double engineHours, double fuelConsumptionRate)
+        private readonly int CRITICAL_DAYS_THRESHOLD;
+        private readonly int WARNING_DAYS_THRESHOLD;
+        private readonly int NORMAL_DAYS_THRESHOLD;
+
+        private readonly int CRITICAL_ENGINE_HOURS;
+        private readonly int WARNING_ENGINE_HOURS;
+
+        private readonly int OLD_SHIP_AGE_YEARS;
+        private readonly int MATURE_SHIP_AGE_YEARS;
+
+        private readonly double HIGH_FUEL_DEVIATION;
+        private readonly double MODERATE_FUEL_DEVIATION;
+
+        public MaintenanceAIService(
+            int criticalDaysThreshold = 180,
+            int warningDaysThreshold = 120,
+            int normalDaysThreshold = 60,
+            int criticalEngineHours = 5000,
+            int warningEngineHours = 3500,
+            int oldShipAgeYears = 15,
+            int matureShipAgeYears = 10,
+            double highFuelDeviation = 0.20,
+            double moderateFuelDeviation = 0.10)
+        {
+            CRITICAL_DAYS_THRESHOLD = criticalDaysThreshold;
+            WARNING_DAYS_THRESHOLD = warningDaysThreshold;
+            NORMAL_DAYS_THRESHOLD = normalDaysThreshold;
+
+            CRITICAL_ENGINE_HOURS = criticalEngineHours;
+            WARNING_ENGINE_HOURS = warningEngineHours;
+
+            OLD_SHIP_AGE_YEARS = oldShipAgeYears;
+            MATURE_SHIP_AGE_YEARS = matureShipAgeYears;
+
+            HIGH_FUEL_DEVIATION = highFuelDeviation;
+            MODERATE_FUEL_DEVIATION = moderateFuelDeviation;
+        }
+
+        public MaintenancePrediction PredictMaintenance(Ship ship, List<Maintenance> maintenanceHistory,
+                                                       double engineHours, double fuelConsumptionRate,
+                                                       MaintenanceReport report = null)
         {
             var prediction = new MaintenancePrediction
             {
@@ -40,83 +55,105 @@ namespace Marinex.Services
                 ShipName = ship.ShipName,
                 AnalysisDate = DateTime.Now
             };
-            
-            // Step 1: Calculate days since last maintenance
-            int daysSinceLastMaintenance = CalculateDaysSinceLastMaintenance(maintenanceHistory);
-            
-            // Step 2: Calculate ship age
+            int? daysSinceLastMaintenance = CalculateDaysSinceLastMaintenance(maintenanceHistory);
+
             int shipAge = CalculateShipAge(ship);
-            
-            // Step 3: Analyze fuel consumption pattern
+
             double fuelDeviation = AnalyzeFuelConsumption(fuelConsumptionRate);
-            
-            // Step 4: Decision Tree Logic
-            var risk = EvaluateMaintenanceRisk(daysSinceLastMaintenance, engineHours, 
+
+            var risk = EvaluateMaintenanceRisk(daysSinceLastMaintenance, engineHours,
                                               shipAge, fuelDeviation);
-            
-            // Step 5: Generate recommendation
-            GenerateRecommendation(prediction, risk, daysSinceLastMaintenance, 
-                                 engineHours, shipAge, fuelDeviation);
-            
+
+            if (report != null)
+            {
+                if (report.IsUrgent())
+                    risk = BumpRisk(risk, 1);
+
+                var text = $"{report.EquipmentName} {report.IssueDescription}".ToLower();
+                int keywordBumps = 0;
+                if (text.Contains("engine") || text.Contains("motor") || text.Contains("oil")) keywordBumps++;
+                if (text.Contains("fuel") || text.Contains("injector") || text.Contains("consumption")) keywordBumps++;
+                if (text.Contains("hull") || text.Contains("leak") || text.Contains("water")) keywordBumps++;
+                if (text.Contains("fire") || text.Contains("smoke") || text.Contains("electrical")) keywordBumps += 2;
+
+                if (keywordBumps > 0)
+                    risk = BumpRisk(risk, keywordBumps);
+            }
+
+            GenerateRecommendation(prediction, risk, daysSinceLastMaintenance ?? -1, engineHours, shipAge, fuelDeviation);
+
+            if (report != null)
+            {
+                prediction.Reasoning += $"\n\nReport linked: Equipment={report.EquipmentName}, Priority={report.Priority}, Issue={report.IssueDescription}";
+            }
+            prediction.DaysSinceLastMaintenance = daysSinceLastMaintenance ?? -1;
+
             return prediction;
         }
         
-        /// <summary>
-        /// Decision Tree - Core Logic
-        /// </summary>
-        private RiskLevel EvaluateMaintenanceRisk(int daysSinceLastMaintenance, double engineHours,
+
+        private RiskLevel EvaluateMaintenanceRisk(int? daysSinceLastMaintenance, double engineHours,
                                                    int shipAge, double fuelDeviation)
         {
-            // CRITICAL RISK - Immediate action needed
-            if (daysSinceLastMaintenance >= CRITICAL_DAYS_THRESHOLD)
+            if (!daysSinceLastMaintenance.HasValue)
+            {
+                if (engineHours >= CRITICAL_ENGINE_HOURS || fuelDeviation >= HIGH_FUEL_DEVIATION)
+                    return RiskLevel.High;
+
+                if (engineHours >= WARNING_ENGINE_HOURS || shipAge >= OLD_SHIP_AGE_YEARS || fuelDeviation >= MODERATE_FUEL_DEVIATION)
+                    return RiskLevel.Moderate;
+
+                return RiskLevel.Low;
+            }
+
+            int days = daysSinceLastMaintenance.Value;
+
+            if (days >= CRITICAL_DAYS_THRESHOLD)
                 return RiskLevel.Critical;
-            
+
             if (engineHours >= CRITICAL_ENGINE_HOURS)
                 return RiskLevel.Critical;
-            
-            if (daysSinceLastMaintenance >= WARNING_DAYS_THRESHOLD && 
-                shipAge >= OLD_SHIP_AGE_YEARS)
+
+            if (days >= WARNING_DAYS_THRESHOLD && shipAge >= OLD_SHIP_AGE_YEARS)
                 return RiskLevel.Critical;
-            
-            if (engineHours >= WARNING_ENGINE_HOURS && 
-                fuelDeviation >= HIGH_FUEL_DEVIATION)
+
+            if (engineHours >= WARNING_ENGINE_HOURS && fuelDeviation >= HIGH_FUEL_DEVIATION)
                 return RiskLevel.Critical;
-            
-            // HIGH RISK - Action needed soon
-            if (daysSinceLastMaintenance >= WARNING_DAYS_THRESHOLD)
+
+            if (days >= WARNING_DAYS_THRESHOLD)
                 return RiskLevel.High;
-            
+
             if (engineHours >= WARNING_ENGINE_HOURS)
                 return RiskLevel.High;
-            
-            if (shipAge >= OLD_SHIP_AGE_YEARS && 
-                fuelDeviation >= MODERATE_FUEL_DEVIATION)
+
+            if (shipAge >= OLD_SHIP_AGE_YEARS && fuelDeviation >= MODERATE_FUEL_DEVIATION)
                 return RiskLevel.High;
-            
-            if (daysSinceLastMaintenance >= NORMAL_DAYS_THRESHOLD && 
-                (engineHours >= 2500 || fuelDeviation >= MODERATE_FUEL_DEVIATION))
+
+            if (days >= NORMAL_DAYS_THRESHOLD && (engineHours >= 2500 || fuelDeviation >= MODERATE_FUEL_DEVIATION))
                 return RiskLevel.High;
-            
-            // MODERATE RISK - Monitor closely
-            if (daysSinceLastMaintenance >= NORMAL_DAYS_THRESHOLD)
+
+            if (days >= NORMAL_DAYS_THRESHOLD)
                 return RiskLevel.Moderate;
-            
+
             if (engineHours >= 2000)
                 return RiskLevel.Moderate;
-            
+
             if (shipAge >= MATURE_SHIP_AGE_YEARS)
                 return RiskLevel.Moderate;
-            
+
             if (fuelDeviation >= MODERATE_FUEL_DEVIATION)
                 return RiskLevel.Moderate;
-            
-            // LOW RISK - All good
             return RiskLevel.Low;
         }
+
+        private RiskLevel BumpRisk(RiskLevel baseRisk, int steps)
+        {
+            var values = Enum.GetValues(typeof(RiskLevel)).Cast<RiskLevel>().ToList();
+            int idx = values.IndexOf(baseRisk);
+            idx = Math.Min(values.Count - 1, idx + steps);
+            return values[idx];
+        }
         
-        /// <summary>
-        /// Generate detailed recommendation based on risk level
-        /// </summary>
         private void GenerateRecommendation(MaintenancePrediction prediction, RiskLevel risk,
                                            int daysSinceLastMaintenance, double engineHours,
                                            int shipAge, double fuelDeviation)
@@ -174,36 +211,33 @@ namespace Marinex.Services
             }
         }
         
-        // ========== HELPER METHODS ==========
         
-        private int CalculateDaysSinceLastMaintenance(List<Maintenance> maintenanceHistory)
+        private int? CalculateDaysSinceLastMaintenance(List<Maintenance> maintenanceHistory)
         {
             if (maintenanceHistory == null || maintenanceHistory.Count == 0)
-                return 999; // No maintenance history - treat as critical
-            
+                return null; 
+
             var lastMaintenance = maintenanceHistory
                 .OrderByDescending(m => m.Date)
                 .FirstOrDefault();
-            
+
             if (lastMaintenance == null)
-                return 999;
-            
+                return null;
+
             return (DateTime.Now - lastMaintenance.Date).Days;
         }
         
         private int CalculateShipAge(Ship ship)
         {
-            // Assuming ship has a BuildYear property or we estimate from first voyage
             if (ship.StartVoyage.HasValue)
             {
                 return DateTime.Now.Year - ship.StartVoyage.Value.Year;
             }
-            return 10; // Default to mature ship if no data
+            return 10; 
         }
         
         private double AnalyzeFuelConsumption(double currentRate)
         {
-            // Compare with baseline (assuming 100 liters/hour as baseline)
             const double BASELINE_CONSUMPTION = 100.0;
             return (currentRate - BASELINE_CONSUMPTION) / BASELINE_CONSUMPTION;
         }
@@ -332,21 +366,18 @@ namespace Marinex.Services
         {
             decimal baseCost = risk switch
             {
-                RiskLevel.Critical => 50000m,  // $50,000
-                RiskLevel.High => 25000m,      // $25,000
-                RiskLevel.Moderate => 10000m,  // $10,000
-                RiskLevel.Low => 2000m,        // $2,000
+                RiskLevel.Critical => 50000m,  
+                RiskLevel.High => 25000m,      
+                RiskLevel.Moderate => 10000m,
+                RiskLevel.Low => 2000m,
                 _ => 5000m
             };
             
-            // Add cost per maintenance type
             decimal additionalCost = (maintenanceTypeCount - 1) * 5000m;
             
             return baseCost + additionalCost;
         }
     }
-    
-    // ========== SUPPORTING CLASSES ==========
     
     public enum RiskLevel
     {

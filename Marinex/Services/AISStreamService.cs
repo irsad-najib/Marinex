@@ -22,8 +22,6 @@ namespace Marinex.Services
         public event EventHandler<bool> OnConnectionStatusChanged;
         public event EventHandler<string> OnError;
         
-        // Public property to check connection status
-        public bool IsConnected => _isConnected;
 
         public AISStreamService(string apiKey)
         {
@@ -178,7 +176,7 @@ namespace Marinex.Services
         {
             try
             {
-                Console.WriteLine($"[AIS] Processing message...");
+                WriteLog("[AIS] Processing message...");
                 
                 var options = new JsonSerializerOptions
                 {
@@ -187,7 +185,7 @@ namespace Marinex.Services
 
                 var aisMessage = JsonSerializer.Deserialize<AISMessage>(message, options);
                 
-                Console.WriteLine($"[AIS] Deserialized: Message={aisMessage?.Message != null}, PositionReport={aisMessage?.Message?.PositionReport != null}");
+                WriteLog($"[AIS] Deserialized: Message={aisMessage?.Message != null}, PositionReport={aisMessage?.Message?.PositionReport != null}");
                 
                 if (aisMessage?.Message?.PositionReport != null)
                 {
@@ -208,22 +206,22 @@ namespace Marinex.Services
                         LastUpdate = DateTime.Now
                     };
 
-                    Console.WriteLine($"[AIS] Ship: {shipPosition.ShipName} at ({shipPosition.Latitude}, {shipPosition.Longitude})");
+                    WriteLog($"[AIS] Ship: {shipPosition.ShipName} at ({shipPosition.Latitude}, {shipPosition.Longitude})");
 
                     // Validate coordinates
                     if (IsValidCoordinate(shipPosition.Latitude, shipPosition.Longitude))
                     {
-                        Console.WriteLine($"[AIS] ✓ Valid coordinates, invoking event...");
+                        WriteLog("[AIS] ✓ Valid coordinates, invoking event...");
                         OnShipPositionReceived?.Invoke(this, shipPosition);
                     }
                     else
                     {
-                        Console.WriteLine($"[AIS] ✗ Invalid coordinates: ({shipPosition.Latitude}, {shipPosition.Longitude})");
+                        WriteLog($"[AIS] ✗ Invalid coordinates: ({shipPosition.Latitude}, {shipPosition.Longitude})");
                     }
                 }
                 else
                 {
-                    Console.WriteLine($"[AIS] ✗ No PositionReport in message");
+                    WriteLog("[AIS] ✗ No PositionReport in message");
                 }
             }
             catch (Exception ex)

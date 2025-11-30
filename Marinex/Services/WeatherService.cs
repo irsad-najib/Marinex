@@ -5,10 +5,6 @@ using System.Threading.Tasks;
 
 namespace Marinex.Services
 {
-    /// <summary>
-    /// Service untuk fetch real-time weather data dari OpenWeatherMap API
-    /// Mendukung current weather, forecast, dan maritime-specific data
-    /// </summary>
     public class WeatherService
     {
         private readonly HttpClient _httpClient;
@@ -24,9 +20,6 @@ namespace Marinex.Services
             };
         }
 
-        /// <summary>
-        /// Get current weather by coordinates (untuk lokasi kapal)
-        /// </summary>
         public async Task<WeatherData> GetCurrentWeatherAsync(double latitude, double longitude)
         {
             try
@@ -48,9 +41,6 @@ namespace Marinex.Services
             }
         }
 
-        /// <summary>
-        /// Get current weather by city name
-        /// </summary>
         public async Task<WeatherData> GetCurrentWeatherByCityAsync(string cityName)
         {
             try
@@ -72,9 +62,6 @@ namespace Marinex.Services
             }
         }
 
-        /// <summary>
-        /// Get 5-day forecast (untuk planning voyage)
-        /// </summary>
         public async Task<ForecastData> Get5DayForecastAsync(double latitude, double longitude)
         {
             try
@@ -161,7 +148,6 @@ namespace Marinex.Services
             return forecast;
         }
 
-        /// <summary>
         /// Check apakah cuaca aman untuk sailing
         /// </summary>
         public static bool IsSafeForSailing(WeatherData weather)
@@ -175,9 +161,6 @@ namespace Marinex.Services
             return safeWind && safeVisibility && noStorm;
         }
 
-        /// <summary>
-        /// Get sea condition description based on wind speed (Beaufort scale)
-        /// </summary>
         public static string GetSeaCondition(double windSpeed)
         {
             // Wind speed in m/s
@@ -199,9 +182,6 @@ namespace Marinex.Services
             };
         }
 
-        /// <summary>
-        /// Get warning level berdasarkan kondisi cuaca
-        /// </summary>
         public static string GetWarningLevel(WeatherData weather)
         {
             if (weather.WindSpeed > 25 || weather.Condition.Contains("Thunderstorm"))
@@ -216,7 +196,6 @@ namespace Marinex.Services
             return "LOW - Safe for sailing";
         }
 
-        // DTOs untuk OpenWeatherMap API Response
         private class OpenWeatherMapResponse
         {
             public CoordData Coord { get; set; }
