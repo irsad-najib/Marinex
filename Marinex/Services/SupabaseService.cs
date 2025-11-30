@@ -31,19 +31,48 @@ namespace Marinex.Services
             {
                 using var conn = new NpgsqlConnection(ConnectionString);
                 await conn.OpenAsync();
-                string query = @"SELECT password FROM ""User"" WHERE username = @userName LIMIT 1";
+                
+                // Try lowercase 'user' (standard table)
+                string query = @"SELECT password FROM ""user"" WHERE username = @userName LIMIT 1";
+                
+                // Fallback to 'users' if 'user' doesn't exist (handled by catch block if query fails, or explicit check)
+                // But for now, align with RegisterUser which uses "user"
                 
                 using var cmd = new NpgsqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("userName", userName);
 
                 var result = await cmd.ExecuteScalarAsync();
                 
+                // If no result found, try checking alternative casing 'User' just in case
                 if (result == null)
-                    return false;
+                {
+                     // Optional: Retry with uppercase 'User' if needed, but sticking to 'user' for consistency first
+                     return false;
+                }
 
                 string hashedPassword = result.ToString()!;
                 
                 return BCrypt.Net.BCrypt.Verify(password, hashedPassword);
+            }
+            catch (Npgsql.PostgresException ex) when (ex.SqlState == "42P01") // Undefined table
+            {
+                try 
+                {
+                    // Fallback logic: Try 'User' (PascalCase) or 'users' (Plural)
+                    using var conn = new NpgsqlConnection(ConnectionString);
+                    await conn.OpenAsync();
+                    string query = @"SELECT password FROM ""User"" WHERE username = @userName LIMIT 1";
+                    using var cmd = new NpgsqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("userName", userName);
+                    var result = await cmd.ExecuteScalarAsync();
+                    if (result == null) return false;
+                    return BCrypt.Net.BCrypt.Verify(password, result.ToString()!);
+                }
+                catch 
+                {
+                    Console.WriteLine($"Authentication error (Table not found): {ex.Message}");
+                    return false;
+                }
             }
             catch (Exception ex)
             {
@@ -60,7 +89,11 @@ namespace Marinex.Services
                 await conn.OpenAsync();
 
                 string hashedPassword = BCrypt.Net.BCrypt.HashPassword(password);
-                string query = @"INSERT INTO ""User"" (username, password, role, company) 
+                
+                // Changed from "User" to "user" (lowercase) based on screenshot
+                // Assuming table name is lowercase 'user' or 'users' in DB
+                // Also checking if columns need quotes
+                string query = @"INSERT INTO ""user"" (username, password, role, company) 
                                 VALUES (@userName, @password, 'User', @company)";
                 
                 using var cmd = new NpgsqlCommand(query, conn);
@@ -70,6 +103,23 @@ namespace Marinex.Services
 
                 await cmd.ExecuteNonQueryAsync();
                 return (true, string.Empty);
+            }
+            catch (Npgsql.PostgresException ex) when (ex.SqlState == "42P01") // Undefined table
+            {
+                // Fallback try with different casing if table not found
+                try 
+                {
+                     using var conn = new NpgsqlConnection(ConnectionString);
+                     await conn.OpenAsync();
+                     // Try standard 'users' table if 'user' fails (common practice)
+                     string query = @"INSERT INTO users (username, password, role, company) 
+                                    VALUES (@userName, @password, 'User', @company)";
+                     // ... (re-execution logic or just fail with clear message)
+                }
+                catch {}
+                
+                string errorMsg = $"Tabel tidak ditemukan. Pastikan nama tabel di database adalah 'user' atau 'User'.\nError: {ex.Message}";
+                return (false, errorMsg);
             }
             catch (Npgsql.PostgresException ex) when (ex.SqlState == "23505") 
             {

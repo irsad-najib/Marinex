@@ -4,38 +4,65 @@
         Title="Ship Details" 
         Height="600" Width="500"
         WindowStartupLocation="CenterOwner"
-        Background="#1a1a1a"
-        ResizeMode="NoResize">
+        Background="#1E1E2E"
+        ResizeMode="NoResize"
+        FontFamily="Segoe UI">
     
     <Window.Resources>
+        <SolidColorBrush x:Key="TextPrimary" Color="#CDD6F4"/>
+        <SolidColorBrush x:Key="TextSecondary" Color="#A6ADC8"/>
+        <SolidColorBrush x:Key="AccentColor" Color="#89B4FA"/>
+        <SolidColorBrush x:Key="BgCard" Color="#313244"/>
+
         <Style x:Key="LabelStyle" TargetType="TextBlock">
-            <Setter Property="Foreground" Value="#9e9e9e"/>
+            <Setter Property="Foreground" Value="{StaticResource TextSecondary}"/>
             <Setter Property="FontSize" Value="12"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
             <Setter Property="Margin" Value="0,0,0,5"/>
         </Style>
         
         <Style x:Key="ValueStyle" TargetType="TextBlock">
-            <Setter Property="Foreground" Value="#e0e0e0"/>
-            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Foreground" Value="{StaticResource TextPrimary}"/>
+            <Setter Property="FontSize" Value="15"/>
             <Setter Property="FontWeight" Value="Bold"/>
             <Setter Property="Margin" Value="0,0,0,20"/>
         </Style>
         
         <Style x:Key="SectionHeader" TargetType="TextBlock">
-            <Setter Property="Foreground" Value="#42A5F5"/>
-            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="Foreground" Value="{StaticResource AccentColor}"/>
+            <Setter Property="FontSize" Value="16"/>
             <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="Margin" Value="0,10,0,15"/>
+            <Setter Property="Margin" Value="0,15,0,10"/>
+        </Style>
+
+        <Style x:Key="ModernButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="#45475A"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="15,8"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                                CornerRadius="8">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" Value="0.9"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
     </Window.Resources>
 
-    <Border CornerRadius="10" Margin="10" Background="#2a2a2a">
-        <Border.Effect>
-            <DropShadowEffect BlurRadius="15" ShadowDepth="3" Opacity="0.4"/>
-        </Border.Effect>
-        
-        <Grid Margin="20">
+    <Border Background="#1E1E2E" CornerRadius="0">
+        <Grid Margin="25">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
@@ -44,229 +71,158 @@
 
             <!-- Header -->
             <StackPanel Grid.Row="0" Margin="0,0,0,20">
-                <TextBlock Text="🚢" FontSize="48" HorizontalAlignment="Center" Margin="0,0,0,10"/>
+                <Border Width="60" Height="60" CornerRadius="30" Background="#313244" HorizontalAlignment="Center" Margin="0,0,0,15">
+                    <TextBlock Text="🚢" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Border>
                 <TextBlock x:Name="TxtShipNameHeader" 
                           Text="Ship Name" 
-                          FontSize="24" 
+                          FontSize="22" 
                           FontWeight="Bold"
-                          Foreground="#e0e0e0"
+                          Foreground="White"
                           HorizontalAlignment="Center"
                           TextWrapping="Wrap"
                           TextAlignment="Center"/>
                 <TextBlock x:Name="TxtShipType"
-                          FontSize="14"
-                          Foreground="#9e9e9e"
+                          FontSize="13"
+                          Foreground="{StaticResource TextSecondary}"
                           HorizontalAlignment="Center"
                           Margin="0,5,0,0"/>
             </StackPanel>
 
             <!-- Content ScrollViewer -->
-            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Hidden">
                 <StackPanel>
                     <!-- Identification Section -->
                     <TextBlock Text="📋 Identification" Style="{StaticResource SectionHeader}"/>
-                    
-                    <TextBlock Text="MMSI Number" Style="{StaticResource LabelStyle}"/>
-                    <TextBlock x:Name="TxtMmsi" Style="{StaticResource ValueStyle}"/>
-                    
-                    <TextBlock Text="Ship Type" Style="{StaticResource LabelStyle}"/>
-                    <TextBlock x:Name="TxtShipTypeDetail" Style="{StaticResource ValueStyle}"/>
+                    <Border Background="{StaticResource BgCard}" CornerRadius="10" Padding="15">
+                        <StackPanel>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0">
+                                    <TextBlock Text="MMSI Number" Style="{StaticResource LabelStyle}"/>
+                                    <TextBlock x:Name="TxtMmsi" Style="{StaticResource ValueStyle}" Margin="0,0,0,10"/>
+                                </StackPanel>
+                                <StackPanel Grid.Column="1">
+                                    <TextBlock Text="Ship Type" Style="{StaticResource LabelStyle}"/>
+                                    <TextBlock x:Name="TxtShipTypeDetail" Style="{StaticResource ValueStyle}" Margin="0,0,0,10"/>
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
                     
                     <!-- Position Section -->
                     <TextBlock Text="📍 Position &amp; Navigation" Style="{StaticResource SectionHeader}"/>
-                    
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        
-                        <StackPanel Grid.Column="0" Margin="0,0,10,0">
-                            <TextBlock Text="Latitude" Style="{StaticResource LabelStyle}"/>
-                            <TextBlock x:Name="TxtLatitude" Style="{StaticResource ValueStyle}"/>
+                    <Border Background="{StaticResource BgCard}" CornerRadius="10" Padding="15">
+                        <StackPanel>
+                            <Grid Margin="0,0,0,10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                
+                                <StackPanel Grid.Column="0">
+                                    <TextBlock Text="Latitude" Style="{StaticResource LabelStyle}"/>
+                                    <TextBlock x:Name="TxtLatitude" Style="{StaticResource ValueStyle}" Margin="0,0,0,5"/>
+                                </StackPanel>
+                                
+                                <StackPanel Grid.Column="1">
+                                    <TextBlock Text="Longitude" Style="{StaticResource LabelStyle}"/>
+                                    <TextBlock x:Name="TxtLongitude" Style="{StaticResource ValueStyle}" Margin="0,0,0,5"/>
+                                </StackPanel>
+                            </Grid>
+                            
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                
+                                <StackPanel Grid.Column="0">
+                                    <TextBlock Text="Speed" Style="{StaticResource LabelStyle}"/>
+                                    <TextBlock x:Name="TxtSpeed" Style="{StaticResource ValueStyle}" Margin="0,0,0,5"/>
+                                </StackPanel>
+                                
+                                <StackPanel Grid.Column="1">
+                                    <TextBlock Text="Course" Style="{StaticResource LabelStyle}"/>
+                                    <TextBlock x:Name="TxtCourse" Style="{StaticResource ValueStyle}" Margin="0,0,0,5"/>
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="2">
+                                    <TextBlock Text="Heading" Style="{StaticResource LabelStyle}"/>
+                                    <TextBlock x:Name="TxtHeading" Style="{StaticResource ValueStyle}" Margin="0,0,0,5"/>
+                                </StackPanel>
+                            </Grid>
                         </StackPanel>
-                        
-                        <StackPanel Grid.Column="1">
-                            <TextBlock Text="Longitude" Style="{StaticResource LabelStyle}"/>
-                            <TextBlock x:Name="TxtLongitude" Style="{StaticResource ValueStyle}"/>
-                        </StackPanel>
-                    </Grid>
-                    
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        
-                        <StackPanel Grid.Column="0" Margin="0,0,10,0">
-                            <TextBlock Text="Speed (knots)" Style="{StaticResource LabelStyle}"/>
-                            <TextBlock x:Name="TxtSpeed" Style="{StaticResource ValueStyle}"/>
-                        </StackPanel>
-                        
-                        <StackPanel Grid.Column="1">
-                            <TextBlock Text="Course (°)" Style="{StaticResource LabelStyle}"/>
-                            <TextBlock x:Name="TxtCourse" Style="{StaticResource ValueStyle}"/>
-                        </StackPanel>
-                    </Grid>
-                    
-                    <TextBlock Text="Heading (°)" Style="{StaticResource LabelStyle}"/>
-                    <TextBlock x:Name="TxtHeading" Style="{StaticResource ValueStyle}"/>
+                    </Border>
                     
                     <!-- Destination Section -->
                     <TextBlock Text="🎯 Destination" Style="{StaticResource SectionHeader}"/>
-                    
-                    <TextBlock Text="Destination Port" Style="{StaticResource LabelStyle}"/>
-                    <TextBlock x:Name="TxtDestination" 
-                              Style="{StaticResource ValueStyle}"
-                              TextWrapping="Wrap"/>
+                    <Border Background="{StaticResource BgCard}" CornerRadius="10" Padding="15">
+                        <StackPanel>
+                            <TextBlock Text="Destination Port" Style="{StaticResource LabelStyle}"/>
+                            <TextBlock x:Name="TxtDestination" 
+                                      Style="{StaticResource ValueStyle}"
+                                      TextWrapping="Wrap"
+                                      Margin="0,0,0,5"/>
+                        </StackPanel>
+                    </Border>
                     
                     <!-- Status Section -->
                     <TextBlock Text="⏱️ Status" Style="{StaticResource SectionHeader}"/>
-                    
-                    <TextBlock Text="Last Updated" Style="{StaticResource LabelStyle}"/>
-                    <TextBlock x:Name="TxtLastUpdate" Style="{StaticResource ValueStyle}"/>
+                    <Border Background="{StaticResource BgCard}" CornerRadius="10" Padding="15">
+                        <StackPanel>
+                            <TextBlock Text="Last Updated" Style="{StaticResource LabelStyle}"/>
+                            <TextBlock x:Name="TxtLastUpdate" Style="{StaticResource ValueStyle}" Margin="0"/>
+                        </StackPanel>
+                    </Border>
                 </StackPanel>
             </ScrollViewer>
 
             <!-- Footer Buttons -->
-            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
-                <!-- Digital Twin 3D Button -->
-                <Button x:Name="Btn3DView"
-                        Content="🧊 View 3D Model"
-                        Width="150"
-                        Height="40"
-                        Margin="0,0,10,0"
-                        Background="#2196F3"
-                        Foreground="White"
-                        BorderThickness="0"
-                        FontSize="14"
-                        Cursor="Hand"
-                        Click="Btn3DView_Click">
-                    <Button.Style>
-                        <Style TargetType="Button">
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="Button">
-                                        <Border Background="{TemplateBinding Background}"
-                                                CornerRadius="6"
-                                                Padding="10,8">
-                                            <ContentPresenter HorizontalAlignment="Center" 
-                                                            VerticalAlignment="Center"/>
-                                        </Border>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                            <Style.Triggers>
-                                <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="Background" Value="#1976D2"/>
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Button.Style>
-                </Button>
+            <Grid Grid.Row="2" Margin="0,20,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
 
-                <!-- Report Incident Button -->
-                <Button x:Name="BtnReportIncident"
-                        Content="⚠️ Report Incident"
-                        Width="150"
-                        Height="40"
-                        Margin="0,0,10,0"
-                        Background="#D32F2F"
-                        Foreground="White"
-                        BorderThickness="0"
-                        FontSize="14"
-                        Cursor="Hand"
-                        Click="BtnReportIncident_Click">
-                    <Button.Style>
-                        <Style TargetType="Button">
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="Button">
-                                        <Border Background="{TemplateBinding Background}"
-                                                CornerRadius="6"
-                                                Padding="10,8">
-                                            <ContentPresenter HorizontalAlignment="Center" 
-                                                            VerticalAlignment="Center"/>
-                                        </Border>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                            <Style.Triggers>
-                                <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="Background" Value="#B71C1C"/>
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Button.Style>
-                </Button>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                     <Button x:Name="BtnReportIncident"
+                        Content="⚠️ Report"
+                        Style="{StaticResource ModernButtonStyle}"
+                        Background="#F38BA8"
+                        Foreground="#1E1E2E"
+                        Click="BtnReportIncident_Click"
+                        Margin="0,0,10,0"/>
 
-                <Button x:Name="BtnCopyCoordinates"
-                        Content="📋 Copy Coordinates"
-                        Width="150"
-                        Height="40"
-                        Margin="0,0,10,0"
-                        Background="#FF9800"
-                        Foreground="White"
-                        BorderThickness="0"
-                        FontSize="14"
-                        Cursor="Hand"
-                        Click="BtnCopyCoordinates_Click">
-                    <Button.Style>
-                        <Style TargetType="Button">
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="Button">
-                                        <Border Background="{TemplateBinding Background}"
-                                                CornerRadius="6"
-                                                Padding="10,8">
-                                            <ContentPresenter HorizontalAlignment="Center" 
-                                                            VerticalAlignment="Center"/>
-                                        </Border>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                            <Style.Triggers>
-                                <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="Background" Value="#F57C00"/>
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Button.Style>
-                </Button>
-                
-                <Button x:Name="BtnClose"
+                    <Button x:Name="Btn3DView"
+                        Content="🧊 3D View"
+                        Style="{StaticResource ModernButtonStyle}"
+                        Background="#89B4FA"
+                        Foreground="#1E1E2E"
+                        Click="Btn3DView_Click"/>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                    <Button x:Name="BtnCopyCoordinates"
+                        Content="📋 Copy"
+                        Style="{StaticResource ModernButtonStyle}"
+                        Background="#313244"
+                        Foreground="{StaticResource TextPrimary}"
+                        Click="BtnCopyCoordinates_Click"
+                        Margin="0,0,10,0"/>
+                    
+                    <Button x:Name="BtnClose"
                         Content="Close"
-                        Width="100"
-                        Height="40"
-                        Background="#757575"
-                        Foreground="White"
-                        BorderThickness="0"
-                        FontSize="14"
-                        Cursor="Hand"
-                        Click="BtnClose_Click">
-                    <Button.Style>
-                        <Style TargetType="Button">
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="Button">
-                                        <Border Background="{TemplateBinding Background}"
-                                                CornerRadius="6"
-                                                Padding="10,8">
-                                            <ContentPresenter HorizontalAlignment="Center" 
-                                                            VerticalAlignment="Center"/>
-                                        </Border>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                            <Style.Triggers>
-                                <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="Background" Value="#616161"/>
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Button.Style>
-                </Button>
-            </StackPanel>
+                        Style="{StaticResource ModernButtonStyle}"
+                        Background="Transparent"
+                        Foreground="{StaticResource TextSecondary}"
+                        Click="BtnClose_Click"/>
+                </StackPanel>
+            </Grid>
         </Grid>
     </Border>
 </Window>

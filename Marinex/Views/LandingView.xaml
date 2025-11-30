@@ -5,6 +5,36 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d">
     
+    <UserControl.Resources>
+        <!-- Feature Card Style (Local) -->
+        <Style x:Key="FeatureCardStyle" TargetType="Border">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <SolidColorBrush Color="#FFFFFF" Opacity="0.08"/>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="BorderBrush">
+                <Setter.Value>
+                    <SolidColorBrush Color="#FFFFFF" Opacity="0.15"/>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="Padding" Value="15"/>
+            <Setter Property="Width" Value="180"/>
+            <Setter Property="Height" Value="140"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background">
+                        <Setter.Value>
+                            <SolidColorBrush Color="#FFFFFF" Opacity="0.12"/>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+
     <!-- Hero Section (dari MainWindow) -->
     <Grid>
         <!-- Background Image with Overlay -->
@@ -85,17 +115,7 @@
                 </StackPanel>
             </StackPanel>
 
-            <!-- Right Content - Ship Visual Placeholder -->
-            <Border Grid.Column="1" 
-                    Background="#2a2a2a"
-                    CornerRadius="15"
-                    VerticalAlignment="Top"
-                    Height="400"
-                    Margin="40,0,0,0">
-                <Viewbox Margin="40">
-                    <TextBlock Text="🚢" FontSize="120" Foreground="#4a4a4a"/>
-                </Viewbox>
-            </Border>
+            <!-- Right Content Removed -->
         </Grid>
     </Grid>
 </UserControl>

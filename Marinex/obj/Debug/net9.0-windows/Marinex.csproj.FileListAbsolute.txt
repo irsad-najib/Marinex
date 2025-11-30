@@ -128,57 +128,6 @@ C:\Users\Irsad\MarineX\Marinex\Marinex\obj\Debug\net9.0-windows\ref\Marinex.dll
 \\192.168.64.1\project\Marinex-1\Marinex\obj\Debug\net9.0-windows\Marinex.pdb
 \\192.168.64.1\project\Marinex-1\Marinex\obj\Debug\net9.0-windows\Marinex.genruntimeconfig.cache
 \\192.168.64.1\project\Marinex-1\Marinex\obj\Debug\net9.0-windows\ref\Marinex.dll
-\\192.168.64.1\project\Marinex-1 copy\Marinex\bin\Debug\net9.0-windows\Marinex.exe
-\\192.168.64.1\project\Marinex-1 copy\Marinex\bin\Debug\net9.0-windows\Marinex.deps.json
-\\192.168.64.1\project\Marinex-1 copy\Marinex\bin\Debug\net9.0-windows\Marinex.runtimeconfig.json
-\\192.168.64.1\project\Marinex-1 copy\Marinex\bin\Debug\net9.0-windows\Marinex.dll
-\\192.168.64.1\project\Marinex-1 copy\Marinex\bin\Debug\net9.0-windows\Marinex.pdb
-\\192.168.64.1\project\Marinex-1 copy\Marinex\bin\Debug\net9.0-windows\BCrypt.Net-Next.dll
-\\192.168.64.1\project\Marinex-1 copy\Marinex\bin\Debug\net9.0-windows\GMap.NET.Core.dll
-\\192.168.64.1\project\Marinex-1 copy\Marinex\bin\Debug\net9.0-windows\GMap.NET.WindowsPresentation.dll
-\\192.168.64.1\project\Marinex-1 copy\Marinex\bin\Debug\net9.0-windows\System.Data.SQLite.dll
-\\192.168.64.1\project\Marinex-1 copy\Marinex\bin\Debug\net9.0-windows\Microsoft.Extensions.DependencyInjection.Abstractions.dll
-\\192.168.64.1\project\Marinex-1 copy\Marinex\bin\Debug\net9.0-windows\Microsoft.Extensions.Logging.Abstractions.dll
-\\192.168.64.1\project\Marinex-1 copy\Marinex\bin\Debug\net9.0-windows\Npgsql.dll
-\\192.168.64.1\project\Marinex-1 copy\Marinex\obj\Debug\net9.0-windows\Marinex.csproj.AssemblyReference.cache
-\\192.168.64.1\project\Marinex-1 copy\Marinex\obj\Debug\net9.0-windows\Views\CreateReportView.baml
-\\192.168.64.1\project\Marinex-1 copy\Marinex\obj\Debug\net9.0-windows\Views\DashboardView.baml
-\\192.168.64.1\project\Marinex-1 copy\Marinex\obj\Debug\net9.0-windows\Views\LandingView.baml
-\\192.168.64.1\project\Marinex-1 copy\Marinex\obj\Debug\net9.0-windows\Views\LoginView.baml
-\\192.168.64.1\project\Marinex-1 copy\Marinex\obj\Debug\net9.0-windows\Views\RegisterView.baml
-\\192.168.64.1\project\Marinex-1 copy\Marinex\obj\Debug\net9.0-windows\Views\ReportsView.baml
-\\192.168.64.1\project\Marinex-1 copy\Marinex\obj\Debug\net9.0-windows\Views\Ship3DView.baml
-\\192.168.64.1\project\Marinex-1 copy\Marinex\obj\Debug\net9.0-windows\Views\ShipDetailWindow.baml
-\\192.168.64.1\project\Marinex-1 copy\Marinex\obj\Debug\net9.0-windows\Views\WeatherView.baml
-\\192.168.64.1\project\Marinex-1 copy\Marinex\obj\Debug\net9.0-windows\MainWindow.g.cs
-\\192.168.64.1\project\Marinex-1 copy\Marinex\obj\Debug\net9.0-windows\Views\CreateReportView.g.cs
-\\192.168.64.1\project\Marinex-1 copy\Marinex\obj\Debug\net9.0-windows\Views\DashboardView.g.cs
-\\192.168.64.1\project\Marinex-1 copy\Marinex\obj\Debug\net9.0-windows\Views\LandingView.g.cs
-\\192.168.64.1\project\Marinex-1 copy\Marinex\obj\Debug\net9.0-windows\Views\LoginView.g.cs
-\\192.168.64.1\project\Marinex-1 copy\Marinex\obj\Debug\net9.0-windows\Views\RegisterView.g.cs
-\\192.168.64.1\project\Marinex-1 copy\Marinex\obj\Debug\net9.0-windows\Views\ReportsView.g.cs
-\\192.168.64.1\project\Marinex-1 copy\Marinex\obj\Debug\net9.0-windows\Views\Ship3DView.g.cs
-\\192.168.64.1\project\Marinex-1 copy\Marinex\obj\Debug\net9.0-windows\Views\ShipDetailWindow.g.cs
-\\192.168.64.1\project\Marinex-1 copy\Marinex\obj\Debug\net9.0-windows\Views\WeatherView.g.cs
-\\192.168.64.1\project\Marinex-1 copy\Marinex\obj\Debug\net9.0-windows\App.g.cs
-\\192.168.64.1\project\Marinex-1 copy\Marinex\obj\Debug\net9.0-windows\Marinex_MarkupCompile.cache
-\\192.168.64.1\project\Marinex-1 copy\Marinex\obj\Debug\net9.0-windows\Marinex_MarkupCompile.lref
-\\192.168.64.1\project\Marinex-1 copy\Marinex\obj\Debug\net9.0-windows\App.baml
-\\192.168.64.1\project\Marinex-1 copy\Marinex\obj\Debug\net9.0-windows\MainWindow.baml
-\\192.168.64.1\project\Marinex-1 copy\Marinex\obj\Debug\net9.0-windows\Marinex.g.resources
-\\192.168.64.1\project\Marinex-1 copy\Marinex\obj\Debug\net9.0-windows\Marinex.GeneratedMSBuildEditorConfig.editorconfig
-\\192.168.64.1\project\Marinex-1 copy\Marinex\obj\Debug\net9.0-windows\Marinex.AssemblyInfoInputs.cache
-\\192.168.64.1\project\Marinex-1 copy\Marinex\obj\Debug\net9.0-windows\Marinex.AssemblyInfo.cs
-\\192.168.64.1\project\Marinex-1 copy\Marinex\obj\Debug\net9.0-windows\Marinex.csproj.CoreCompileInputs.cache
-\\192.168.64.1\project\Marinex-1 copy\Marinex\obj\Debug\net9.0-windows\Marinex.sourcelink.json
-\\192.168.64.1\project\Marinex-1 copy\Marinex\obj\Debug\net9.0-windows\Marinex.csproj.Up2Date
-\\192.168.64.1\project\Marinex-1 copy\Marinex\obj\Debug\net9.0-windows\Marinex.dll
-\\192.168.64.1\project\Marinex-1 copy\Marinex\obj\Debug\net9.0-windows\refint\Marinex.dll
-\\192.168.64.1\project\Marinex-1 copy\Marinex\obj\Debug\net9.0-windows\Marinex.pdb
-\\192.168.64.1\project\Marinex-1 copy\Marinex\obj\Debug\net9.0-windows\Marinex.genruntimeconfig.cache
-\\192.168.64.1\project\Marinex-1 copy\Marinex\obj\Debug\net9.0-windows\ref\Marinex.dll
-\\192.168.64.1\project\Marinex-1 copy\Marinex\obj\Debug\net9.0-windows\Views\RegisterShipView.baml
-\\192.168.64.1\project\Marinex-1 copy\Marinex\obj\Debug\net9.0-windows\Views\RegisterShipView.g.cs
 Z:\belajar_program\Marinex\Marinex\bin\Debug\net9.0-windows\Marinex.exe
 Z:\belajar_program\Marinex\Marinex\bin\Debug\net9.0-windows\Marinex.deps.json
 Z:\belajar_program\Marinex\Marinex\bin\Debug\net9.0-windows\Marinex.runtimeconfig.json
@@ -230,3 +179,54 @@ Z:\belajar_program\Marinex\Marinex\obj\Debug\net9.0-windows\refint\Marinex.dll
 Z:\belajar_program\Marinex\Marinex\obj\Debug\net9.0-windows\Marinex.pdb
 Z:\belajar_program\Marinex\Marinex\obj\Debug\net9.0-windows\Marinex.genruntimeconfig.cache
 Z:\belajar_program\Marinex\Marinex\obj\Debug\net9.0-windows\ref\Marinex.dll
+\\192.168.64.1\project\Marinex-1 copy\marinex\bin\Debug\net9.0-windows\Marinex.exe
+\\192.168.64.1\project\Marinex-1 copy\marinex\bin\Debug\net9.0-windows\Marinex.deps.json
+\\192.168.64.1\project\Marinex-1 copy\marinex\bin\Debug\net9.0-windows\Marinex.runtimeconfig.json
+\\192.168.64.1\project\Marinex-1 copy\marinex\bin\Debug\net9.0-windows\Marinex.dll
+\\192.168.64.1\project\Marinex-1 copy\marinex\bin\Debug\net9.0-windows\Marinex.pdb
+\\192.168.64.1\project\Marinex-1 copy\marinex\bin\Debug\net9.0-windows\BCrypt.Net-Next.dll
+\\192.168.64.1\project\Marinex-1 copy\marinex\bin\Debug\net9.0-windows\GMap.NET.Core.dll
+\\192.168.64.1\project\Marinex-1 copy\marinex\bin\Debug\net9.0-windows\GMap.NET.WindowsPresentation.dll
+\\192.168.64.1\project\Marinex-1 copy\marinex\bin\Debug\net9.0-windows\System.Data.SQLite.dll
+\\192.168.64.1\project\Marinex-1 copy\marinex\bin\Debug\net9.0-windows\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+\\192.168.64.1\project\Marinex-1 copy\marinex\bin\Debug\net9.0-windows\Microsoft.Extensions.Logging.Abstractions.dll
+\\192.168.64.1\project\Marinex-1 copy\marinex\bin\Debug\net9.0-windows\Npgsql.dll
+\\192.168.64.1\project\Marinex-1 copy\marinex\obj\Debug\net9.0-windows\Marinex.csproj.AssemblyReference.cache
+\\192.168.64.1\project\Marinex-1 copy\marinex\obj\Debug\net9.0-windows\Views\CreateReportView.baml
+\\192.168.64.1\project\Marinex-1 copy\marinex\obj\Debug\net9.0-windows\Views\DashboardView.baml
+\\192.168.64.1\project\Marinex-1 copy\marinex\obj\Debug\net9.0-windows\Views\LandingView.baml
+\\192.168.64.1\project\Marinex-1 copy\marinex\obj\Debug\net9.0-windows\Views\LoginView.baml
+\\192.168.64.1\project\Marinex-1 copy\marinex\obj\Debug\net9.0-windows\Views\RegisterShipView.baml
+\\192.168.64.1\project\Marinex-1 copy\marinex\obj\Debug\net9.0-windows\Views\RegisterView.baml
+\\192.168.64.1\project\Marinex-1 copy\marinex\obj\Debug\net9.0-windows\Views\ReportsView.baml
+\\192.168.64.1\project\Marinex-1 copy\marinex\obj\Debug\net9.0-windows\Views\Ship3DView.baml
+\\192.168.64.1\project\Marinex-1 copy\marinex\obj\Debug\net9.0-windows\Views\ShipDetailWindow.baml
+\\192.168.64.1\project\Marinex-1 copy\marinex\obj\Debug\net9.0-windows\Views\WeatherView.baml
+\\192.168.64.1\project\Marinex-1 copy\marinex\obj\Debug\net9.0-windows\MainWindow.g.cs
+\\192.168.64.1\project\Marinex-1 copy\marinex\obj\Debug\net9.0-windows\Views\CreateReportView.g.cs
+\\192.168.64.1\project\Marinex-1 copy\marinex\obj\Debug\net9.0-windows\Views\DashboardView.g.cs
+\\192.168.64.1\project\Marinex-1 copy\marinex\obj\Debug\net9.0-windows\Views\LandingView.g.cs
+\\192.168.64.1\project\Marinex-1 copy\marinex\obj\Debug\net9.0-windows\Views\LoginView.g.cs
+\\192.168.64.1\project\Marinex-1 copy\marinex\obj\Debug\net9.0-windows\Views\RegisterShipView.g.cs
+\\192.168.64.1\project\Marinex-1 copy\marinex\obj\Debug\net9.0-windows\Views\RegisterView.g.cs
+\\192.168.64.1\project\Marinex-1 copy\marinex\obj\Debug\net9.0-windows\Views\ReportsView.g.cs
+\\192.168.64.1\project\Marinex-1 copy\marinex\obj\Debug\net9.0-windows\Views\Ship3DView.g.cs
+\\192.168.64.1\project\Marinex-1 copy\marinex\obj\Debug\net9.0-windows\Views\ShipDetailWindow.g.cs
+\\192.168.64.1\project\Marinex-1 copy\marinex\obj\Debug\net9.0-windows\Views\WeatherView.g.cs
+\\192.168.64.1\project\Marinex-1 copy\marinex\obj\Debug\net9.0-windows\App.g.cs
+\\192.168.64.1\project\Marinex-1 copy\marinex\obj\Debug\net9.0-windows\Marinex_MarkupCompile.cache
+\\192.168.64.1\project\Marinex-1 copy\marinex\obj\Debug\net9.0-windows\Marinex_MarkupCompile.lref
+\\192.168.64.1\project\Marinex-1 copy\marinex\obj\Debug\net9.0-windows\App.baml
+\\192.168.64.1\project\Marinex-1 copy\marinex\obj\Debug\net9.0-windows\MainWindow.baml
+\\192.168.64.1\project\Marinex-1 copy\marinex\obj\Debug\net9.0-windows\Marinex.g.resources
+\\192.168.64.1\project\Marinex-1 copy\marinex\obj\Debug\net9.0-windows\Marinex.GeneratedMSBuildEditorConfig.editorconfig
+\\192.168.64.1\project\Marinex-1 copy\marinex\obj\Debug\net9.0-windows\Marinex.AssemblyInfoInputs.cache
+\\192.168.64.1\project\Marinex-1 copy\marinex\obj\Debug\net9.0-windows\Marinex.AssemblyInfo.cs
+\\192.168.64.1\project\Marinex-1 copy\marinex\obj\Debug\net9.0-windows\Marinex.csproj.CoreCompileInputs.cache
+\\192.168.64.1\project\Marinex-1 copy\marinex\obj\Debug\net9.0-windows\Marinex.sourcelink.json
+\\192.168.64.1\project\Marinex-1 copy\marinex\obj\Debug\net9.0-windows\Marinex.csproj.Up2Date
+\\192.168.64.1\project\Marinex-1 copy\marinex\obj\Debug\net9.0-windows\Marinex.dll
+\\192.168.64.1\project\Marinex-1 copy\marinex\obj\Debug\net9.0-windows\refint\Marinex.dll
+\\192.168.64.1\project\Marinex-1 copy\marinex\obj\Debug\net9.0-windows\Marinex.pdb
+\\192.168.64.1\project\Marinex-1 copy\marinex\obj\Debug\net9.0-windows\Marinex.genruntimeconfig.cache
+\\192.168.64.1\project\Marinex-1 copy\marinex\obj\Debug\net9.0-windows\ref\Marinex.dll

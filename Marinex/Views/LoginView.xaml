@@ -6,6 +6,36 @@
              mc:Ignorable="d">
     
     <Grid Background="White">
+        <Grid.Resources>
+            <Style x:Key="SignInButtonStyle" TargetType="Button">
+                <Setter Property="Background" Value="#3a5a7a"/>
+                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="FontSize" Value="16"/>
+                <Setter Property="FontWeight" Value="SemiBold"/>
+                <Setter Property="Cursor" Value="Hand"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border Background="{TemplateBinding Background}" 
+                                    CornerRadius="6"
+                                    Padding="20,12">
+                                <ContentPresenter HorizontalAlignment="Center" 
+                                                VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="#4a6a8a"/>
+                    </Trigger>
+                    <Trigger Property="IsPressed" Value="True">
+                        <Setter Property="Background" Value="#2a4a6a"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </Grid.Resources>
         <!-- Login Form -->
         <Border MaxWidth="450" Padding="50" VerticalAlignment="Center">
             <StackPanel>

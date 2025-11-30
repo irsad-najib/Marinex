@@ -4,58 +4,81 @@
         Title="Weather Information - Marinex" 
         Height="700" Width="1000"
         WindowStartupLocation="CenterScreen"
-        Background="#F5F7FA">
+        Background="#1E1E2E"
+        FontFamily="Segoe UI">
+
+    <Window.Resources>
+        <SolidColorBrush x:Key="BgDark" Color="#1E1E2E"/>
+        <SolidColorBrush x:Key="BgCard" Color="#313244"/>
+        <SolidColorBrush x:Key="TextPrimary" Color="#CDD6F4"/>
+        <SolidColorBrush x:Key="TextSecondary" Color="#A6ADC8"/>
+        <SolidColorBrush x:Key="AccentColor" Color="#89B4FA"/>
+
+        <Style x:Key="ModernTextBox" TargetType="TextBox">
+            <Setter Property="Background" Value="#181825"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderBrush" Value="#45475A"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="12,10"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border Background="{TemplateBinding Background}" 
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="8">
+                            <ScrollViewer x:Name="PART_ContentHost"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
     
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="80"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <!-- Header -->
-        <Border Grid.Row="0" Background="#1E3A8A" Padding="30,0">
-            <StackPanel VerticalAlignment="Center">
+        <Border Grid.Row="0" Background="{StaticResource BgCard}" Padding="30,20" BorderBrush="#45475A" BorderThickness="0,0,0,1">
+            <StackPanel>
                 <TextBlock Text="🌤️ Weather Information" 
-                          FontSize="28" 
+                          FontSize="24" 
                           FontWeight="Bold" 
                           Foreground="White"/>
                 <TextBlock Text="Check weather conditions at any coordinates" 
-                          FontSize="14" 
-                          Foreground="#93C5FD" 
+                          FontSize="13" 
+                          Foreground="{StaticResource TextSecondary}" 
                           Margin="0,5,0,0"/>
             </StackPanel>
         </Border>
 
         <!-- Search Section -->
         <Border Grid.Row="1" 
-               Background="White" 
-               Margin="30,20,30,0"
+               Background="{StaticResource BgCard}" 
+               Margin="30,25,30,0"
                Padding="25"
-               CornerRadius="10">
+               CornerRadius="12">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="25"/>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="25"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
                 <StackPanel Grid.Column="0">
-                    <TextBlock Text="Latitude" FontWeight="SemiBold" Margin="0,0,0,5"/>
-                    <TextBox x:Name="txtLatitude" 
-                            Padding="12" 
-                            FontSize="14"
-                            Text="0"/>
+                    <TextBlock Text="Latitude" Foreground="{StaticResource TextSecondary}" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                    <TextBox x:Name="txtLatitude" Style="{StaticResource ModernTextBox}" Text="0"/>
                 </StackPanel>
 
                 <StackPanel Grid.Column="2">
-                    <TextBlock Text="Longitude" FontWeight="SemiBold" Margin="0,0,0,5"/>
-                    <TextBox x:Name="txtLongitude" 
-                            Padding="12" 
-                            FontSize="14"
-                            Text="0"/>
+                    <TextBlock Text="Longitude" Foreground="{StaticResource TextSecondary}" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                    <TextBox x:Name="txtLongitude" Style="{StaticResource ModernTextBox}" Text="0"/>
                 </StackPanel>
 
                 <Button Grid.Column="4" 
@@ -67,52 +90,67 @@
                        VerticalAlignment="Bottom"
                        FontSize="14"
                        FontWeight="SemiBold"
-                       Background="#1E3A8A"
-                       Foreground="White"
+                       Background="{StaticResource AccentColor}"
+                       Foreground="#1E1E2E"
                        BorderThickness="0"
-                       Cursor="Hand"/>
+                       Cursor="Hand">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border Background="{TemplateBinding Background}" CornerRadius="8">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Opacity" Value="0.9"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
             </Grid>
         </Border>
 
         <!-- Weather Display -->
         <ScrollViewer Grid.Row="2" 
                      VerticalScrollBarVisibility="Auto"
-                     Margin="30,20">
+                     Margin="30,25">
             <StackPanel>
                 <!-- Current Weather Card -->
                 <Border x:Name="pnlWeatherInfo"
-                       Background="White" 
-                       CornerRadius="10" 
+                       Background="{StaticResource BgCard}" 
+                       CornerRadius="15" 
                        Padding="30"
                        Visibility="Collapsed">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="20"/>
+                            <ColumnDefinition Width="30"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
 
                         <!-- Left: Main Weather Info -->
                         <StackPanel Grid.Column="0">
                             <TextBlock Text="Current Weather" 
-                                      FontSize="24" 
+                                      FontSize="20" 
                                       FontWeight="Bold" 
-                                      Foreground="#1E3A8A"
+                                      Foreground="{StaticResource AccentColor}"
                                       Margin="0,0,0,20"/>
 
                             <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
                                 <TextBlock x:Name="txtWeatherIcon" 
                                           Text="🌤️" 
-                                          FontSize="80"/>
-                                <StackPanel Margin="20,0,0,0" VerticalAlignment="Center">
+                                          FontSize="80"
+                                          Foreground="White"/>
+                                <StackPanel Margin="25,0,0,0" VerticalAlignment="Center">
                                     <TextBlock x:Name="txtTemperature" 
                                               Text="25°C" 
                                               FontSize="48" 
-                                              FontWeight="Bold"/>
+                                              FontWeight="Bold"
+                                              Foreground="White"/>
                                     <TextBlock x:Name="txtCondition" 
                                               Text="Partly Cloudy" 
                                               FontSize="18" 
-                                              Foreground="#6B7280"/>
+                                              Foreground="{StaticResource TextSecondary}"/>
                                 </StackPanel>
                             </StackPanel>
 
@@ -120,12 +158,12 @@
                                 <TextBlock x:Name="txtLocation" 
                                           Text="Location: Pacific Ocean" 
                                           FontSize="16" 
-                                          Foreground="#374151"
+                                          Foreground="White"
                                           Margin="0,0,0,8"/>
                                 <TextBlock x:Name="txtCoordinates" 
                                           Text="35.6892°N, 139.6917°E" 
                                           FontSize="14" 
-                                          Foreground="#6B7280"/>
+                                          Foreground="{StaticResource TextSecondary}"/>
                             </StackPanel>
                         </StackPanel>
 
@@ -134,13 +172,13 @@
                             <TextBlock Text="Details" 
                                       FontSize="20" 
                                       FontWeight="Bold" 
-                                      Foreground="#1E3A8A"
+                                      Foreground="{StaticResource AccentColor}"
                                       Margin="0,0,0,20"/>
 
                             <!-- Wind -->
-                            <Border Background="#F9FAFB" 
+                            <Border Background="#181825" 
                                    Padding="15" 
-                                   CornerRadius="8"
+                                   CornerRadius="10"
                                    Margin="0,0,0,10">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
@@ -148,22 +186,23 @@
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Text="💨 " FontSize="24" VerticalAlignment="Center"/>
-                                    <StackPanel Grid.Column="1" Margin="10,0,0,0">
+                                    <StackPanel Grid.Column="1" Margin="15,0,0,0">
                                         <TextBlock Text="Wind" 
-                                                  FontSize="13" 
-                                                  Foreground="#6B7280"/>
+                                                  FontSize="12" 
+                                                  Foreground="{StaticResource TextSecondary}"/>
                                         <TextBlock x:Name="txtWind" 
                                                   Text="15 knots NE" 
                                                   FontSize="16" 
-                                                  FontWeight="SemiBold"/>
+                                                  FontWeight="SemiBold"
+                                                  Foreground="White"/>
                                     </StackPanel>
                                 </Grid>
                             </Border>
 
                             <!-- Visibility -->
-                            <Border Background="#F9FAFB" 
+                            <Border Background="#181825" 
                                    Padding="15" 
-                                   CornerRadius="8"
+                                   CornerRadius="10"
                                    Margin="0,0,0,10">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
@@ -171,22 +210,23 @@
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Text="👁️ " FontSize="24" VerticalAlignment="Center"/>
-                                    <StackPanel Grid.Column="1" Margin="10,0,0,0">
+                                    <StackPanel Grid.Column="1" Margin="15,0,0,0">
                                         <TextBlock Text="Visibility" 
-                                                  FontSize="13" 
-                                                  Foreground="#6B7280"/>
+                                                  FontSize="12" 
+                                                  Foreground="{StaticResource TextSecondary}"/>
                                         <TextBlock x:Name="txtVisibility" 
                                                   Text="10 km" 
                                                   FontSize="16" 
-                                                  FontWeight="SemiBold"/>
+                                                  FontWeight="SemiBold"
+                                                  Foreground="White"/>
                                     </StackPanel>
                                 </Grid>
                             </Border>
 
                             <!-- Wave Height -->
-                            <Border Background="#F9FAFB" 
+                            <Border Background="#181825" 
                                    Padding="15" 
-                                   CornerRadius="8"
+                                   CornerRadius="10"
                                    Margin="0,0,0,10">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
@@ -194,22 +234,23 @@
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Text="🌊 " FontSize="24" VerticalAlignment="Center"/>
-                                    <StackPanel Grid.Column="1" Margin="10,0,0,0">
+                                    <StackPanel Grid.Column="1" Margin="15,0,0,0">
                                         <TextBlock Text="Wave Height" 
-                                                  FontSize="13" 
-                                                  Foreground="#6B7280"/>
+                                                  FontSize="12" 
+                                                  Foreground="{StaticResource TextSecondary}"/>
                                         <TextBlock x:Name="txtWaveHeight" 
                                                   Text="2.5 meters" 
                                                   FontSize="16" 
-                                                  FontWeight="SemiBold"/>
+                                                  FontWeight="SemiBold"
+                                                  Foreground="White"/>
                                     </StackPanel>
                                 </Grid>
                             </Border>
 
                             <!-- Sea State -->
-                            <Border Background="#F9FAFB" 
+                            <Border Background="#181825" 
                                    Padding="15" 
-                                   CornerRadius="8"
+                                   CornerRadius="10"
                                    Margin="0,0,0,10">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
@@ -217,36 +258,38 @@
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Text="⚓ " FontSize="24" VerticalAlignment="Center"/>
-                                    <StackPanel Grid.Column="1" Margin="10,0,0,0">
+                                    <StackPanel Grid.Column="1" Margin="15,0,0,0">
                                         <TextBlock Text="Sea State" 
-                                                  FontSize="13" 
-                                                  Foreground="#6B7280"/>
+                                                  FontSize="12" 
+                                                  Foreground="{StaticResource TextSecondary}"/>
                                         <TextBlock x:Name="txtSeaState" 
                                                   Text="Moderate" 
                                                   FontSize="16" 
-                                                  FontWeight="SemiBold"/>
+                                                  FontWeight="SemiBold"
+                                                  Foreground="White"/>
                                     </StackPanel>
                                 </Grid>
                             </Border>
 
                             <!-- Pressure -->
-                            <Border Background="#F9FAFB" 
+                            <Border Background="#181825" 
                                    Padding="15" 
-                                   CornerRadius="8">
+                                   CornerRadius="10">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto"/>
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Text="🌡️ " FontSize="24" VerticalAlignment="Center"/>
-                                    <StackPanel Grid.Column="1" Margin="10,0,0,0">
+                                    <StackPanel Grid.Column="1" Margin="15,0,0,0">
                                         <TextBlock Text="Pressure" 
-                                                  FontSize="13" 
-                                                  Foreground="#6B7280"/>
+                                                  FontSize="12" 
+                                                  Foreground="{StaticResource TextSecondary}"/>
                                         <TextBlock x:Name="txtPressure" 
                                                   Text="1013 hPa" 
                                                   FontSize="16" 
-                                                  FontWeight="SemiBold"/>
+                                                  FontWeight="SemiBold"
+                                                  Foreground="White"/>
                                     </StackPanel>
                                 </Grid>
                             </Border>
@@ -256,8 +299,8 @@
 
                 <!-- Empty State -->
                 <Border x:Name="pnlEmptyState"
-                       Background="White" 
-                       CornerRadius="10" 
+                       Background="{StaticResource BgCard}" 
+                       CornerRadius="15" 
                        Padding="60"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center">
@@ -265,15 +308,15 @@
                         <TextBlock Text="🌍" 
                                   FontSize="80" 
                                   HorizontalAlignment="Center" 
-                                  Foreground="#E5E7EB"/>
+                                  Foreground="#45475A"/>
                         <TextBlock Text="Enter coordinates to check weather" 
                                   FontSize="18" 
-                                  Foreground="#9CA3AF" 
+                                  Foreground="{StaticResource TextSecondary}" 
                                   HorizontalAlignment="Center"
                                   Margin="0,20,0,0"/>
                         <TextBlock Text="Weather data provided by OpenWeatherMap API" 
                                   FontSize="13" 
-                                  Foreground="#D1D5DB" 
+                                  Foreground="#585B70" 
                                   HorizontalAlignment="Center"
                                   Margin="0,10,0,0"/>
                     </StackPanel>

@@ -8,701 +8,438 @@
         Title="Marinex - Live Ship Tracking Dashboard" 
         Height="800" Width="1400"
         WindowState="Maximized"
-        Background="#1a1a1a">
+        Background="#1E1E2E"
+        FontFamily="Segoe UI">
     
     <Window.Resources>
-        <DropShadowEffect x:Key="DropShadowEffect"
-                           BlurRadius="10"
-                           ShadowDepth="2"
-                           Opacity="0.1"/>
+        <!-- COLOR PALETTE (Cyberpunk Minimalist) -->
+        <SolidColorBrush x:Key="BgDark" Color="#1E1E2E"/>      <!-- Deep Dark Blue -->
+        <SolidColorBrush x:Key="BgCard" Color="#252535"/>      <!-- Lighter Panel Background -->
+        <SolidColorBrush x:Key="AccentColor" Color="#89B4FA"/> <!-- Soft Electric Blue -->
+        <SolidColorBrush x:Key="AccentHover" Color="#B4BEFE"/> <!-- Lighter Blue for Hover -->
+        <SolidColorBrush x:Key="TextPrimary" Color="#CDD6F4"/> <!-- Off-White Text -->
+        <SolidColorBrush x:Key="TextSecondary" Color="#A6ADC8"/> <!-- Muted Grey Text -->
+        <SolidColorBrush x:Key="SuccessColor" Color="#A6E3A1"/> <!-- Green -->
+        <SolidColorBrush x:Key="WarningColor" Color="#FAB387"/> <!-- Orange -->
+        <SolidColorBrush x:Key="DangerColor" Color="#F38BA8"/>  <!-- Red -->
 
-        <Style x:Key="ModernButton" TargetType="Button">
-            <Setter Property="Background" Value="#2196F3"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="Padding" Value="15,8"/>
-            <Setter Property="BorderThickness" Value="0"/>
+        <DropShadowEffect x:Key="CardShadow" BlurRadius="15" ShadowDepth="2" Opacity="0.2" Color="Black"/>
+
+        <!-- STYLE: MENU BUTTONS (Sidebar) -->
+        <Style x:Key="MenuButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{StaticResource TextSecondary}"/>
             <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Height" Value="50"/>
+            <Setter Property="Margin" Value="0,0,0,10"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="Padding" Value="20,0"/>
+            <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border Background="{TemplateBinding Background}" 
-                                CornerRadius="4"
-                                Padding="{TemplateBinding Padding}">
-                            <ContentPresenter HorizontalAlignment="Center" 
-                                            VerticalAlignment="Center"/>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#1976D2"/>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-
-        <Style x:Key="StatusCard" TargetType="Border">
-            <Setter Property="Background" Value="#2a2a2a"/>
-            <Setter Property="CornerRadius" Value="8"/>
-            <Setter Property="Padding" Value="20"/>
-            <Setter Property="Margin" Value="0,0,10,0"/>
-            <Setter Property="Effect">
-                <Setter.Value>
-                    <DropShadowEffect BlurRadius="10" ShadowDepth="2" Opacity="0.3"/>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        
-        <Style x:Key="DarkTextBlock" TargetType="TextBlock">
-            <Setter Property="Foreground" Value="#e0e0e0"/>
-        </Style>
-        
-        <Style x:Key="ShipListItem" TargetType="ListBoxItem">
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Foreground" Value="#e0e0e0"/>
-            <Setter Property="Padding" Value="15,10"/>
-            <Setter Property="BorderThickness" Value="0,0,0,1"/>
-            <Setter Property="BorderBrush" Value="#3a3a3a"/>
-            <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="ListBoxItem">
-                        <Border Background="{TemplateBinding Background}" 
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                Padding="{TemplateBinding Padding}">
-                            <ContentPresenter/>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#3a3a3a"/>
-                </Trigger>
-                <Trigger Property="IsSelected" Value="True">
-                    <Setter Property="Background" Value="#4a4a4a"/>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-    </Window.Resources>
-
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition x:Name="MapRow" Height="*"/>
-            <RowDefinition Height="250"/>
-        </Grid.RowDefinitions>
-        
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="280"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-
-        <!-- Top Navigation Bar -->
-        <Border Grid.Row="0" Grid.ColumnSpan="2" Background="#0d47a1" Padding="20,15">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-                
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="🚢" FontSize="28" VerticalAlignment="Center" Margin="0,0,10,0"/>
-                    <TextBlock Text="MARINEX DASHBOARD" 
-                             FontSize="22" 
-                             FontWeight="Bold" 
-                             Foreground="White"
-                             VerticalAlignment="Center"/>
-                    <TextBlock x:Name="ConnectionStatus" 
-                             Text="● Connected" 
-                             FontSize="14" 
-                             Foreground="#4CAF50"
-                             VerticalAlignment="Center"
-                             Margin="20,0,0,0"/>
-                </StackPanel>
-
-                <StackPanel Grid.Column="1" Orientation="Horizontal">
-                    <Button x:Name="BtnToggleStream" 
-                            Content="Stop Stream" 
-                            Style="{StaticResource ModernButton}"
-                            Background="#F44336"
-                            Margin="0,0,10,0"
-                            Click="BtnToggleStream_Click"/>
-                    <Button x:Name="BtnLogout" 
-                            Content="Logout" 
-                            Style="{StaticResource ModernButton}"
-                            Background="#757575"
-                            Click="BtnLogout_Click"/>
-                </StackPanel>
-            </Grid>
-        </Border>
-
-        <!-- Statistics Cards -->
-        <Grid Grid.Row="1" Grid.Column="1" Margin="20,20,20,10">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-
-            <Border Grid.Column="0" Style="{StaticResource StatusCard}">
-                <StackPanel>
-                    <TextBlock Text="Total Ships Tracked" 
-                             FontSize="12" 
-                             Foreground="#9e9e9e"
-                             FontWeight="SemiBold"/>
-                    <TextBlock x:Name="TxtTotalShips" 
-                             Text="0" 
-                             FontSize="32" 
-                             FontWeight="Bold"
-                             Foreground="#42A5F5"
-                             Margin="0,5,0,0"/>
-                </StackPanel>
-            </Border>
-
-            <Border Grid.Column="1" Style="{StaticResource StatusCard}">
-                <StackPanel>
-                    <TextBlock Text="Messages Received" 
-                             FontSize="12" 
-                             Foreground="#9e9e9e"
-                             FontWeight="SemiBold"/>
-                    <TextBlock x:Name="TxtMessagesCount" 
-                             Text="0" 
-                             FontSize="32" 
-                             FontWeight="Bold"
-                             Foreground="#66BB6A"
-                             Margin="0,5,0,0"/>
-                </StackPanel>
-            </Border>
-
-            <Border Grid.Column="2" Style="{StaticResource StatusCard}">
-                <StackPanel>
-                    <TextBlock Text="Active Connections" 
-                             FontSize="12" 
-                             Foreground="#9e9e9e"
-                             FontWeight="SemiBold"/>
-                    <TextBlock x:Name="TxtActiveConnections" 
-                             Text="1" 
-                             FontSize="32" 
-                             FontWeight="Bold"
-                             Foreground="#FFA726"
-                             Margin="0,5,0,0"/>
-                </StackPanel>
-            </Border>
-
-            <Border Grid.Column="3" Style="{StaticResource StatusCard}" Margin="0">
-                <StackPanel>
-                    <TextBlock Text="Last Update" 
-                             FontSize="12" 
-                             Foreground="#9e9e9e"
-                             FontWeight="SemiBold"/>
-                    <TextBlock x:Name="TxtLastUpdate" 
-                             Text="--:--:--" 
-                             FontSize="32" 
-                             FontWeight="Bold"
-                             Foreground="#AB47BC"
-                             Margin="0,5,0,0"/>
-                </StackPanel>
-            </Border>
-        </Grid>
-
-        <!-- Map View -->
-    <Border Grid.Row="2" 
-        Grid.Column="1"
-        x:Name="MapBorder"
-        Background="#2a2a2a" 
-        Margin="20,10,20,10"
-        CornerRadius="8">
-            <Border.Effect>
-                <DropShadowEffect BlurRadius="10" ShadowDepth="2" Opacity="0.3"/>
-            </Border.Effect>
-            <Grid>
-                <gmap:GMapControl x:Name="MainMap" 
-                                Margin="10"/>
-                
-            <!-- Map Controls Overlay -->
-            <StackPanel VerticalAlignment="Top" 
-                  HorizontalAlignment="Right" 
-                  Margin="20">
-                    <Border Background="#2a2a2a" 
-                          CornerRadius="4" 
-                          Padding="10"
-                          Effect="{StaticResource DropShadowEffect}">
-                        <StackPanel>
-                            <TextBlock Text="Map Controls" 
-                                     FontWeight="Bold" 
-                                     FontSize="12"
-                                     Foreground="#e0e0e0"
-                                     Margin="0,0,0,10"/>
-                            
-                            <!-- Collapse Map Button (small version) -->
-                            <Button x:Name="btnCollapseMap"
-                                  Content="▼ Hide Map"
-                                  Width="100"
-                                  Height="28"
-                                  Margin="0,0,0,5"
-                                  ToolTip="Hide map view"
-                                  Click="btnCollapseMap_Click"
-                                  Background="#455A64"
-                                  Foreground="#e0e0e0"
-                                  BorderThickness="0"
-                                  FontSize="11"
-                                  Cursor="Hand">
-                                <Button.Style>
-                                    <Style TargetType="Button">
-                                        <Setter Property="Template">
-                                            <Setter.Value>
-                                                <ControlTemplate TargetType="Button">
-                                                    <Border Background="{TemplateBinding Background}"
-                                                          CornerRadius="3"
-                                                          Padding="5,3">
-                                                        <ContentPresenter HorizontalAlignment="Center" 
-                                                                        VerticalAlignment="Center"/>
-                                                    </Border>
-                                                </ControlTemplate>
-                                            </Setter.Value>
-                                        </Setter>
-                                        <Style.Triggers>
-                                            <Trigger Property="IsMouseOver" Value="True">
-                                                <Setter Property="Background" Value="#546E7A"/>
-                                            </Trigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Button.Style>
-                            </Button>
-                            
-                            <Button Content="Zoom In" 
-                                  Click="BtnZoomIn_Click"
-                                  Style="{StaticResource ModernButton}"
-                                  Margin="0,0,0,5"/>
-                            <Button Content="Zoom Out" 
-                                  Click="BtnZoomOut_Click"
-                                  Style="{StaticResource ModernButton}"
-                                  Margin="0,0,0,5"/>
-                            <Button Content="Reset View" 
-                                  Click="BtnResetView_Click"
-                                  Style="{StaticResource ModernButton}"
-                                  Background="#FF9800"/>
-                        </StackPanel>
-                    </Border>
-                </StackPanel>
-            </Grid>
-        </Border>
-
-        <!-- Ship List -->
-        <Border Grid.Row="3" 
-                Grid.Column="1"
-                Background="#2a2a2a" 
-                Margin="20,10,20,20"
-                CornerRadius="8"
-                Padding="15">
-            <Border.Effect>
-                <DropShadowEffect BlurRadius="10" ShadowDepth="2" Opacity="0.3"/>
-            </Border.Effect>
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-
-                <TextBlock Text="Live Ship Stream" 
-                         FontSize="16" 
-                         FontWeight="Bold"
-                         Foreground="#e0e0e0"
-                         Margin="0,0,0,10"/>
-
-                <!-- Filter Box -->
-                <Border Grid.Row="1" 
-                        Background="#3a3a3a" 
-                        CornerRadius="4" 
-                        Padding="10"
-                        Margin="0,0,0,10">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-                        
-                        <TextBlock Text="🔍" 
-                                 FontSize="16" 
-                                 VerticalAlignment="Center"
-                                 Margin="0,0,10,0"/>
-                        
-                        <TextBox x:Name="TxtFilter" 
-                               Grid.Column="1"
-                               Background="Transparent"
-                               Foreground="#e0e0e0"
-                               BorderThickness="0"
-                               VerticalAlignment="Center"
-                               FontSize="14"
-                               TextChanged="TxtFilter_TextChanged"/>
-                        
-                        <TextBlock Grid.Column="1"
-                                 x:Name="TxtFilterPlaceholder"
-                                 Text="Filter ships by name..." 
-                                 Foreground="#757575"
-                                 VerticalAlignment="Center"
-                                 IsHitTestVisible="False"
-                                 FontSize="14"
-                                 Margin="2,0,0,0"/>
-                        
-                        <Button Grid.Column="2" 
-                              Content="Clear" 
-                              Background="#f44336"
-                              Foreground="White"
-                              BorderThickness="0"
-                              Padding="10,5"
-                              Cursor="Hand"
-                              Click="BtnClearFilter_Click">
-                            <Button.Style>
-                                <Style TargetType="Button">
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="Button">
-                                                <Border Background="{TemplateBinding Background}" 
-                                                      CornerRadius="3"
-                                                      Padding="{TemplateBinding Padding}">
-                                                    <ContentPresenter HorizontalAlignment="Center" 
-                                                                    VerticalAlignment="Center"/>
-                                                </Border>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                    <Style.Triggers>
-                                        <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter Property="Background" Value="#d32f2f"/>
-                                        </Trigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </Button.Style>
-                        </Button>
-                    </Grid>
-                </Border>
-
-                <!-- Ship List -->
-                <ListBox x:Name="ShipListBox" 
-                       Grid.Row="2"
-                       Background="Transparent"
-                       BorderThickness="0"
-                       ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                       SelectionChanged="ShipListBox_SelectionChanged"
-                       MouseDoubleClick="ShipListBox_MouseDoubleClick">
-                    <ListBox.ItemContainerStyle>
-                        <Style TargetType="ListBoxItem" BasedOn="{StaticResource ShipListItem}"/>
-                    </ListBox.ItemContainerStyle>
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
+                        <Border x:Name="border" 
+                                Background="{TemplateBinding Background}" 
+                                CornerRadius="10">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
+                                <!-- Content Presenter for Icon/Text -->
+                                <ContentPresenter Grid.ColumnSpan="2" 
+                                                VerticalAlignment="Center" 
+                                                Margin="{TemplateBinding Padding}"/>
                                 
-                                <TextBlock Text="🚢" 
-                                         FontSize="20" 
-                                         VerticalAlignment="Center"
-                                         Margin="0,0,15,0"/>
-                                
-                                <StackPanel Grid.Column="1">
-                                    <TextBlock Text="{Binding ShipName}" 
-                                             FontSize="16" 
-                                             FontWeight="SemiBold"
-                                             Foreground="#e0e0e0"/>
-                                    <TextBlock FontSize="12" 
-                                             Foreground="#9e9e9e"
-                                             Margin="0,3,0,0">
-                                        <Run Text="MMSI: "/>
-                                        <Run Text="{Binding Mmsi}"/>
-                                        <Run Text=" | Speed: "/>
-                                        <Run Text="{Binding Speed, StringFormat={}{0:F1}}"/>
-                                        <Run Text=" kn"/>
-                                    </TextBlock>
-                                </StackPanel>
-                                
-                                <TextBlock Grid.Column="2" 
-                                         Text="{Binding LastUpdate, StringFormat=HH:mm:ss}"
-                                         FontSize="12"
-                                         Foreground="#757575"
-                                         VerticalAlignment="Center"
-                                         Margin="0,0,10,0"/>
-                                
-                                <Button Grid.Column="3"
-                                        Content="ℹ️"
-                                        Width="30" Height="30"
-                                        Background="#2196F3"
-                                        Foreground="White"
-                                        BorderThickness="0"
-                                        FontSize="14"
-                                        Cursor="Hand"
-                                        ToolTip="View ship details"
-                                        Click="BtnShipDetails_Click"
-                                        Tag="{Binding}">
-                                    <Button.Style>
-                                        <Style TargetType="Button">
-                                            <Setter Property="Template">
-                                                <Setter.Value>
-                                                    <ControlTemplate TargetType="Button">
-                                                        <Border Background="{TemplateBinding Background}"
-                                                                CornerRadius="15"
-                                                                Padding="5">
-                                                            <ContentPresenter HorizontalAlignment="Center" 
-                                                                            VerticalAlignment="Center"/>
-                                                        </Border>
-                                                    </ControlTemplate>
-                                                </Setter.Value>
-                                            </Setter>
-                                            <Style.Triggers>
-                                                <Trigger Property="IsMouseOver" Value="True">
-                                                    <Setter Property="Background" Value="#1976D2"/>
-                                                </Trigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </Button.Style>
-                                </Button>
+                                <!-- Active Indicator (Hidden by default) -->
+                                <Border x:Name="Indicator" 
+                                        Grid.Column="0"
+                                        HorizontalAlignment="Left"
+                                        Width="4" Height="25" 
+                                        CornerRadius="2"
+                                        Background="{StaticResource AccentColor}"
+                                        Visibility="Collapsed"
+                                        Margin="0"/>
                             </Grid>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#313244"/>
+                                <Setter Property="Foreground" Value="White"/>
+                                <Setter TargetName="Indicator" Property="Visibility" Value="Visible"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#45475A"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- STYLE: ACTION BUTTONS (Small, Rounded) -->
+        <Style x:Key="ActionButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="{StaticResource BgCard}"/>
+            <Setter Property="Foreground" Value="{StaticResource TextPrimary}"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="12,8"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" 
+                                Background="{TemplateBinding Background}" 
+                                CornerRadius="8">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Margin="{TemplateBinding Padding}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#313244"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- STYLE: STAT CARDS (Top Dashboard) -->
+        <Style x:Key="StatCardStyle" TargetType="Border">
+            <Setter Property="Background" Value="{StaticResource BgCard}"/>
+            <Setter Property="CornerRadius" Value="15"/>
+            <Setter Property="Margin" Value="0,0,15,0"/>
+            <Setter Property="Padding" Value="20"/>
+            <Setter Property="Effect" Value="{StaticResource CardShadow}"/>
+        </Style>
+
+        <!-- STYLE: LISTBOX ITEM (Ship List) -->
+        <Style x:Key="ShipListItem" TargetType="ListBoxItem">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{StaticResource TextPrimary}"/>
+            <Setter Property="Padding" Value="15,12"/>
+            <Setter Property="Margin" Value="0,0,0,5"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBoxItem">
+                        <Border x:Name="border" 
+                                Background="{TemplateBinding Background}" 
+                                CornerRadius="10"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#313244"/>
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#45475A"/>
+                                <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource AccentColor}"/>
+                                <Setter TargetName="border" Property="BorderThickness" Value="1"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </Window.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="260"/> <!-- Sidebar -->
+            <ColumnDefinition Width="*"/>   <!-- Main Content -->
+        </Grid.ColumnDefinitions>
+
+        <!-- === SIDEBAR NAVIGATION === -->
+        <Border Grid.Column="0" Background="{StaticResource BgCard}" BorderBrush="#313244" BorderThickness="0,0,1,0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/> <!-- Logo -->
+                    <RowDefinition Height="*"/>    <!-- Menu -->
+                    <RowDefinition Height="Auto"/> <!-- User/Bottom -->
+                </Grid.RowDefinitions>
+
+                <!-- Logo -->
+                <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="25,35,20,40">
+                    <TextBlock Text="⚓" FontSize="28" Foreground="{StaticResource AccentColor}" VerticalAlignment="Center"/>
+                    <StackPanel Margin="12,0,0,0" VerticalAlignment="Center">
+                        <TextBlock Text="MARINEX" FontSize="22" FontWeight="Bold" Foreground="White"/>
+                        <TextBlock Text="Intelligence System" FontSize="11" Foreground="{StaticResource TextSecondary}"/>
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- Menu Items -->
+                <StackPanel Grid.Row="1" Margin="15,0">
+                    <TextBlock Text="MAIN MENU" FontSize="11" FontWeight="Bold" Foreground="#585B70" Margin="10,0,0,10"/>
+                    
+                    <Button x:Name="btnCreateReport" Content="📝  Create Report" Style="{StaticResource MenuButtonStyle}" Click="btnCreateReport_Click"/>
+                    <Button x:Name="btnViewReports" Content="📊  View All Reports" Style="{StaticResource MenuButtonStyle}" Click="btnViewReports_Click"/>
+                    <Button x:Name="btnCheckWeather" Content="🌦️  Weather Forecast" Style="{StaticResource MenuButtonStyle}" Click="btnCheckWeather_Click"/>
+                    <Button x:Name="btnRegisterShip" Content="🚢  Register Vessel" Style="{StaticResource MenuButtonStyle}" Click="btnRegisterShip_Click"/>
+                    <Button x:Name="btnTogglePollution" Content="☢️  Pollution Heatmap" Style="{StaticResource MenuButtonStyle}" Click="btnTogglePollution_Click"/>
+                </StackPanel>
+
+                <!-- Bottom Actions -->
+                <StackPanel Grid.Row="2" Margin="20,0,20,30">
+                    <!-- Connection Status Indicator -->
+                    <Border Background="#1E1E2E" CornerRadius="8" Padding="12" Margin="0,0,0,15">
+                        <StackPanel Orientation="Horizontal">
+                            <Ellipse Width="8" Height="8" Fill="{StaticResource SuccessColor}"/>
+                            <TextBlock x:Name="ConnectionStatus" Text="System Online" FontSize="12" Foreground="{StaticResource SuccessColor}" Margin="10,0,0,0" FontWeight="SemiBold"/>
+                        </StackPanel>
+                    </Border>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <Button x:Name="BtnToggleStream" 
+                                Grid.Column="0"
+                                Content="Stop Stream" 
+                                Style="{StaticResource ActionButtonStyle}"
+                                Background="#313244"
+                                Foreground="{StaticResource TextPrimary}"
+                                Click="BtnToggleStream_Click"/>
+
+                        <Button x:Name="BtnLogout" 
+                                Grid.Column="2"
+                                Content="🚪" 
+                                ToolTip="Logout"
+                                Style="{StaticResource ActionButtonStyle}"
+                                Background="{StaticResource DangerColor}"
+                                Foreground="#1E1E2E"
+                                Padding="12,8"
+                                Click="BtnLogout_Click"/>
+                    </Grid>
+                </StackPanel>
             </Grid>
         </Border>
 
-        <!-- Quick Actions Panel (Left Sidebar) -->
-        <Border Grid.Row="1" Grid.RowSpan="3" Grid.Column="0" 
-                Background="#2a2a2a" 
-                CornerRadius="8" 
-                Margin="20,20,10,20"
-                Padding="20">
-            <Border.Effect>
-                <DropShadowEffect BlurRadius="10" ShadowDepth="2" Opacity="0.3"/>
-            </Border.Effect>
-            <StackPanel>
-                <TextBlock Text="Quick Actions" 
-                           FontSize="18" 
-                           FontWeight="Bold"
-                           Foreground="#e0e0e0"
-                           Margin="0,0,0,20"/>
-                
-                <!-- Create Report Button -->
-                <Button Name="btnCreateReport"
-                        Content="📝 Create Report"
-                        Height="55"
-                        FontSize="14"
-                        Margin="0,0,0,10"
-                        Background="#2196F3"
-                        Foreground="White"
-                        BorderThickness="0"
-                        Cursor="Hand"
-                        Click="btnCreateReport_Click">
-                    <Button.Style>
-                        <Style TargetType="Button">
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="Button">
-                                        <Border Background="{TemplateBinding Background}"
-                                                CornerRadius="8"
-                                                Padding="15,10">
-                                            <ContentPresenter HorizontalAlignment="Center" 
-                                                            VerticalAlignment="Center"/>
-                                        </Border>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                            <Style.Triggers>
-                                <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="Background" Value="#1976D2"/>
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Button.Style>
-                </Button>
+        <!-- === MAIN CONTENT DASHBOARD === -->
+        <Grid Grid.Column="1" Margin="30,30,30,20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/> <!-- Stats Row -->
+                <RowDefinition Height="*" x:Name="MapRow"/>   <!-- Map View -->
+                <RowDefinition Height="300"/>  <!-- Ship List -->
+            </Grid.RowDefinitions>
 
-                <!-- View Reports Button -->
-                <Button Name="btnViewReports"
-                        Content="📋 View All Reports"
-                        Height="55"
-                        FontSize="14"
-                        Margin="0,0,0,10"
-                        Background="#4CAF50"
-                        Foreground="White"
-                        BorderThickness="0"
-                        Cursor="Hand"
-                        Click="btnViewReports_Click">
-                    <Button.Style>
-                        <Style TargetType="Button">
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="Button">
-                                        <Border Background="{TemplateBinding Background}"
-                                                CornerRadius="8"
-                                                Padding="15,10">
-                                            <ContentPresenter HorizontalAlignment="Center" 
-                                                            VerticalAlignment="Center"/>
-                                        </Border>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                            <Style.Triggers>
-                                <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="Background" Value="#388E3C"/>
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Button.Style>
-                </Button>
+            <!-- 1. HEADER STATISTICS -->
+            <Grid Grid.Row="0" Margin="0,0,0,25">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
 
-                <!-- Check Weather Button -->
-                <Button Name="btnCheckWeather"
-                        Content="🌦️ Check Weather"
-                        Height="55"
-                        FontSize="14"
-                        Margin="0,0,0,10"
-                        Background="#FF9800"
-                        Foreground="White"
-                        BorderThickness="0"
-                        Cursor="Hand"
-                        Click="btnCheckWeather_Click">
-                    <Button.Style>
-                        <Style TargetType="Button">
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="Button">
-                                        <Border Background="{TemplateBinding Background}"
-                                                CornerRadius="8"
-                                                Padding="15,10">
-                                            <ContentPresenter HorizontalAlignment="Center" 
-                                                            VerticalAlignment="Center"/>
-                                        </Border>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                            <Style.Triggers>
-                                <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="Background" Value="#F57C00"/>
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Button.Style>
-                </Button>
+                <!-- Total Ships -->
+                <Border Grid.Column="0" Style="{StaticResource StatCardStyle}">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                            <TextBlock Text="🚢" FontSize="16" Opacity="0.7"/>
+                            <TextBlock Text="Total Vessels" FontSize="13" Foreground="{StaticResource TextSecondary}" Margin="8,0,0,0" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <TextBlock x:Name="TxtTotalShips" Text="0" FontSize="32" FontWeight="Bold" Foreground="{StaticResource AccentColor}"/>
+                    </StackPanel>
+                </Border>
 
-                <!-- Ship Tracking Info Button -->
-                <Button Name="btnRegisterShip"
-                        Content="🚢 Register Ship"
-                        Height="55"
-                        FontSize="14"
-                        Margin="0,0,0,10"
-                        Background="#9C27B0"
-                        Foreground="White"
-                        BorderThickness="0"
-                        Cursor="Hand"
-                        Click="btnRegisterShip_Click">
-                    <Button.Style>
-                        <Style TargetType="Button">
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="Button">
-                                        <Border Background="{TemplateBinding Background}"
-                                                CornerRadius="8"
-                                                Padding="15,10">
-                                            <ContentPresenter HorizontalAlignment="Center" 
-                                                            VerticalAlignment="Center"/>
-                                        </Border>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                            <Style.Triggers>
-                                <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="Background" Value="#7B1FA2"/>
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Button.Style>
-                </Button>
+                <!-- Messages -->
+                <Border Grid.Column="1" Style="{StaticResource StatCardStyle}">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                            <TextBlock Text="📡" FontSize="16" Opacity="0.7"/>
+                            <TextBlock Text="AIS Messages" FontSize="13" Foreground="{StaticResource TextSecondary}" Margin="8,0,0,0" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <TextBlock x:Name="TxtMessagesCount" Text="0" FontSize="32" FontWeight="Bold" Foreground="{StaticResource SuccessColor}"/>
+                    </StackPanel>
+                </Border>
 
-                <!-- Pollution Heatmap Toggle -->
-                <Button Name="btnTogglePollution"
-                        Content="🗑️ Show Pollution Heatmap"
-                        Height="55"
-                        FontSize="14"
-                        Margin="0,0,0,10"
-                        Background="#E91E63"
-                        Foreground="White"
-                        BorderThickness="0"
-                        Cursor="Hand"
-                        Click="btnTogglePollution_Click">
-                    <Button.Style>
-                        <Style TargetType="Button">
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="Button">
-                                        <Border Background="{TemplateBinding Background}"
-                                                CornerRadius="8"
-                                                Padding="15,10">
-                                            <ContentPresenter HorizontalAlignment="Center" 
-                                                            VerticalAlignment="Center"/>
-                                        </Border>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                            <Style.Triggers>
-                                <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="Background" Value="#C2185B"/>
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Button.Style>
-                </Button>
-            </StackPanel>
-        </Border>
-    <!-- Restore Map Floating Button (visible when map collapsed) -->
-    <Button x:Name="btnRestoreMap"
-        Grid.Row="2"
-        Grid.Column="1"
-        Content="▲ Show Map"
-        Width="120" Height="36"
-        HorizontalAlignment="Right"
-        VerticalAlignment="Bottom"
-        Margin="0,0,24,24"
-        Visibility="Collapsed"
-        ToolTip="Show map view"
-        Click="btnRestoreMap_Click"
-        Background="#2196F3"
-        Foreground="White"
-        BorderThickness="0"
-        FontSize="12"
-        FontWeight="SemiBold"
-        Cursor="Hand">
-        <Button.Style>
-            <Style TargetType="Button">
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="Button">
-                            <Border Background="{TemplateBinding Background}"
-                                  CornerRadius="18"
-                                  Padding="15,8">
-                                <Border.Effect>
-                                    <DropShadowEffect BlurRadius="12" ShadowDepth="3" Opacity="0.4" Color="#000000"/>
-                                </Border.Effect>
-                                <ContentPresenter HorizontalAlignment="Center" 
-                                                VerticalAlignment="Center"/>
-                            </Border>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-                <Style.Triggers>
-                    <Trigger Property="IsMouseOver" Value="True">
-                        <Setter Property="Background" Value="#1976D2"/>
-                    </Trigger>
-                </Style.Triggers>
-            </Style>
-        </Button.Style>
-    </Button>
+                <!-- Active Connections -->
+                <Border Grid.Column="2" Style="{StaticResource StatCardStyle}">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                            <TextBlock Text="🔗" FontSize="16" Opacity="0.7"/>
+                            <TextBlock Text="Connections" FontSize="13" Foreground="{StaticResource TextSecondary}" Margin="8,0,0,0" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <TextBlock x:Name="TxtActiveConnections" Text="0" FontSize="32" FontWeight="Bold" Foreground="{StaticResource WarningColor}"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Last Update -->
+                <Border Grid.Column="3" Style="{StaticResource StatCardStyle}" Margin="0">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                            <TextBlock Text="⏱️" FontSize="16" Opacity="0.7"/>
+                            <TextBlock Text="Last Update" FontSize="13" Foreground="{StaticResource TextSecondary}" Margin="8,0,0,0" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <TextBlock x:Name="TxtLastUpdate" Text="--:--" FontSize="32" FontWeight="Bold" Foreground="{StaticResource DangerColor}"/>
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+            <!-- 2. MAP AREA -->
+            <Border x:Name="MapBorder" Grid.Row="1" CornerRadius="15" ClipToBounds="True" Background="{StaticResource BgCard}">
+                <Grid>
+                    <gmap:GMapControl x:Name="MainMap"/>
+                    
+                    <!-- Floating Map Controls -->
+                    <StackPanel HorizontalAlignment="Right" VerticalAlignment="Top" Margin="20">
+                        <Border Background="{StaticResource BgCard}" CornerRadius="10" Padding="5" Effect="{StaticResource CardShadow}">
+                            <StackPanel>
+                                <Button Content="➕" ToolTip="Zoom In" Click="BtnZoomIn_Click" Style="{StaticResource ActionButtonStyle}" Width="35" Height="35" Padding="0" Margin="0,0,0,5"/>
+                                <Button Content="➖" ToolTip="Zoom Out" Click="BtnZoomOut_Click" Style="{StaticResource ActionButtonStyle}" Width="35" Height="35" Padding="0" Margin="0,0,0,5"/>
+                                <Button Content="⟲" ToolTip="Reset View" Click="BtnResetView_Click" Style="{StaticResource ActionButtonStyle}" Width="35" Height="35" Padding="0"/>
+                            </StackPanel>
+                        </Border>
+                        
+                        <!-- Collapse Button -->
+                        <Button x:Name="btnCollapseMap" 
+                                Click="btnCollapseMap_Click"
+                                Margin="0,15,0,0"
+                                Height="35" Width="35"
+                                Content="▼"
+                                Style="{StaticResource ActionButtonStyle}"
+                                Background="#313244"
+                                ToolTip="Collapse Map"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- Restore Map Button (Visible only when map collapsed) -->
+            <Button x:Name="btnRestoreMap"
+                    Grid.Row="1"
+                    VerticalAlignment="Top" HorizontalAlignment="Right"
+                    Margin="0,10,30,0"
+                    Content="Show Map ▲"
+                    Style="{StaticResource ActionButtonStyle}"
+                    Background="{StaticResource AccentColor}"
+                    Foreground="#1E1E2E"
+                    Click="btnRestoreMap_Click"
+                    Visibility="Collapsed"/>
+
+            <!-- 3. LIVE SHIP LIST -->
+            <Grid Grid.Row="2" Margin="0,20,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <!-- List Header / Filter -->
+                <Grid Grid.Row="0" Margin="0,0,0,15">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <TextBlock Text="Live Traffic Stream" FontSize="16" FontWeight="Bold" Foreground="White"/>
+                        <Border Background="{StaticResource AccentColor}" CornerRadius="4" Padding="6,2" Margin="10,0,0,0" VerticalAlignment="Center">
+                            <TextBlock Text="REALTIME" FontSize="10" FontWeight="Bold" Foreground="#1E1E2E"/>
+                        </Border>
+                    </StackPanel>
+
+                    <!-- Search Box -->
+                    <Border Grid.Column="1" HorizontalAlignment="Right" Width="300" Background="{StaticResource BgCard}" CornerRadius="8" Padding="10,5">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="🔍" Foreground="{StaticResource TextSecondary}" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                            
+                            <TextBox x:Name="TxtFilter" 
+                                     Grid.Column="1"
+                                     Background="Transparent" 
+                                     BorderThickness="0" 
+                                     Foreground="White"
+                                     CaretBrush="White"
+                                     FontSize="13"
+                                     VerticalAlignment="Center"
+                                     TextChanged="TxtFilter_TextChanged"/>
+                            
+                            <TextBlock x:Name="TxtFilterPlaceholder"
+                                     Grid.Column="1"
+                                     Text="Search by ship name..."
+                                     Foreground="#585B70"
+                                     IsHitTestVisible="False"
+                                     VerticalAlignment="Center"
+                                     Margin="2,0,0,0"/>
+
+                            <Button Grid.Column="2" 
+                                    Content="✕" 
+                                    Background="Transparent" 
+                                    Foreground="{StaticResource TextSecondary}"
+                                    BorderThickness="0"
+                                    Cursor="Hand"
+                                    FontSize="10"
+                                    Click="BtnClearFilter_Click"/>
+                        </Grid>
+                    </Border>
+                </Grid>
+
+                <!-- ListBox Container -->
+                <Border Grid.Row="1" Background="{StaticResource BgCard}" CornerRadius="15" Padding="15">
+                    <ListBox x:Name="ShipListBox" 
+                             Background="Transparent" 
+                             BorderThickness="0"
+                             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                             SelectionChanged="ShipListBox_SelectionChanged"
+                             MouseDoubleClick="ShipListBox_MouseDoubleClick">
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem" BasedOn="{StaticResource ShipListItem}"/>
+                        </ListBox.ItemContainerStyle>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="50"/> <!-- Icon -->
+                                        <ColumnDefinition Width="2*"/> <!-- Name/MMSI -->
+                                        <ColumnDefinition Width="1*"/> <!-- Speed -->
+                                        <ColumnDefinition Width="1*"/> <!-- Time -->
+                                        <ColumnDefinition Width="50"/> <!-- Action -->
+                                    </Grid.ColumnDefinitions>
+
+                                    <Border Grid.Column="0" Width="35" Height="35" CornerRadius="8" Background="#313244" HorizontalAlignment="Left">
+                                        <TextBlock Text="🚢" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16"/>
+                                    </Border>
+
+                                    <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="10,0,0,0">
+                                        <TextBlock Text="{Binding ShipName}" FontSize="14" FontWeight="Bold" Foreground="White"/>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="MMSI: " FontSize="11" Foreground="{StaticResource TextSecondary}"/>
+                                            <TextBlock Text="{Binding Mmsi}" FontSize="11" Foreground="{StaticResource AccentColor}"/>
+                                        </StackPanel>
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Column="2" VerticalAlignment="Center" Orientation="Horizontal">
+                                        <TextBlock Text="🚀 " FontSize="12"/>
+                                        <TextBlock Text="{Binding Speed, StringFormat={}{0:F1} kn}" FontSize="13" Foreground="{StaticResource WarningColor}" FontWeight="SemiBold"/>
+                                    </StackPanel>
+
+                                    <TextBlock Grid.Column="3" Text="{Binding LastUpdate, StringFormat=HH:mm:ss}" VerticalAlignment="Center" Foreground="{StaticResource TextSecondary}" FontSize="12"/>
+
+                                    <Button Grid.Column="4" 
+                                            Content="ℹ️" 
+                                            Style="{StaticResource ActionButtonStyle}" 
+                                            Padding="0" Width="30" Height="30"
+                                            Background="Transparent"
+                                            Click="BtnShipDetails_Click"
+                                            Tag="{Binding}"/>
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Border>
+            </Grid>
+        </Grid>
     </Grid>
 </Window>

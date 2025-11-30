@@ -44,11 +44,18 @@ namespace Marinex.Views
             MainMap.MapProvider = GMap.NET.MapProviders.GoogleMapProvider.Instance;
             GMap.NET.GMaps.Instance.Mode = GMap.NET.AccessMode.ServerOnly;
             MainMap.Position = new GMap.NET.PointLatLng(0, 0);
-            MainMap.Zoom = 3;
-            MainMap.MinZoom = 2;
+            
+            // Set MinZoom to 3 biar gak kelihatan border abu-abu pas zoom out
+            MainMap.MinZoom = 3; 
             MainMap.MaxZoom = 18;
+            MainMap.Zoom = 3;
+            
             MainMap.ShowCenter = false;
             MainMap.DragButton = System.Windows.Input.MouseButton.Left;
+            
+            // Tambahan setting biar UX map lebih enak
+            MainMap.MouseWheelZoomType = GMap.NET.MouseWheelZoomType.MousePositionAndCenter;
+            MainMap.IgnoreMarkerOnMouseWheel = true;
         }
 
         private void InitializeData()

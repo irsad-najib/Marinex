@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Marinex")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+13bdbb9ce7a8ea064229c48ffe1718718bfc698e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d1fe93f8660f7763ae19b330ac80a177f2b14b56")]
 [assembly: System.Reflection.AssemblyProductAttribute("Marinex")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Marinex")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
