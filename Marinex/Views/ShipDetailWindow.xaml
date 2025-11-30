@@ -130,6 +130,76 @@
 
             <!-- Footer Buttons -->
             <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
+                <!-- Digital Twin 3D Button -->
+                <Button x:Name="Btn3DView"
+                        Content="🧊 View 3D Model"
+                        Width="150"
+                        Height="40"
+                        Margin="0,0,10,0"
+                        Background="#2196F3"
+                        Foreground="White"
+                        BorderThickness="0"
+                        FontSize="14"
+                        Cursor="Hand"
+                        Click="Btn3DView_Click">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="{TemplateBinding Background}"
+                                                CornerRadius="6"
+                                                Padding="10,8">
+                                            <ContentPresenter HorizontalAlignment="Center" 
+                                                            VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#1976D2"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+
+                <!-- Report Incident Button -->
+                <Button x:Name="BtnReportIncident"
+                        Content="⚠️ Report Incident"
+                        Width="150"
+                        Height="40"
+                        Margin="0,0,10,0"
+                        Background="#D32F2F"
+                        Foreground="White"
+                        BorderThickness="0"
+                        FontSize="14"
+                        Cursor="Hand"
+                        Click="BtnReportIncident_Click">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="{TemplateBinding Background}"
+                                                CornerRadius="6"
+                                                Padding="10,8">
+                                            <ContentPresenter HorizontalAlignment="Center" 
+                                                            VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#B71C1C"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+
                 <Button x:Name="BtnCopyCoordinates"
                         Content="📋 Copy Coordinates"
                         Width="150"

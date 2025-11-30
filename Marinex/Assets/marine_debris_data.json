@@ -1,0 +1,102 @@
+[
+  {
+    "id": "GPGP-001",
+    "latitude": 35.2,
+    "longitude": -140.5,
+    "type": "Microplastics",
+    "severity": "Critical",
+    "description": "High concentration of microplastics in Great Pacific Garbage Patch",
+    "reportedBy": "OceanCleanup",
+    "date": "2023-11-15T10:00:00"
+  },
+  {
+    "id": "GPGP-002",
+    "latitude": 34.8,
+    "longitude": -141.2,
+    "type": "Ghost Nets",
+    "severity": "High",
+    "description": "Abandoned fishing gear detected",
+    "reportedBy": "OceanCleanup",
+    "date": "2023-11-16T14:30:00"
+  },
+  {
+    "id": "GPGP-003",
+    "latitude": 35.5,
+    "longitude": -139.8,
+    "type": "Plastic Debris",
+    "severity": "Critical",
+    "description": "Floating plastic debris field",
+    "reportedBy": "OceanCleanup",
+    "date": "2023-11-17T09:15:00"
+  },
+  {
+    "id": "JKT-001",
+    "latitude": -5.95,
+    "longitude": 106.85,
+    "type": "Domestic Waste",
+    "severity": "High",
+    "description": "Plastic waste accumulation near river mouth",
+    "reportedBy": "Local Fisherman",
+    "date": "2023-12-01T07:00:00"
+  },
+  {
+    "id": "JKT-002",
+    "latitude": -6.02,
+    "longitude": 106.80,
+    "type": "Oil Spill",
+    "severity": "Medium",
+    "description": "Minor oil sheen observed near port",
+    "reportedBy": "Port Authority",
+    "date": "2023-12-02T11:45:00"
+  },
+  {
+    "id": "JKT-003",
+    "latitude": -5.98,
+    "longitude": 106.90,
+    "type": "Plastic Debris",
+    "severity": "High",
+    "description": "Large patch of floating plastics",
+    "reportedBy": "EcoWatch",
+    "date": "2023-12-02T16:20:00"
+  },
+  {
+    "id": "CIT-001",
+    "latitude": -5.93,
+    "longitude": 106.98,
+    "type": "Industrial Waste",
+    "severity": "Critical",
+    "description": "Chemical discoloration detected",
+    "reportedBy": "River Patrol",
+    "date": "2023-12-03T08:30:00"
+  },
+  {
+    "id": "MAL-001",
+    "latitude": 2.5,
+    "longitude": 101.5,
+    "type": "Ship Waste",
+    "severity": "Medium",
+    "description": "Illegal dumping suspected",
+    "reportedBy": "Coast Guard",
+    "date": "2023-11-28T22:10:00"
+  },
+  {
+    "id": "MAL-002",
+    "latitude": 3.1,
+    "longitude": 100.8,
+    "type": "Plastic Debris",
+    "severity": "Medium",
+    "description": "Floating debris along shipping lane",
+    "reportedBy": "Container Ship MV Star",
+    "date": "2023-11-29T13:05:00"
+  },
+  {
+    "id": "MNL-001",
+    "latitude": 14.58,
+    "longitude": 120.95,
+    "type": "Domestic Waste",
+    "severity": "Critical",
+    "description": "Massive plastic accumulation after storm",
+    "reportedBy": "Manila Bay Watch",
+    "date": "2023-11-20T06:45:00"
+  }
+]

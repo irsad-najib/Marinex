@@ -593,8 +593,8 @@
                 </Button>
 
                 <!-- Ship Tracking Info Button -->
-                <Button Name="btnShipTracking"
-                        Content="🗺️ Track Ships (AIS)"
+                <Button Name="btnRegisterShip"
+                        Content="🚢 Register Ship"
                         Height="55"
                         FontSize="14"
                         Margin="0,0,0,10"
@@ -602,7 +602,7 @@
                         Foreground="White"
                         BorderThickness="0"
                         Cursor="Hand"
-                        Click="btnShipTracking_Click">
+                        Click="btnRegisterShip_Click">
                     <Button.Style>
                         <Style TargetType="Button">
                             <Setter Property="Template">
@@ -620,6 +620,40 @@
                             <Style.Triggers>
                                 <Trigger Property="IsMouseOver" Value="True">
                                     <Setter Property="Background" Value="#7B1FA2"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+
+                <!-- Pollution Heatmap Toggle -->
+                <Button Name="btnTogglePollution"
+                        Content="🗑️ Show Pollution Heatmap"
+                        Height="55"
+                        FontSize="14"
+                        Margin="0,0,0,10"
+                        Background="#E91E63"
+                        Foreground="White"
+                        BorderThickness="0"
+                        Cursor="Hand"
+                        Click="btnTogglePollution_Click">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="{TemplateBinding Background}"
+                                                CornerRadius="8"
+                                                Padding="15,10">
+                                            <ContentPresenter HorizontalAlignment="Center" 
+                                                            VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#C2185B"/>
                                 </Trigger>
                             </Style.Triggers>
                         </Style>

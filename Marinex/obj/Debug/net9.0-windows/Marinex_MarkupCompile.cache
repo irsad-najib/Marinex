@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-\\192.168.64.1\project\Marinex\Marinex\obj\Debug\net9.0-windows\
+\\192.168.64.1\project\Marinex-1 copy\Marinex\obj\Debug\net9.0-windows\
 Marinex
 none
 false
 TRACE;DEBUG;NET;NET9_0;NETCOREAPP;WINDOWS;WINDOWS7_0;NET5_0_OR_GREATER;NET6_0_OR_GREATER;NET7_0_OR_GREATER;NET8_0_OR_GREATER;NET9_0_OR_GREATER;NETCOREAPP3_0_OR_GREATER;NETCOREAPP3_1_OR_GREATER;WINDOWS7_0_OR_GREATER
-\\192.168.64.1\project\Marinex\Marinex\App.xaml
-5-1495267976
+\\192.168.64.1\project\Marinex-1 copy\Marinex\App.xaml
+11718828836
 
-26-1208637940
+38-1612690280
 207208150002
-MainWindow.xaml;Views\DashboardView.xaml;Views\LandingView.xaml;Views\LoginView.xaml;Views\RegisterView.xaml;
+MainWindow.xaml;Views\CreateReportView.xaml;Views\DashboardView.xaml;Views\LandingView.xaml;Views\LoginView.xaml;Views\RegisterShipView.xaml;Views\RegisterView.xaml;Views\ReportsView.xaml;Views\Ship3DView.xaml;Views\ShipDetailWindow.xaml;Views\WeatherView.xaml;
 
 False
 

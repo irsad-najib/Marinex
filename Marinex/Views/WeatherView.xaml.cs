@@ -63,17 +63,6 @@ namespace Marinex.Views
             txtWaveHeight.Text = $"{waveHeight:F1} meters";
             txtSeaState.Text = GetSeaState(waveHeight);
             txtPressure.Text = $"{random.Next(990, 1030)} hPa";
-
-            MessageBox.Show(
-                "Weather data loaded!\n\n" +
-                "Note: This is mock data for demonstration.\n" +
-                "In production, this would fetch real-time weather from:\n" +
-                "- OpenWeatherMap API\n" +
-                "- WeatherAPI.com\n" +
-                "- Marine Weather Services",
-                "Weather Data",
-                MessageBoxButton.OK,
-                MessageBoxImage.Information);
         }
 
         private string GetLocationName(double lat, double lon)

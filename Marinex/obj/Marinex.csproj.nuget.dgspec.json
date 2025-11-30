@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "\\\\192.168.64.1\\project\\Marinex\\marinex\\Marinex.csproj": {}
+    "\\\\192.168.64.1\\project\\Marinex-1 copy\\Marinex\\Marinex.csproj": {}
   },
   "projects": {
-    "\\\\192.168.64.1\\project\\Marinex\\marinex\\Marinex.csproj": {
+    "\\\\192.168.64.1\\project\\Marinex-1 copy\\Marinex\\Marinex.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "\\\\192.168.64.1\\project\\Marinex\\marinex\\Marinex.csproj",
+        "projectUniqueName": "\\\\192.168.64.1\\project\\Marinex-1 copy\\Marinex\\Marinex.csproj",
         "projectName": "Marinex",
-        "projectPath": "\\\\192.168.64.1\\project\\Marinex\\marinex\\Marinex.csproj",
+        "projectPath": "\\\\192.168.64.1\\project\\Marinex-1 copy\\Marinex\\Marinex.csproj",
         "packagesPath": "C:\\Users\\melvino\\.nuget\\packages\\",
-        "outputPath": "\\\\192.168.64.1\\project\\Marinex\\marinex\\obj\\",
+        "outputPath": "\\\\192.168.64.1\\project\\Marinex-1 copy\\Marinex\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\melvino\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -55,12 +55,6 @@
               "target": "Package",
               "version": "[1.0.0.1, )"
             },
-            "Microsoft.NET.ILLink.Tasks": {
-              "suppressParent": "All",
-              "target": "Package",
-              "version": "[9.0.10, )",
-              "autoReferenced": true
-            },
             "Npgsql": {
               "target": "Package",
               "version": "[8.0.5, )"
@@ -81,24 +75,6 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.AspNetCore.App.Runtime.win-x64",
-              "version": "[9.0.10, 9.0.10]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Host.win-x64",
-              "version": "[9.0.10, 9.0.10]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Runtime.win-x64",
-              "version": "[9.0.10, 9.0.10]"
-            },
-            {
-              "name": "Microsoft.WindowsDesktop.App.Runtime.win-x64",
-              "version": "[9.0.10, 9.0.10]"
-            }
-          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
@@ -108,11 +84,6 @@
             }
           },
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.306/PortableRuntimeIdentifierGraph.json"
-        }
-      },
-      "runtimes": {
-        "win-x64": {
-          "#import": []
         }
       }
     }

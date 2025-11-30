@@ -1,0 +1,119 @@
+<Window x:Class="Marinex.Views.Ship3DView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        Title="Digital Twin - 3D Visualization" 
+        Height="600" Width="800"
+        WindowStartupLocation="CenterOwner"
+        Background="#1a1a1a">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="60"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header / HUD -->
+        <Border Grid.Row="0" Background="#252525" BorderBrush="#333" BorderThickness="0,0,0,1">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="20,0">
+                <TextBlock Text="🚢 DIGITAL TWIN VIEW" 
+                           FontSize="20" 
+                           FontWeight="Bold" 
+                           Foreground="#42A5F5"
+                           VerticalAlignment="Center"/>
+                
+                <StackPanel Orientation="Vertical" Margin="40,0,0,0" VerticalAlignment="Center">
+                    <TextBlock x:Name="TxtShipName" Text="SHIP NAME" Foreground="White" FontWeight="SemiBold"/>
+                    <TextBlock x:Name="TxtStatus" Text="Status: Online • Sensors Active" Foreground="#4CAF50" FontSize="10"/>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+
+        <!-- 3D Viewport -->
+        <Border Grid.Row="1" Background="#111">
+            <Grid>
+                <Viewport3D x:Name="MainViewport" 
+                           IsHitTestVisible="True"
+                           MouseDown="Viewport3D_MouseDown"
+                           MouseMove="Viewport3D_MouseMove"
+                           MouseUp="Viewport3D_MouseUp">
+                    
+                    <!-- Camera -->
+                    <Viewport3D.Camera>
+                        <PerspectiveCamera x:Name="MainCamera"
+                                         Position="40, 30, 40"
+                                         LookDirection="-1, -0.8, -1"
+                                         UpDirection="0, 1, 0"
+                                         FieldOfView="60"/>
+                    </Viewport3D.Camera>
+
+                    <!-- Lights -->
+                    <ModelVisual3D>
+                        <ModelVisual3D.Content>
+                            <Model3DGroup>
+                                <DirectionalLight Color="#FFFFFF" Direction="-1,-1,-1" />
+                                <DirectionalLight Color="#808080" Direction="1,1,1" />
+                                <AmbientLight Color="#404040" />
+                            </Model3DGroup>
+                        </ModelVisual3D.Content>
+                    </ModelVisual3D>
+
+                    <!-- The Ship Model Container -->
+                    <ModelVisual3D x:Name="ShipModelContainer">
+                        <ModelVisual3D.Transform>
+                            <Transform3DGroup>
+                                <RotateTransform3D>
+                                    <RotateTransform3D.Rotation>
+                                        <AxisAngleRotation3D x:Name="RotationY" Axis="0,1,0" Angle="0"/>
+                                    </RotateTransform3D.Rotation>
+                                </RotateTransform3D>
+                                <RotateTransform3D>
+                                    <RotateTransform3D.Rotation>
+                                        <AxisAngleRotation3D x:Name="RotationX" Axis="1,0,0" Angle="0"/>
+                                    </RotateTransform3D.Rotation>
+                                </RotateTransform3D>
+                            </Transform3DGroup>
+                        </ModelVisual3D.Transform>
+                    </ModelVisual3D>
+
+                </Viewport3D>
+
+                <!-- Instructions Overlay -->
+                <TextBlock Text="Left Click + Drag to Rotate" 
+                           Foreground="#666" 
+                           HorizontalAlignment="Right" 
+                           VerticalAlignment="Bottom" 
+                           Margin="20"/>
+            </Grid>
+        </Border>
+
+        <!-- Sensor Data Panel -->
+        <Border Grid.Row="2" Background="#252525" BorderBrush="#333" BorderThickness="0,1,0,0">
+            <Grid Margin="20,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                    <TextBlock Text="ENGINE RPM" Foreground="#999" FontSize="10"/>
+                    <TextBlock Text="1,240" Foreground="White" FontSize="18" FontWeight="Bold"/>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                    <TextBlock Text="HULL INTEGRITY" Foreground="#999" FontSize="10"/>
+                    <TextBlock Text="98%" Foreground="#4CAF50" FontSize="18" FontWeight="Bold"/>
+                </StackPanel>
+
+                <StackPanel Grid.Column="2" VerticalAlignment="Center">
+                    <TextBlock Text="FUEL LEVEL" Foreground="#999" FontSize="10"/>
+                    <TextBlock Text="76%" Foreground="#FFC107" FontSize="18" FontWeight="Bold"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>
+

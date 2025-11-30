@@ -1,4 +1,7 @@
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using Marinex.Models;
@@ -9,6 +12,7 @@ namespace Marinex.Views
     public partial class CreateReportView : Window
     {
         private readonly ReportService _reportService;
+        private readonly MaintenanceAIService _aiService;
         private readonly int _userId;
         private int? _shipId;
 
@@ -16,6 +20,7 @@ namespace Marinex.Views
         {
             InitializeComponent();
             _reportService = new ReportService();
+            _aiService = new MaintenanceAIService();
             _userId = userId;
             _shipId = shipId;
         }
@@ -47,13 +52,7 @@ namespace Marinex.Views
         {
             try
             {
-                // Detect which tab is active
-                var tabControl = (TabControl)this.FindName("TabControl");
-                
-                // Get selected tab by checking which fields are visible/active
-                // For now, let's check which tab has focus or content
-                
-                // Simple check: try to read pollution fields first
+                // Check visible/active tab (simple logic)
                 if (!string.IsNullOrWhiteSpace(txtPollutionLocation.Text))
                 {
                     SubmitPollutionReport();
@@ -62,7 +61,7 @@ namespace Marinex.Views
                 {
                     SubmitSafetyReport();
                 }
-                else if (!string.IsNullOrWhiteSpace(txtMaintenanceLocation.Text))
+                else if (!string.IsNullOrWhiteSpace(txtEquipmentName.Text)) // Check Maintenance
                 {
                     SubmitMaintenanceReport();
                 }
@@ -117,26 +116,61 @@ namespace Marinex.Views
                 CreatedAt = DateTime.Now
             };
 
-            // TODO: Save to database via ReportService
-            // _reportService.CreatePollutionReport(report);
-
-            MessageBox.Show(
-                "Pollution report submitted successfully!",
-                "Success",
-                MessageBoxButton.OK,
-                MessageBoxImage.Information);
-
-            // Show report preview
-            MessageBox.Show(
-                report.GenerateReport(),
-                "Report Preview",
-                MessageBoxButton.OK,
-                MessageBoxImage.Information);
-
-            this.Close();
+            // Add to PollutionDataService (Local + DB)
+            SubmitReportAsync(report);
         }
 
-        private void SubmitSafetyReport()
+        private string RunAIAnalysis(MaintenanceReport report)
+        {
+            // Simulate ship context based on inputs
+            var ship = new Ship { ShipID = report.ShipID, ShipName = "Target Ship" };
+            var history = new List<Maintenance>();
+            
+            // Default values
+            double engineHours = 2500;
+            double fuelConsumption = 100;
+
+            // Adjust based on user inputs to give meaningful feedback
+            string priority = report.Priority.ToLower();
+            if (priority == "urgent" || priority == "high")
+            {
+                engineHours = 5500;
+                fuelConsumption = 125;
+                history.Add(new Maintenance { Date = DateTime.Now.AddDays(-150) });
+            }
+            else
+            {
+                history.Add(new Maintenance { Date = DateTime.Now.AddDays(-45) });
+            }
+
+            var prediction = _aiService.PredictMaintenance(ship, history, engineHours, fuelConsumption);
+            
+            return $"Risk Level: {prediction.RiskLevel}\n" +
+                   $"Recommendation: {prediction.RecommendedAction}\n" +
+                   $"Estimated Cost: ${prediction.EstimatedCost:N0}";
+        }
+
+        private async void SubmitReportAsync(PollutionReport report)
+        {
+            try
+            {
+                await PollutionDataService.Instance.AddReportAsync(report);
+
+                MessageBox.Show(
+                    "Pollution report submitted successfully! Saved to Database & Map updated.",
+                    "Success",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Information);
+                    
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error saving report: {ex.Message}");
+            }
+        }
+
+        private async void SubmitSafetyReport()
         {
             if (string.IsNullOrWhiteSpace(txtSafetyLocation.Text))
             {
@@ -149,6 +183,13 @@ namespace Marinex.Views
                 casualties = 0;
             }
 
+            // Get ship name from manual text box
+            string selectedShipName = cmbSafetyTargetShip.Text;
+            if (string.IsNullOrWhiteSpace(selectedShipName))
+            {
+                selectedShipName = "Unknown Ship";
+            }
+
             var report = new SafetyReport
             {
                 Location = txtSafetyLocation.Text,
@@ -156,27 +197,31 @@ namespace Marinex.Views
                 Severity = (cmbSafetySeverity.SelectedItem as ComboBoxItem)?.Content.ToString() ?? "Minor",
                 Description = txtIncidentDetails.Text + 
                              (casualties > 0 ? $"\nCasualties: {casualties}" : "") +
-                             (!string.IsNullOrWhiteSpace(txtSafetyAction.Text) ? $"\nAction Taken: {txtSafetyAction.Text}" : ""),
+                             (!string.IsNullOrWhiteSpace(txtSafetyAction.Text) ? $"\nAction Taken: {txtSafetyAction.Text}" : "") +
+                             $"\n(Ship Involved: {selectedShipName})", 
                 UserID = _userId,
                 CreatedAt = DateTime.Now
             };
 
-            MessageBox.Show(
-                "Safety report submitted successfully!",
-                "Success",
-                MessageBoxButton.OK,
-                MessageBoxImage.Information);
+            try 
+            {
+                await PollutionDataService.Instance.SaveSafetyReportAsync(report);
+                
+                MessageBox.Show(
+                    "Safety report submitted successfully! Saved to Database.",
+                    "Success",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Information);
 
-            MessageBox.Show(
-                report.GenerateReport(),
-                "Report Preview",
-                MessageBoxButton.OK,
-                MessageBoxImage.Information);
-
-            this.Close();
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error saving safety report: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
-        private void SubmitMaintenanceReport()
+        private async void SubmitMaintenanceReport()
         {
             if (string.IsNullOrWhiteSpace(txtMaintenanceLocation.Text))
             {
@@ -184,33 +229,56 @@ namespace Marinex.Views
                 return;
             }
 
+            // Get ship name from manual text box
+            string selectedShipName = cmbTargetShip.Text;
+            int selectedShipId = _shipId ?? 0; // Use passed shipId or 0 if not provided/manual
+            
+            if (string.IsNullOrWhiteSpace(selectedShipName))
+            {
+                selectedShipName = "Unknown Ship";
+            }
+
             var report = new MaintenanceReport
             {
                 Location = txtMaintenanceLocation.Text,
-                EquipmentName = txtEquipmentName.Text,
+                EquipmentName = txtEquipmentName.Text + $" (Ship: {selectedShipName})", 
                 Priority = (cmbPriority.SelectedItem as ComboBoxItem)?.Content.ToString() ?? "Medium",
                 IssueDescription = $"Task Type: {(cmbTaskType.SelectedItem as ComboBoxItem)?.Content.ToString() ?? "Routine Inspection"}\n" +
                                   $"Status: {(cmbMaintenanceStatus.SelectedItem as ComboBoxItem)?.Content.ToString() ?? "Scheduled"}\n" +
                                   $"{txtMaintenanceDescription.Text}" +
                                   (!string.IsNullOrWhiteSpace(txtFindings.Text) ? $"\nFindings: {txtFindings.Text}" : ""),
                 UserID = _userId,
-                ShipID = _shipId ?? 0,
+                ShipID = selectedShipId,
                 CreatedAt = DateTime.Now
             };
 
-            MessageBox.Show(
-                "Maintenance report submitted successfully!",
-                "Success",
-                MessageBoxButton.OK,
-                MessageBoxImage.Information);
+            // Run AI Analysis before saving
+            try 
+            {
+                string aiAnalysis = RunAIAnalysis(report);
+                report.IssueDescription += $"\n\n[AI ANALYSIS]\n{aiAnalysis}";
+            }
+            catch 
+            {
+                // Ignore AI errors during submission to not block user
+            }
 
-            MessageBox.Show(
-                report.GenerateReport(),
-                "Report Preview",
-                MessageBoxButton.OK,
-                MessageBoxImage.Information);
+            try 
+            {
+                await PollutionDataService.Instance.SaveMaintenanceReportAsync(report);
+                
+                MessageBox.Show(
+                    "Maintenance report submitted successfully! Saved to Database.",
+                    "Success",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Information);
 
-            this.Close();
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error saving maintenance report: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
     }
 }

@@ -1,22 +1,17 @@
 {
   "version": 2,
-  "dgSpecHash": "PggwFZVySLo=",
+  "dgSpecHash": "8JKgd63F7jM=",
   "success": true,
-  "projectFilePath": "\\\\192.168.64.1\\project\\Marinex\\marinex\\Marinex.csproj",
+  "projectFilePath": "\\\\192.168.64.1\\project\\Marinex-1 copy\\Marinex\\Marinex.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\melvino\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\melvino\\.nuget\\packages\\gmap.net.wpf\\1.0.0.1\\gmap.net.wpf.1.0.0.1.nupkg.sha512",
     "C:\\Users\\melvino\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\8.0.0\\microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg.sha512",
     "C:\\Users\\melvino\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\8.0.0\\microsoft.extensions.logging.abstractions.8.0.0.nupkg.sha512",
-    "C:\\Users\\melvino\\.nuget\\packages\\microsoft.net.illink.tasks\\9.0.10\\microsoft.net.illink.tasks.9.0.10.nupkg.sha512",
     "C:\\Users\\melvino\\.nuget\\packages\\npgsql\\8.0.5\\npgsql.8.0.5.nupkg.sha512",
     "C:\\Users\\melvino\\.nuget\\packages\\system.configuration.configurationmanager\\8.0.1\\system.configuration.configurationmanager.8.0.1.nupkg.sha512",
     "C:\\Users\\melvino\\.nuget\\packages\\system.diagnostics.eventlog\\8.0.1\\system.diagnostics.eventlog.8.0.1.nupkg.sha512",
-    "C:\\Users\\melvino\\.nuget\\packages\\system.security.cryptography.protecteddata\\8.0.0\\system.security.cryptography.protecteddata.8.0.0.nupkg.sha512",
-    "C:\\Users\\melvino\\.nuget\\packages\\microsoft.netcore.app.runtime.win-x64\\9.0.10\\microsoft.netcore.app.runtime.win-x64.9.0.10.nupkg.sha512",
-    "C:\\Users\\melvino\\.nuget\\packages\\microsoft.windowsdesktop.app.runtime.win-x64\\9.0.10\\microsoft.windowsdesktop.app.runtime.win-x64.9.0.10.nupkg.sha512",
-    "C:\\Users\\melvino\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.win-x64\\9.0.10\\microsoft.aspnetcore.app.runtime.win-x64.9.0.10.nupkg.sha512",
-    "C:\\Users\\melvino\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\9.0.10\\microsoft.netcore.app.host.win-x64.9.0.10.nupkg.sha512"
+    "C:\\Users\\melvino\\.nuget\\packages\\system.security.cryptography.protecteddata\\8.0.0\\system.security.cryptography.protecteddata.8.0.0.nupkg.sha512"
   ],
   "logs": []
 }

@@ -154,20 +154,32 @@
                                 Margin="0,0,0,15"/>
 
                         <!-- Incident Type -->
-                        <TextBlock Text="Incident Type" FontWeight="SemiBold" Margin="0,0,0,5"/>
-                        <ComboBox x:Name="cmbIncidentType" 
-                                 Padding="10" 
-                                 FontSize="14" 
-                                 Margin="0,0,0,15">
-                            <ComboBoxItem Content="Man Overboard"/>
-                            <ComboBoxItem Content="Fire"/>
-                            <ComboBoxItem Content="Collision"/>
-                            <ComboBoxItem Content="Grounding"/>
-                            <ComboBoxItem Content="Equipment Failure"/>
-                            <ComboBoxItem Content="Medical Emergency"/>
-                            <ComboBoxItem Content="Near Miss"/>
-                            <ComboBoxItem Content="Other"/>
-                        </ComboBox>
+                        <Grid Margin="0,0,0,15">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="20"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            
+                            <StackPanel Grid.Column="0">
+                                <TextBlock Text="Incident Type" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                                <ComboBox x:Name="cmbIncidentType" Padding="10" FontSize="14">
+                                    <ComboBoxItem Content="Man Overboard"/>
+                                    <ComboBoxItem Content="Fire"/>
+                                    <ComboBoxItem Content="Collision"/>
+                                    <ComboBoxItem Content="Grounding"/>
+                                    <ComboBoxItem Content="Equipment Failure"/>
+                                    <ComboBoxItem Content="Medical Emergency"/>
+                                    <ComboBoxItem Content="Near Miss"/>
+                                    <ComboBoxItem Content="Other"/>
+                                </ComboBox>
+                            </StackPanel>
+                            
+                            <StackPanel Grid.Column="2">
+                                <TextBlock Text="Target Ship" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                                <TextBox x:Name="cmbSafetyTargetShip" Padding="10" FontSize="14"/>
+                            </StackPanel>
+                        </Grid>
 
                         <!-- Severity & Casualties -->
                         <Grid Margin="0,0,0,15">
@@ -248,6 +260,19 @@
                             </StackPanel>
                             
                             <StackPanel Grid.Column="2">
+                                <TextBlock Text="Target Ship" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                                <TextBox x:Name="cmbTargetShip" Padding="10" FontSize="14"/>
+                            </StackPanel>
+                        </Grid>
+
+                        <Grid Margin="0,0,0,15">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="20"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            
+                            <StackPanel Grid.Column="0">
                                 <TextBlock Text="Task Type" FontWeight="SemiBold" Margin="0,0,0,5"/>
                                 <ComboBox x:Name="cmbTaskType" Padding="10" FontSize="14">
                                     <ComboBoxItem Content="Routine Inspection"/>
